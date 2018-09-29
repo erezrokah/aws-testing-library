@@ -7,6 +7,8 @@ aliases:
 
     working_directory: ~/repo
 
+  - &checkout checkout
+
   - &save_cache
     save_cache:
       paths:
