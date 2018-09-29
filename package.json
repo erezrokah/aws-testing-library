@@ -1,0 +1,39 @@
+{
+  "name": "jest-e2e-serverless",
+  "version": "0.0.1",
+  "description": "Testing Matchers for Serverless frameworks",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "tslint 'src/**/*.ts'",
+    "build": "tsc -p tsconfig.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "coverage": "jest --coverage",
+    "prepublish": "yarn lint && yarn run build"
+  },
+  "files": [
+    "lib"
+  ],
+  "author": "Erez Rokah",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/jest-diff": "^20.0.0",
+    "@types/jest-matcher-utils": "^21.0.1",
+    "@types/node": "^10.11.1",
+    "jest": "^23.6.0",
+    "prettier": "^1.14.3",
+    "ts-jest": "^23.10.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "typescript": "^3.0.3"
+  },
+  "peerDependencies": {
+    "jest": ">=22.0.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.323.0",
+    "jest-diff": "^23.6.0"
+  }
+}
