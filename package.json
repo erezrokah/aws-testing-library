@@ -8,8 +8,11 @@
     "build": "tsc -p tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:ci": "JEST_JUNIT_OUTPUT=./reports/junit/${npm_package_name}-test-results.xml jest --runInBand --ci",
     "coverage": "jest --coverage",
-    "prepublish": "yarn lint && yarn run build"
+    "prettier": "prettier --write src/**/*.ts",
+    "prettier:ci": "prettier --list-different src/**/*.ts",
+    "prepublishOnly": "yarn lint && yarn run build"
   },
   "files": [
     "lib"
@@ -27,7 +30,8 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "jest-junit": "^5.1.0"
   },
   "peerDependencies": {
     "jest": ">=22.0.0"

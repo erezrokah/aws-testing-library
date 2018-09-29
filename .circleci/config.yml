@@ -1,0 +1,59 @@
+version: 2
+
+aliases:
+  - &container_config
+    docker:
+      - image: circleci/node:carbon
+
+    working_directory: ~/repo
+
+  - &save_cache
+    save_cache:
+      paths:
+        - node_modules
+      key: dependencies-cache-{{ checksum "yarn.lock" }}
+
+  - &restore_cache
+    restore_cache:
+      keys:
+        - dependencies-cache-{{ checksum "yarn.lock" }}
+        # fallback to using the latest cache if no exact match is found
+        - dependencies-cache
+
+  - &install_dependencies
+    run:
+      name: Install Dependencies
+      command: yarn install
+
+  - &run_linter
+    run:
+      name: Run Linter
+      command: yarn lint
+
+  - &run_prettier
+    run:
+      name: Run Prettier
+      command: yarn prettier:ci
+
+  - &run_tests
+    run:
+      name: Run Tests
+      command: yarn test:ci
+
+  - &store_test_results
+    store_test_results:
+      path: reports/junit
+
+jobs:
+  build:
+    <<: *container_config
+
+    steps:
+      - *checkout
+      - *restore_cache
+      - *install_dependencies
+      - *save_cache
+      - *run_linter
+      - *run_prettier
+      - *run_tests
+      - *store_test_results
