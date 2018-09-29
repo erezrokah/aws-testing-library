@@ -31,7 +31,7 @@ Make sure your `package.json` includes the following:
 
 #### Usage with TypeScript
 
-When using jest-enzyme with [TypeScript](http://typescriptlang.org/) and [ts-jest](https://github.com/kulshekhar/ts-jest), you'll need to add a `setupTests.ts` file to your app that explicitly imports jest-enzyme, and point the `setupTestFrameworkScriptFile` field in your `package.json` file towards it:
+When using jest-e2e-serverless with [TypeScript](http://typescriptlang.org/) and [ts-jest](https://github.com/kulshekhar/ts-jest), you'll need to add a `setupTests.ts` file to your app that explicitly imports jest-enzyme, and point the `setupTestFrameworkScriptFile` field in your `package.json` file towards it:
 
 ```typescript
 // src/setupFrameworks.ts

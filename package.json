@@ -1,7 +1,7 @@
 {
   "name": "jest-e2e-serverless",
   "version": "0.0.1",
-  "description": "Testing Matchers for Serverless frameworks",
+  "description": "Jest matchers for Serverless frameworks",
   "main": "lib/index.js",
   "scripts": {
     "lint": "tslint 'src/**/*.ts'",
