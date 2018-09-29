@@ -1,5 +1,8 @@
 # jest-e2e-serverless
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CircleCI](https://circleci.com/gh/erezrokah/jest-e2e-serverless.svg?style=svg)](https://circleci.com/gh/erezrokah/jest-e2e-serverless)
+
 ## Installation
 
 We suggest using [yarn](https://github.com/yarnpkg/yarn) for installations.
