@@ -16,8 +16,8 @@ describe('dynamoDb matchers', () => {
       },
     };
     const region = 'region';
-    const tableName = 'tableName';
-    const props = { region, tableName };
+    const table = 'table';
+    const props = { region, table };
     const key = 'key';
 
     beforeEach(() => {
@@ -35,7 +35,7 @@ describe('dynamoDb matchers', () => {
         error,
       );
       expect(getItem).toHaveBeenCalledTimes(1);
-      expect(getItem).toHaveBeenCalledWith(props.region, props.tableName, key);
+      expect(getItem).toHaveBeenCalledWith(props.region, props.table, key);
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(
         `Unknown error while looking for item: ${error.message}`,
@@ -52,7 +52,7 @@ describe('dynamoDb matchers', () => {
       expect(pass).toBeFalsy();
       expect(message).toEqual(expect.any(Function));
       expect(message()).toEqual(
-        `.toHaveItem${EOL}${EOL}Expected ${tableName} at region ${region} to have item with key ${key}${EOL}`,
+        `.toHaveItem${EOL}${EOL}Expected ${table} at region ${region} to have item with key ${key}${EOL}`,
       );
     });
 
@@ -66,7 +66,7 @@ describe('dynamoDb matchers', () => {
       expect(pass).toBeTruthy();
       expect(message).toEqual(expect.any(Function));
       expect(message()).toEqual(
-        `.not.toHaveItem${EOL}${EOL}Expected ${tableName} at region ${region} not to have item with key ${key}${EOL}`,
+        `.not.toHaveItem${EOL}${EOL}Expected ${table} at region ${region} not to have item with key ${key}${EOL}`,
       );
     });
 
