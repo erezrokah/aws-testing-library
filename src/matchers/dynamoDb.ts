@@ -5,10 +5,10 @@ import { getItem } from '../utils/dynamoDb';
 import { ICommon, verifyProps } from './common';
 
 interface IDbProps extends ICommon {
-  tableName: string;
+  table: string;
 }
 
-const expectedProps = ['region', 'tableName', 'key'];
+const expectedProps = ['region', 'table', 'key'];
 
 export const toHaveItem = async function(
   this: jest.MatcherUtils,
@@ -18,17 +18,17 @@ export const toHaveItem = async function(
 ) {
   verifyProps({ ...props, key }, expectedProps);
 
-  const { region, tableName } = props;
+  const { region, table } = props;
 
   try {
-    const printTable = this.utils.printExpected(tableName);
+    const printTable = this.utils.printExpected(table);
     const printRegion = this.utils.printExpected(region);
     const printKey = this.utils.printExpected(key) + EOL;
 
     const notHint = this.utils.matcherHint('.not.toHaveItem') + EOL + EOL;
     const hint = this.utils.matcherHint('.toHaveItem') + EOL + EOL;
 
-    const received = await getItem(region, tableName, key);
+    const received = await getItem(region, table, key);
     // check if item was found
     if (received) {
       // no expected item to compare with
