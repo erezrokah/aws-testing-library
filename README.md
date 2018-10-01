@@ -23,7 +23,7 @@ The simplest setup is to use jest's `setupTestFrameworkScriptFile` config.
 
 Make sure your `package.json` includes the following:
 
-```js
+```json
 "jest": {
   "setupTestFrameworkScriptFile": "./node_modules/jest-e2e-serverless/lib/index.js",
 },
@@ -31,14 +31,14 @@ Make sure your `package.json` includes the following:
 
 #### Usage with TypeScript
 
-When using jest-e2e-serverless with [TypeScript](http://typescriptlang.org/) and [ts-jest](https://github.com/kulshekhar/ts-jest), you'll need to add a `setupTests.ts` file to your app that explicitly imports jest-enzyme, and point the `setupTestFrameworkScriptFile` field in your `package.json` file towards it:
+When using `jest-e2e-serverless` with [TypeScript](http://typescriptlang.org/) and [ts-jest](https://github.com/kulshekhar/ts-jest), you'll need to add a `setupTests.ts` file to your app that explicitly imports `jest-e2e-serverless`, and point the `setupTestFrameworkScriptFile` field in your `package.json` file towards it:
 
 ```typescript
 // src/setupFrameworks.ts
 import 'jest-e2e-serverless';
 ```
 
-```js
+```json
 "jest": {
  "setupTestFrameworkScriptFile": "./src/setupFrameworks.ts",
 },
