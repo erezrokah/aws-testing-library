@@ -5,13 +5,13 @@
 
 ## Installation
 
-We suggest using [yarn](https://github.com/yarnpkg/yarn) for installations.
+Install with [yarn](https://github.com/yarnpkg/yarn)
 
 ```bash
 yarn add jest-e2e-serverless --dev
 ```
 
-But npm works too!
+or [npm](https://www.npmjs.com/)
 
 ```bash
 npm install jest-e2e-serverless --save-dev
