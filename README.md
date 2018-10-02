@@ -3,6 +3,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CircleCI](https://circleci.com/gh/erezrokah/jest-e2e-serverless.svg?style=svg)](https://circleci.com/gh/erezrokah/jest-e2e-serverless)
 
+## Prerequisites
+
+You should have your aws credentials under `~/.aws/credentials)` (if you have [aws cli](https://aws.amazon.com/cli/) installed and configured).
+
+If you plan to use the [deploy](#deploy) utility function please install and configure [serverless](https://serverless.com/framework/docs/getting-started/).
+
+[node](https://nodejs.org/en/) >= 8 (for `async/await` support).
+
 ## Installation
 
 Install with [yarn](https://github.com/yarnpkg/yarn)
@@ -44,4 +52,100 @@ import 'jest-e2e-serverless';
 "jest": {
  "setupTestFrameworkScriptFile": "./src/setupFrameworks.ts",
 },
+```
+
+### Assertions
+
+> Notes
+>
+> - The matchers use `aws-sdk` under the hood, thus they are all asynchronous and require using `async/await`
+
+- [toHaveItem()](#toHaveItem)
+- [toHaveObject()](#toHaveObject)
+
+#### `toHaveItem()`
+
+Asserts existence/equality of a DynamoDb item
+
+```js
+expect.assertions(1); // makes sure the assertion was called
+await expect({
+  region: 'us-east-1',
+  table: 'dynamo-db-table',
+  timeout: 0 /* optional (defaults to 2500) */,
+  pollEvery: 0 /* optional (defaults to 500) */,
+}).toHaveItem(
+  key: { id: 'itemId' } /* dynamodb key object (https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#getItem-property) */,
+  item: { id: 'itemId', createdAt: someTimestamp, text: 'some content' }, /* optional, if exists will check equality in addition to existence */,
+);
+```
+
+#### `toHaveObject()`
+
+Asserts existence/equality of a S3 object
+
+```js
+expect.assertions(1); // makes sure the assertion was called
+await expect({
+  region: 'us-east-1',
+  bucket: 's3-bucket',
+  timeout: 0 /* optional (defaults to 2500) */,
+  pollEvery: 0 /* optional (defaults to 500) */,
+}).toHaveObject(
+  key: 'someFileInTheBucket', /* a string representing the object key in the bucket */,
+  expectedBuffer: Buffer.from('a buffer of the file content'), /* optional, if exists will check equality in addition to existence */,
+);
+```
+
+### Utils
+
+- [invoke()](#invoke)
+- [clearAllItems()](#clearAllItems)
+- [clearAllFiles()](#clearAllFiles)
+- [deploy()](#deploy)
+
+#### `invoke()`
+
+Invokes a lambda function
+
+```typescript
+const { invoke } = require('jest-e2e-serverless/lib/utils/lambda');
+
+const result = await invoke(
+  'us-east-1',
+  'functionName',
+  {
+    body: JSON.stringify({ text: 'from e2e test' }),
+  } /* optional: payload for the lambda */,
+);
+```
+
+#### `clearAllItems()`
+
+Clear all items in a DynamoDb table
+
+```typescript
+const { clearAllItems } = require('jest-e2e-serverless/lib/utils/dynamoDb');
+
+await clearAllItems('us-east-1', 'dynamo-db-table');
+```
+
+#### `clearAllFiles()`
+
+Clear all objects in a s3 bucket
+
+```typescript
+const { clearAllFiles } = require('jest-e2e-serverless/lib/utils/s3');
+
+await clearAllFiles('us-east-1', 's3-bucket');
+```
+
+#### `deploy()`
+
+Deploys the current service using [Serverless framework](https://serverless.com/)
+
+```typescript
+const { deploy } = require('jest-e2e-serverless/lib/utils/serverless');
+
+await deploy('dev' /* optional - deployment stage */);
 ```

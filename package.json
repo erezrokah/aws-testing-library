@@ -1,6 +1,6 @@
 {
   "name": "jest-e2e-serverless",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Jest matchers for Serverless frameworks",
   "main": "lib/index.js",
   "scripts": {
@@ -39,5 +39,8 @@
   "dependencies": {
     "aws-sdk": "^2.323.0",
     "jest-diff": "^23.6.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
