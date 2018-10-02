@@ -2,9 +2,9 @@ import { AttributeMap, Key } from 'aws-sdk/clients/dynamodb';
 import diff = require('jest-diff');
 import { EOL } from 'os';
 import { getItem } from '../utils/dynamoDb';
-import { ICommon, verifyProps } from './common';
+import { ICommonProps, verifyProps } from './common';
 
-interface IDbProps extends ICommon {
+interface IDbProps extends ICommonProps {
   table: string;
 }
 
