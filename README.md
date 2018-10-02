@@ -19,19 +19,14 @@ npm install jest-e2e-serverless --save-dev
 
 ### Setup
 
-You'll need to add a `setupFrameworks.js` file to your app that explicitly imports `jest-e2e-serverless`, and point the `setupTestFrameworkScriptFile` field in your `package.json` file towards it:
+The simplest setup is to use jest's `setupTestFrameworkScriptFile` config.
 
-```javascript
-// src/setupFrameworks.js
-require('jest-e2e-serverless');
-
-jest.setTimeout(60000); // recommended: increase jest default timeout
-```
+Make sure your `package.json` includes the following:
 
 ```json
 // package.json
 "jest": {
- "setupTestFrameworkScriptFile": "./src/setupFrameworks.js",
+  "setupTestFrameworkScriptFile": "./node_modules/jest-e2e-serverless/lib/index.js",
 },
 ```
 
@@ -42,8 +37,6 @@ When using `jest-e2e-serverless` with [TypeScript](http://typescriptlang.org/) a
 ```typescript
 // src/setupFrameworks.ts
 import 'jest-e2e-serverless';
-
-jest.setTimeout(60000); // recommended: increase jest default timeout
 ```
 
 ```json

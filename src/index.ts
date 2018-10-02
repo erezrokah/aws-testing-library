@@ -17,3 +17,5 @@ expect.extend({
   toHaveItem: wrapWithRetries(toHaveItem) as typeof toHaveItem,
   toHaveObject: wrapWithRetries(toHaveObject) as typeof toHaveObject,
 });
+
+jest.setTimeout(60000);
