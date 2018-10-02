@@ -1,6 +1,6 @@
 {
   "name": "jest-e2e-serverless",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Jest matchers for Serverless frameworks",
   "main": "lib/index.js",
   "scripts": {
@@ -17,6 +17,11 @@
   "files": [
     "lib"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erezrokah/jest-e2e-serverless.git"
+  },
+  "homepage": "https://github.com/erezrokah/jest-e2e-serverless/#readme",
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {

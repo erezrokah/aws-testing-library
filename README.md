@@ -60,8 +60,8 @@ import 'jest-e2e-serverless';
 >
 > - The matchers use `aws-sdk` under the hood, thus they are all asynchronous and require using `async/await`
 
-- [toHaveItem()](#toHaveItem)
-- [toHaveObject()](#toHaveObject)
+- [toHaveItem()](#tohaveitem)
+- [toHaveObject()](#tohaveobject)
 
 #### `toHaveItem()`
 
