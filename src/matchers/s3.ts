@@ -1,9 +1,9 @@
 import diff = require('jest-diff');
 import { EOL } from 'os';
 import { getObject } from '../utils/s3';
-import { ICommon, verifyProps } from './common';
+import { ICommonProps, verifyProps } from './common';
 
-interface IS3Props extends ICommon {
+interface IS3Props extends ICommonProps {
   bucket: string;
 }
 
