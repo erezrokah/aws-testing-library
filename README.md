@@ -80,6 +80,8 @@ await expect({
 );
 ```
 
+[See complete example](https://github.com/erezrokah/serverless-monorepo-app/blob/master/services/db-service/e2e/db.test.ts)
+
 #### `toHaveObject()`
 
 Asserts existence/equality of a S3 object
@@ -96,6 +98,8 @@ await expect({
   expectedBuffer: Buffer.from('a buffer of the file content'), /* optional, if exists will check equality in addition to existence */,
 );
 ```
+
+[See complete example](https://github.com/erezrokah/serverless-monorepo-app/blob/master/services/file-service/e2e/handler.test.ts)
 
 ### Utils
 
