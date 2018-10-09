@@ -17,7 +17,7 @@ const listAllKeys = async (
   return allKeys;
 };
 
-export const clearAllFiles = async (region: string, bucket: string) => {
+export const clearAllObjects = async (region: string, bucket: string) => {
   const allKeys = await listAllKeys(region, bucket, undefined);
   if (allKeys.length > 0) {
     const s3 = new AWS.S3({ region });
