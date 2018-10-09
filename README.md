@@ -5,7 +5,8 @@
 
 ## Prerequisites
 
-You should have your aws credentials under `~/.aws/credentials)` (if you have [aws cli](https://aws.amazon.com/cli/) installed and configured).
+You should have your aws credentials under `~/.aws/credentials` (if you have [aws cli](https://aws.amazon.com/cli/) installed and configured).
+> Note: aws credentials are loaded automatically as described [here](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html)
 
 If you plan to use the [deploy](#deploy) utility function please install and configure [serverless](https://serverless.com/framework/docs/getting-started/).
 
