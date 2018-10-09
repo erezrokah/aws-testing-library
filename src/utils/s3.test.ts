@@ -1,4 +1,4 @@
-import { clearAllFiles, getObject as getS3Object } from './s3';
+import { clearAllObjects, getObject as getS3Object } from './s3';
 
 jest.mock('aws-sdk', () => {
   const listObjectsV2Value = { promise: jest.fn() };
@@ -17,7 +17,7 @@ describe('s3 utils', () => {
 
   const [region, bucket] = ['region', 'bucket'];
 
-  describe('clearAllFiles', () => {
+  describe('clearAllObjects', () => {
     test('should not call deleteObjects on empty bucket', async () => {
       const listObjectsV2 = s3().listObjectsV2;
       const deleteObjects = s3().deleteObjects;
@@ -26,7 +26,7 @@ describe('s3 utils', () => {
 
       jest.clearAllMocks();
 
-      await clearAllFiles(region, bucket);
+      await clearAllObjects(region, bucket);
 
       expect(s3).toHaveBeenCalledTimes(1);
       expect(s3).toHaveBeenCalledWith({ region });
@@ -58,7 +58,7 @@ describe('s3 utils', () => {
 
       jest.clearAllMocks();
 
-      await clearAllFiles(region, bucket);
+      await clearAllObjects(region, bucket);
 
       expect(s3).toHaveBeenCalledTimes(3);
       expect(s3).toHaveBeenCalledWith({ region });

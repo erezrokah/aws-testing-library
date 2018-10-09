@@ -105,8 +105,8 @@ await expect({
 ### Utils
 
 - [invoke()](#invoke)
-- [clearAllItems()](#clearAllItems)
-- [clearAllFiles()](#clearAllFiles)
+- [clearAllItems()](#clearallitems)
+- [clearAllObjects()](#clearallobjects)
 - [deploy()](#deploy)
 
 #### `invoke()`
@@ -135,14 +135,14 @@ const { clearAllItems } = require('jest-e2e-serverless/lib/utils/dynamoDb');
 await clearAllItems('us-east-1', 'dynamo-db-table');
 ```
 
-#### `clearAllFiles()`
+#### `clearAllObjects()`
 
 Clear all objects in a s3 bucket
 
 ```typescript
-const { clearAllFiles } = require('jest-e2e-serverless/lib/utils/s3');
+const { clearAllObjects } = require('jest-e2e-serverless/lib/utils/s3');
 
-await clearAllFiles('us-east-1', 's3-bucket');
+await clearAllObjects('us-east-1', 's3-bucket');
 ```
 
 #### `deploy()`
