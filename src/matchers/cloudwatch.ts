@@ -22,8 +22,8 @@ export const toHaveLog = async function(
     const printRegion = this.utils.printExpected(region);
     const printPattern = this.utils.printExpected(pattern) + EOL;
 
-    const notHint = this.utils.matcherHint('.not.toMatchLog') + EOL + EOL;
-    const hint = this.utils.matcherHint('.toMatchLog') + EOL + EOL;
+    const notHint = this.utils.matcherHint('.not.toHaveLog') + EOL + EOL;
+    const hint = this.utils.matcherHint('.toHaveLog') + EOL + EOL;
 
     const { events } = await filterLogEvents(region, functionName, pattern);
     const found = events.length > 0;
@@ -44,7 +44,7 @@ export const toHaveLog = async function(
     }
   } catch (e) {
     // unknown error
-    console.error(`Unknown error while looking for object: ${e.message}`);
+    console.error(`Unknown error while matching log: ${e.message}`);
     throw e;
   }
 };
