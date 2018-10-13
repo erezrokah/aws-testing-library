@@ -7,11 +7,11 @@ export const filterLogEvents = async (
   functionName: string,
   pattern: string,
 ) => {
-  const cloudwatchlogs = new AWS.CloudWatchLogs({ region });
+  const cloudWatchLogs = new AWS.CloudWatchLogs({ region });
   const logGroupName = getLogGroupName(functionName);
   const filterPattern = `"${pattern}"`; // enclose with "" to support special characters
 
-  const { events = [] } = await cloudwatchlogs
+  const { events = [] } = await cloudWatchLogs
     .filterLogEvents({
       filterPattern,
       interleaved: true,
@@ -24,10 +24,10 @@ export const filterLogEvents = async (
 };
 
 const getLogStreams = async (region: string, functionName: string) => {
-  const cloudwatchlogs = new AWS.CloudWatchLogs({ region });
+  const cloudWatchLogs = new AWS.CloudWatchLogs({ region });
   const logGroupName = getLogGroupName(functionName);
 
-  const { logStreams = [] } = await cloudwatchlogs
+  const { logStreams = [] } = await cloudWatchLogs
     .describeLogStreams({
       descending: true,
       logGroupName,
@@ -43,14 +43,14 @@ export const deleteAllLogs = async (region: string, functionName: string) => {
   if (logStreams.length <= 0) {
     return;
   }
-  const cloudwatchlogs = new AWS.CloudWatchLogs({ region });
+  const cloudWatchLogs = new AWS.CloudWatchLogs({ region });
   const logGroupName = getLogGroupName(functionName);
 
   const logStreamNames = logStreams.map(s => s.logStreamName || '');
 
   await Promise.all(
     logStreamNames.map(logStreamName => {
-      return cloudwatchlogs
+      return cloudWatchLogs
         .deleteLogStream({ logGroupName, logStreamName })
         .promise();
     }),
