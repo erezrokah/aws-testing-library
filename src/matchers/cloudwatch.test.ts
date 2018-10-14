@@ -1,6 +1,7 @@
 import { EOL } from 'os';
 import { toHaveLog } from './cloudwatch';
 
+jest.mock('./common');
 jest.mock('../utils/cloudwatch');
 jest.spyOn(console, 'error');
 jest.mock('jest-diff');
@@ -24,12 +25,13 @@ describe('cloudwatch matchers', () => {
     });
 
     test('should throw error on filterLogEvents error', async () => {
+      const { verifyProps } = require('./common');
       const { filterLogEvents } = require('../utils/cloudwatch');
 
       const error = new Error('Unknown error');
       filterLogEvents.mockReturnValue(Promise.reject(error));
 
-      expect.assertions(5);
+      expect.assertions(7);
       await expect(toHaveLog.bind(matcherUtils)(props, pattern)).rejects.toBe(
         error,
       );
@@ -43,6 +45,12 @@ describe('cloudwatch matchers', () => {
       expect(console.error).toHaveBeenCalledWith(
         `Unknown error while matching log: ${error.message}`,
       );
+      expect(verifyProps).toHaveBeenCalledTimes(1);
+      expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
+        'region',
+        'function',
+        'pattern',
+      ]);
     });
 
     test('should not pass when no events found', async () => {
