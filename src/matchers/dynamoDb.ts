@@ -15,6 +15,7 @@ export const toHaveItem = async function(
   props: IDbProps,
   key: Key,
   expected?: AttributeMap,
+  strict: boolean = true,
 ) {
   verifyProps({ ...props, key }, expectedProps);
 
@@ -28,7 +29,7 @@ export const toHaveItem = async function(
     const notHint = this.utils.matcherHint('.not.toHaveItem') + EOL + EOL;
     const hint = this.utils.matcherHint('.toHaveItem') + EOL + EOL;
 
-    const received = await getItem(region, table, key);
+    let received = await getItem(region, table, key);
     // check if item was found
     if (received) {
       // no expected item to compare with
@@ -39,6 +40,16 @@ export const toHaveItem = async function(
           pass: true,
         };
       } else {
+        if (!strict) {
+          // remove keys that are in actual, but not in expected
+          Object.keys(received).forEach(actualKey => {
+            if (!expected.hasOwnProperty(actualKey)) {
+              /* istanbul ignore next */
+              const { [actualKey]: omit, ...rest } = received as AttributeMap;
+              received = rest;
+            }
+          });
+        }
         // we check equality as well
         const pass = this.equals(expected, received);
 
