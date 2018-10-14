@@ -1,6 +1,7 @@
 import { EOL } from 'os';
 import { toHaveItem } from './dynamoDb';
 
+jest.mock('./common');
 jest.mock('../utils/dynamoDb');
 jest.spyOn(console, 'error');
 jest.mock('jest-diff');
@@ -25,12 +26,13 @@ describe('dynamoDb matchers', () => {
     });
 
     test('should throw error on getItem error', async () => {
+      const { verifyProps } = require('./common');
       const { getItem } = require('../utils/dynamoDb');
 
       const error = new Error('Unknown error');
       getItem.mockReturnValue(Promise.reject(error));
 
-      expect.assertions(5);
+      expect.assertions(7);
       await expect(toHaveItem.bind(matcherUtils)(props, key)).rejects.toBe(
         error,
       );
@@ -40,6 +42,12 @@ describe('dynamoDb matchers', () => {
       expect(console.error).toHaveBeenCalledWith(
         `Unknown error while looking for item: ${error.message}`,
       );
+      expect(verifyProps).toHaveBeenCalledTimes(1);
+      expect(verifyProps).toHaveBeenCalledWith({ ...props, key }, [
+        'region',
+        'table',
+        'key',
+      ]);
     });
 
     test('should not pass on getItem not found', async () => {

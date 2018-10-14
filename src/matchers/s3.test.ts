@@ -1,6 +1,7 @@
 import { EOL } from 'os';
 import { toHaveObject } from './s3';
 
+jest.mock('./common');
 jest.mock('../utils/s3');
 jest.spyOn(console, 'error');
 jest.mock('jest-diff');
@@ -25,12 +26,13 @@ describe('s3 matchers', () => {
     });
 
     test('should throw error on getObject error', async () => {
+      const { verifyProps } = require('./common');
       const { getObject } = require('../utils/s3');
 
       const error = new Error('Unknown error');
       getObject.mockReturnValue(Promise.reject(error));
 
-      expect.assertions(5);
+      expect.assertions(7);
       await expect(toHaveObject.bind(matcherUtils)(props, key)).rejects.toBe(
         error,
       );
@@ -40,6 +42,12 @@ describe('s3 matchers', () => {
       expect(console.error).toHaveBeenCalledWith(
         `Unknown error while looking for object: ${error.message}`,
       );
+      expect(verifyProps).toHaveBeenCalledTimes(1);
+      expect(verifyProps).toHaveBeenCalledWith({ ...props, key }, [
+        'region',
+        'bucket',
+        'key',
+      ]);
     });
 
     test('should not pass on getObject not found', async () => {
