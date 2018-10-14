@@ -1,12 +1,40 @@
 import AWS = require('aws-sdk');
 
+const itemToKey = (
+  item: AWS.DynamoDB.DocumentClient.AttributeMap,
+  keySchema: AWS.DynamoDB.KeySchemaElement[],
+) => {
+  let itemKey: AWS.DynamoDB.DocumentClient.Key = {};
+  keySchema.map(key => {
+    itemKey = { ...itemKey, [key.AttributeName]: item[key.AttributeName] };
+  });
+  return itemKey;
+};
+
 export const clearAllItems = async (region: string, tableName: string) => {
+  // get the table keys
+  const table = new AWS.DynamoDB({ region });
+  const { Table = {} } = await table
+    .describeTable({ TableName: tableName })
+    .promise();
+
+  const keySchema = Table.KeySchema || [];
+
+  // get the items to delete
   const db = new AWS.DynamoDB.DocumentClient({ region });
-  const scanResult = await db.scan({ TableName: tableName }).promise();
+  const scanResult = await db
+    .scan({
+      AttributesToGet: keySchema.map(key => key.AttributeName),
+      TableName: tableName,
+    })
+    .promise();
   const items = scanResult.Items || [];
+
   await Promise.all(
     items.map(item =>
-      db.delete({ TableName: tableName, Key: { id: item.id } }).promise(),
+      db
+        .delete({ TableName: tableName, Key: itemToKey(item, keySchema) })
+        .promise(),
     ),
   );
 };

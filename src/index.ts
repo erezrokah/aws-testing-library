@@ -1,4 +1,3 @@
-import { AttributeMap, Key } from 'aws-sdk/clients/dynamodb';
 import { toHaveLog } from './matchers/cloudwatch';
 import { wrapWithRetries } from './matchers/common';
 import { toHaveItem } from './matchers/dynamoDb';
@@ -8,7 +7,10 @@ declare global {
   namespace jest {
     // tslint:disable-next-line:interface-name
     interface Matchers<R> {
-      toHaveItem: (key: Key, expectedItem?: AttributeMap) => R;
+      toHaveItem: (
+        key: AWS.DynamoDB.DocumentClient.Key,
+        expectedItem?: AWS.DynamoDB.DocumentClient.AttributeMap,
+      ) => R;
       toHaveObject: (key: string, expectedItem?: Buffer) => R;
       toHaveLog: (pattern: string) => R;
     }
