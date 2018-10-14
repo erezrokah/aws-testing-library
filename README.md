@@ -8,6 +8,7 @@
 ## Prerequisites
 
 You should have your aws credentials under `~/.aws/credentials` (if you have [aws cli](https://aws.amazon.com/cli/) installed and configured).
+
 > Note: aws credentials are loaded automatically as described [here](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html)
 
 If you plan to use the [deploy](#deploy) utility function please install and configure [serverless](https://serverless.com/framework/docs/getting-started/).
@@ -65,6 +66,7 @@ import 'jest-e2e-serverless';
 
 - [toHaveItem()](#tohaveitem)
 - [toHaveObject()](#tohaveobject)
+- [toHaveLog()](#tohavelog)
 
 #### `toHaveItem()`
 
@@ -104,11 +106,30 @@ await expect({
 
 [See complete example](https://github.com/erezrokah/serverless-monorepo-app/blob/master/services/file-service/e2e/handler.test.ts)
 
+#### `toHaveLog()`
+
+Asserts log message of a lambda function
+
+```js
+expect.assertions(1); // makes sure the assertion was called
+await expect({
+  region: 'us-east-1',
+  function: 'functionName',
+  timeout: 0 /* optional (defaults to 2500) */,
+  pollEvery: 0 /* optional (defaults to 500) */,
+}).toHaveLog(
+  pattern: 'some message written to log by the lambda', /* a pattern to match against log messages */,
+);
+```
+
+[See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/sendUserLogin.test.ts)
+
 ### Utils
 
 - [invoke()](#invoke)
 - [clearAllItems()](#clearallitems)
 - [clearAllObjects()](#clearallobjects)
+- [deleteAllLogs()](#deletealllogs)
 - [deploy()](#deploy)
 
 #### `invoke()`
@@ -145,6 +166,16 @@ Clear all objects in a s3 bucket
 const { clearAllObjects } = require('jest-e2e-serverless/lib/utils/s3');
 
 await clearAllObjects('us-east-1', 's3-bucket');
+```
+
+#### `deleteAllLogs()`
+
+Clear all log streams for a lambda function
+
+```typescript
+const { deleteAllLogs } = require('jest-e2e-serverless/lib/utils/cloudwatch');
+
+await deleteAllLogs('us-east-1', 'lambda-function-name');
 ```
 
 #### `deploy()`
