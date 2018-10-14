@@ -80,8 +80,15 @@ await expect({
   timeout: 0 /* optional (defaults to 2500) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).toHaveItem(
-  key: { id: 'itemId' } /* dynamodb key object (https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#getItem-property) */,
-  item: { id: 'itemId', createdAt: someTimestamp, text: 'some content' }, /* optional, if exists will check equality in addition to existence */,
+  {
+    id: 'itemId',
+  } /* dynamoDb key object (https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#getItem-property) */,
+  {
+    id: 'itemId',
+    createdAt: new Date().getTime(),
+    text: 'some content',
+  } /* optional, if exists will check equality in addition to existence */,
+  true /* optional, strict mode comparison, defaults to true */,
 );
 ```
 
@@ -99,8 +106,10 @@ await expect({
   timeout: 0 /* optional (defaults to 2500) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).toHaveObject(
-  key: 'someFileInTheBucket', /* a string representing the object key in the bucket */,
-  expectedBuffer: Buffer.from('a buffer of the file content'), /* optional, if exists will check equality in addition to existence */,
+  'someFileInTheBucket' /* a string representing the object key in the bucket */,
+  Buffer.from(
+    'a buffer of the file content',
+  ) /* optional, if exists will check equality in addition to existence */,
 );
 ```
 
@@ -118,7 +127,7 @@ await expect({
   timeout: 0 /* optional (defaults to 2500) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).toHaveLog(
-  pattern: 'some message written to log by the lambda', /* a pattern to match against log messages */,
+  'some message written to log by the lambda' /* a pattern to match against log messages */,
 );
 ```
 

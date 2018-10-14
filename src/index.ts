@@ -10,6 +10,7 @@ declare global {
       toHaveItem: (
         key: AWS.DynamoDB.DocumentClient.Key,
         expectedItem?: AWS.DynamoDB.DocumentClient.AttributeMap,
+        strict?: boolean,
       ) => R;
       toHaveObject: (key: string, expectedItem?: Buffer) => R;
       toHaveLog: (pattern: string) => R;

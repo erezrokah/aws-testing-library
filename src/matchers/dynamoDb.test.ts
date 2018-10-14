@@ -110,7 +110,7 @@ describe('dynamoDb matchers', () => {
       });
     });
 
-    test('should not pass on getItem buffer not matching empty diffString', async () => {
+    test('should not pass on getItem item not matching empty diffString', async () => {
       const diff = require('jest-diff');
       const diffString = '';
       diff.mockReturnValue(diffString);
@@ -119,10 +119,18 @@ describe('dynamoDb matchers', () => {
 
       const { getItem } = require('../utils/dynamoDb');
 
-      const received = 'someItem';
+      const received = {
+        id: 'someId',
+        text: 'someText',
+        timestamp: new Date('1948/1/1').getTime(),
+      };
       getItem.mockReturnValue(Promise.resolve(received));
 
-      const expected = 'otherItem';
+      const expected = {
+        id: 'someId',
+        text: 'someText',
+        timestamp: new Date('1949/1/1').getTime(),
+      };
       const { message, pass } = await toHaveItem.bind(matcherUtils)(
         props,
         key,
@@ -135,17 +143,26 @@ describe('dynamoDb matchers', () => {
       );
     });
 
-    test('should  pass on getItem buffer matching', async () => {
+    test('should pass on getItem item matching', async () => {
       const diff = require('jest-diff');
 
       matcherUtils.equals.mockReturnValue(true);
 
       const { getItem } = require('../utils/dynamoDb');
 
-      const received = 'someItem';
+      const timestamp = new Date().getTime();
+      const received = {
+        id: 'someId',
+        text: 'someText',
+        timestamp,
+      };
       getItem.mockReturnValue(Promise.resolve(received));
 
-      const expected = 'otherItem';
+      const expected = {
+        id: 'someId',
+        text: 'someText',
+        timestamp,
+      };
       const { message, pass } = await toHaveItem.bind(matcherUtils)(
         props,
         key,
@@ -160,6 +177,40 @@ describe('dynamoDb matchers', () => {
       expect(matcherUtils.equals).toHaveBeenCalledTimes(1);
       expect(matcherUtils.equals).toHaveBeenCalledWith(expected, received);
       expect(diff).toHaveBeenCalledTimes(0);
+    });
+
+    test('should pass on getItem item matching, non strict mode', async () => {
+      matcherUtils.equals.mockReturnValue(true);
+
+      const { getItem } = require('../utils/dynamoDb');
+
+      const id = 'someId';
+      const text = 'text';
+      const received = {
+        id,
+        text,
+        timestamp: new Date().getTime(),
+      };
+      getItem.mockReturnValue(Promise.resolve(received));
+
+      const expected = {
+        id,
+        text,
+      };
+      const { message, pass } = await toHaveItem.bind(matcherUtils)(
+        props,
+        key,
+        expected,
+        false,
+      );
+
+      expect(pass).toBeTruthy();
+      expect(message).toEqual(expect.any(Function));
+      expect(message()).toEqual(
+        `.not.toHaveItem${EOL}${EOL}Expected item ${received} not to equal ${expected}`,
+      );
+      expect(matcherUtils.equals).toHaveBeenCalledTimes(1);
+      expect(matcherUtils.equals).toHaveBeenCalledWith(expected, { id, text });
     });
   });
 });
