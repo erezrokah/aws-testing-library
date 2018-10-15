@@ -12,7 +12,8 @@
     "coverage": "jest --coverage",
     "prettier": "prettier --write src/**/*.ts",
     "prettier:ci": "prettier --list-different src/**/*.ts",
-    "prepublishOnly": "yarn lint && yarn run build"
+    "tag": "git tag \"v$npm_package_version\" && git push --tags",
+    "prepublishOnly": "yarn run tag && yarn lint && yarn run build"
   },
   "files": [
     "lib"
