@@ -148,7 +148,7 @@ await expect({
 }).toBeAtState('ExpectedState');
 ```
 
-[See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/newProduct.test.ts)
+[See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/newProduct.test.ts#L85)
 
 ### Utils
 
