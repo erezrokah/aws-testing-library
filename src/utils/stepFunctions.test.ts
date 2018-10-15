@@ -38,6 +38,7 @@ describe('stepfunctions utils', () => {
 
       expect(listExecutions).toHaveBeenCalledTimes(1);
       expect(listExecutions).toHaveBeenCalledWith({
+        maxResults: 1,
         stateMachineArn,
         statusFilter: 'RUNNING',
       });
@@ -66,6 +67,7 @@ describe('stepfunctions utils', () => {
       expect(getExecutionHistory).toHaveBeenCalledTimes(0);
       expect(listExecutions).toHaveBeenCalledTimes(1);
       expect(listExecutions).toHaveBeenCalledWith({
+        maxResults: 1,
         stateMachineArn,
         statusFilter: 'RUNNING',
       });
@@ -94,6 +96,7 @@ describe('stepfunctions utils', () => {
       expect(getExecutionHistory).toHaveBeenCalledTimes(1);
       expect(getExecutionHistory).toHaveBeenCalledWith({
         executionArn: executions[0].executionArn,
+        maxResults: 1,
         reverseOrder: true,
       });
       expect(result).toBeUndefined();

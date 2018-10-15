@@ -6,7 +6,7 @@ const getRunningExecutions = async (
 ) => {
   const stepFunctions = new AWS.StepFunctions({ region });
   const result = await stepFunctions
-    .listExecutions({ stateMachineArn, statusFilter: 'RUNNING' })
+    .listExecutions({ stateMachineArn, statusFilter: 'RUNNING', maxResults: 1 })
     .promise();
 
   const { executions } = result;
@@ -25,7 +25,7 @@ export const getCurrentState = async (
     const stepFunctions = new AWS.StepFunctions({ region });
     const { executionArn } = newestRunning;
     const { events } = await stepFunctions
-      .getExecutionHistory({ executionArn, reverseOrder: true })
+      .getExecutionHistory({ executionArn, reverseOrder: true, maxResults: 1 })
       .promise();
     if (events.length > 0) {
       const newestEvent = events[0];
