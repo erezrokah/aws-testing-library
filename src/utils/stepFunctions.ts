@@ -14,6 +14,14 @@ const getRunningExecutions = async (
   return executions;
 };
 
+export const getEventName = (event: AWS.StepFunctions.HistoryEvent) => {
+  const { name } = event.stateEnteredEventDetails ||
+    event.stateExitedEventDetails || {
+      name: undefined,
+    };
+  return name;
+};
+
 export const getCurrentState = async (
   region: string,
   stateMachineArn: string,
@@ -29,16 +37,31 @@ export const getCurrentState = async (
       .promise();
     if (events.length > 0) {
       const newestEvent = events[0];
-      const { name } = newestEvent.stateEnteredEventDetails ||
-        newestEvent.stateExitedEventDetails || {
-          name: undefined,
-        };
+      const name = getEventName(newestEvent);
       return name;
     } else {
       return undefined;
     }
   }
   return undefined;
+};
+
+export const getStates = async (region: string, stateMachineArn: string) => {
+  const executions = await getRunningExecutions(region, stateMachineArn);
+  if (executions.length > 0) {
+    const newestRunning = executions[0]; // the first is the newest one
+
+    const stepFunctions = new AWS.StepFunctions({ region });
+    const { executionArn } = newestRunning;
+    const { events } = await stepFunctions
+      .getExecutionHistory({ executionArn, reverseOrder: true })
+      .promise();
+    const names = events
+      .map(event => getEventName(event))
+      .filter(name => !!name);
+    return names;
+  }
+  return [];
 };
 
 export const stopRunningExecutions = async (
