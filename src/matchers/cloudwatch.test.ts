@@ -4,7 +4,6 @@ import { toHaveLog } from './cloudwatch';
 jest.mock('./common');
 jest.mock('../utils/cloudwatch');
 jest.spyOn(console, 'error');
-jest.mock('jest-diff');
 
 describe('cloudwatch matchers', () => {
   describe('toHaveLog', () => {

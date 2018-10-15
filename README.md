@@ -67,6 +67,7 @@ import 'jest-e2e-serverless';
 - [toHaveItem()](#tohaveitem)
 - [toHaveObject()](#tohaveobject)
 - [toHaveLog()](#tohavelog)
+- [toBeAtState()](#tobeatstate)
 
 #### `toHaveItem()`
 
@@ -133,12 +134,29 @@ await expect({
 
 [See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/sendUserLogin.test.ts)
 
+#### `toBeAtState()`
+
+Asserts a state machine state
+
+```js
+expect.assertions(1); // makes sure the assertion was called
+await expect({
+  pollEvery: 5000,
+  region: 'us-east-1',
+  stateMachineArn: 'stateMachineArn',
+  timeout: 30 * 1000,
+}).toBeAtState('ExpectedState');
+```
+
+[See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/newProduct.test.ts#L85)
+
 ### Utils
 
 - [invoke()](#invoke)
 - [clearAllItems()](#clearallitems)
 - [clearAllObjects()](#clearallobjects)
 - [deleteAllLogs()](#deletealllogs)
+- [stopRunningExecutions()](#stoprunningexecutions)
 - [deploy()](#deploy)
 
 #### `invoke()`
@@ -185,6 +203,18 @@ Clear all log streams for a lambda function
 const { deleteAllLogs } = require('jest-e2e-serverless/lib/utils/cloudwatch');
 
 await deleteAllLogs('us-east-1', 'lambda-function-name');
+```
+
+#### `stopRunningExecutions()`
+
+Stop all running executions for a state machine
+
+```typescript
+const {
+  stopRunningExecutions,
+} = require('jest-e2e-serverless/lib/utils/stepFunctions');
+
+await stopRunningExecutions('us-east-1', 'state-machine-arn');
 ```
 
 #### `deploy()`
