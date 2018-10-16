@@ -85,7 +85,7 @@ export const toHaveState = async function(
       };
     }
   } catch (e) {
-    console.error(`Unknown error getting state machine state: ${e.message}`);
+    console.error(`Unknown error getting state machine states: ${e.message}`);
     throw e;
   }
 };

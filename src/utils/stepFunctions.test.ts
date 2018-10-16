@@ -184,7 +184,6 @@ describe('stepfunctions utils', () => {
       expect(listExecutions).toHaveBeenCalledWith({
         maxResults: 1,
         stateMachineArn,
-        statusFilter: 'RUNNING',
       });
       expect(result).toEqual([]);
     });

@@ -1,18 +1,24 @@
 import AWS = require('aws-sdk');
 
-const getRunningExecutions = async (
+const getExecutions = async (
   region: string,
   stateMachineArn: string,
+  statusFilter?: string,
 ) => {
   const stepFunctions = new AWS.StepFunctions({ region });
-  const result = await stepFunctions
-    .listExecutions({ stateMachineArn, statusFilter: 'RUNNING', maxResults: 1 })
-    .promise();
+  const opts = {
+    maxResults: 1,
+    stateMachineArn,
+    ...(statusFilter && { statusFilter }),
+  };
+  const result = await stepFunctions.listExecutions(opts).promise();
 
   const { executions } = result;
 
   return executions;
 };
+
+const RUNNING = 'RUNNING';
 
 export const getEventName = (event: AWS.StepFunctions.HistoryEvent) => {
   const { name } = event.stateEnteredEventDetails ||
@@ -26,7 +32,7 @@ export const getCurrentState = async (
   region: string,
   stateMachineArn: string,
 ) => {
-  const executions = await getRunningExecutions(region, stateMachineArn);
+  const executions = await getExecutions(region, stateMachineArn, RUNNING);
   if (executions.length > 0) {
     const newestRunning = executions[0]; // the first is the newest one
 
@@ -47,7 +53,7 @@ export const getCurrentState = async (
 };
 
 export const getStates = async (region: string, stateMachineArn: string) => {
-  const executions = await getRunningExecutions(region, stateMachineArn);
+  const executions = await getExecutions(region, stateMachineArn);
   if (executions.length > 0) {
     const newestRunning = executions[0]; // the first is the newest one
 
@@ -69,7 +75,7 @@ export const stopRunningExecutions = async (
   stateMachineArn: string,
 ) => {
   const stepFunctions = new AWS.StepFunctions({ region });
-  const executions = await getRunningExecutions(region, stateMachineArn);
+  const executions = await getExecutions(region, stateMachineArn, RUNNING);
 
   await Promise.all(
     executions.map(({ executionArn }) =>

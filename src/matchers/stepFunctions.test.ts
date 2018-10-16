@@ -1,5 +1,5 @@
 import { EOL } from 'os';
-import { toBeAtState } from './stepFunctions';
+import { toBeAtState, toHaveState } from './stepFunctions';
 
 jest.mock('./common');
 jest.mock('../utils/stepFunctions');
@@ -7,20 +7,20 @@ jest.spyOn(console, 'error');
 jest.mock('jest-diff');
 
 describe('stepFunctions matchers', () => {
-  describe('toBeAtState', () => {
-    const matcherUtils = {
-      equals: jest.fn(),
-      utils: {
-        matcherHint: jest.fn(i => i),
-        printExpected: jest.fn(i => i),
-        printReceived: jest.fn(i => i),
-      },
-    };
-    const region = 'region';
-    const stateMachineArn = 'stateMachineArn';
-    const props = { region, stateMachineArn };
-    const expectedState = 'expectedState';
+  const matcherUtils = {
+    equals: jest.fn(),
+    utils: {
+      matcherHint: jest.fn(i => i),
+      printExpected: jest.fn(i => i),
+      printReceived: jest.fn(i => i),
+    },
+  };
+  const region = 'region';
+  const stateMachineArn = 'stateMachineArn';
+  const props = { region, stateMachineArn };
+  const expectedState = 'expectedState';
 
+  describe('toBeAtState', () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
@@ -135,6 +135,76 @@ describe('stepFunctions matchers', () => {
       expect(message).toEqual(expect.any(Function));
       expect(message()).toEqual(
         `.not.toBeAtState${EOL}${EOL}Expected ${stateMachineArn} at region ${region} not to be at state ${expectedState}${EOL}`,
+      );
+    });
+  });
+
+  describe('toHaveState', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    test('should throw error on getStates error', async () => {
+      const { verifyProps } = require('./common');
+      const { getStates } = require('../utils/stepFunctions');
+
+      const error = new Error('Unknown error');
+      getStates.mockReturnValue(Promise.reject(error));
+
+      expect.assertions(7);
+      await expect(
+        toHaveState.bind(matcherUtils)(props, expectedState),
+      ).rejects.toBe(error);
+      expect(getStates).toHaveBeenCalledTimes(1);
+      expect(getStates).toHaveBeenCalledWith(
+        props.region,
+        props.stateMachineArn,
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+      expect(console.error).toHaveBeenCalledWith(
+        `Unknown error getting state machine states: ${error.message}`,
+      );
+      expect(verifyProps).toHaveBeenCalledTimes(1);
+      expect(verifyProps).toHaveBeenCalledWith(
+        { ...props, state: expectedState },
+        ['region', 'stateMachineArn', 'state'],
+      );
+    });
+
+    test('should not pass when state is missing', async () => {
+      const { getStates } = require('../utils/stepFunctions');
+
+      const states = ['state1', 'state2'];
+      getStates.mockReturnValue(Promise.resolve(states));
+
+      const { message, pass } = await toHaveState.bind(matcherUtils)(
+        props,
+        expectedState,
+      );
+
+      expect(pass).toBeFalsy();
+      expect(message).toEqual(expect.any(Function));
+      expect(message()).toEqual(
+        `.toHaveState${EOL}${EOL}Expected ${stateMachineArn} at region ${region} to have state ${expectedState}${EOL}` +
+          `Found states: ${JSON.stringify(states)}`,
+      );
+    });
+
+    test('should pass when state exists', async () => {
+      const { getStates } = require('../utils/stepFunctions');
+
+      const states = ['state1', 'state2', expectedState];
+      getStates.mockReturnValue(Promise.resolve(states));
+
+      const { message, pass } = await toHaveState.bind(matcherUtils)(
+        props,
+        expectedState,
+      );
+
+      expect(pass).toBeTruthy();
+      expect(message).toEqual(expect.any(Function));
+      expect(message()).toEqual(
+        `.not.toHaveState${EOL}${EOL}Expected ${stateMachineArn} at region ${region} not to have state ${expectedState}${EOL}`,
       );
     });
   });

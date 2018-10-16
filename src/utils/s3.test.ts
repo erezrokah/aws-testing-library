@@ -80,6 +80,29 @@ describe('s3 utils', () => {
         },
       });
     });
+
+    test('should call listObjectsV2 with prefix', async () => {
+      const listObjectsV2 = s3().listObjectsV2;
+      const promise = listObjectsV2().promise;
+      const items = ['key1', 'key2'].map(Key => ({ Key }));
+      promise.mockReturnValueOnce(
+        Promise.resolve({
+          Contents: items,
+        }),
+      );
+
+      jest.clearAllMocks();
+
+      const prefix = 'prefix';
+      await clearAllObjects(region, bucket, prefix);
+
+      expect(listObjectsV2).toHaveBeenCalledTimes(1);
+      expect(listObjectsV2).toHaveBeenCalledWith({
+        Bucket: bucket,
+        ContinuationToken: undefined,
+        Prefix: prefix,
+      });
+    });
   });
 
   describe('getObject', () => {

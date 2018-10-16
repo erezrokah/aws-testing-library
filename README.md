@@ -136,7 +136,7 @@ await expect({
 
 #### `toBeAtState()`
 
-Asserts a state machine state
+Asserts a state machine current state
 
 ```js
 expect.assertions(1); // makes sure the assertion was called
@@ -148,7 +148,23 @@ await expect({
 }).toBeAtState('ExpectedState');
 ```
 
-[See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/newProduct.test.ts#L85)
+[See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/newProduct.test.ts#L73)
+
+#### `toHaveState()`
+
+Asserts that a state machine has been at a state
+
+```js
+expect.assertions(1); // makes sure the assertion was called
+await expect({
+  pollEvery: 5000,
+  region: 'us-east-1',
+  stateMachineArn: 'stateMachineArn',
+  timeout: 30 * 1000,
+}).toHaveState('ExpectedState');
+```
+
+[See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/stateMachine.test.ts#L97)
 
 ### Utils
 
@@ -192,7 +208,11 @@ Clear all objects in a s3 bucket
 ```typescript
 const { clearAllObjects } = require('jest-e2e-serverless/lib/utils/s3');
 
-await clearAllObjects('us-east-1', 's3-bucket');
+await clearAllObjects(
+  'us-east-1',
+  's3-bucket',
+  'key-prefix' /* optional, only delete objects with keys that begin with the specified prefix*/,
+);
 ```
 
 #### `deleteAllLogs()`
