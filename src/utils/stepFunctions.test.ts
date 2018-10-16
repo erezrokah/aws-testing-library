@@ -1,4 +1,9 @@
-import { getCurrentState, stopRunningExecutions } from './stepFunctions';
+import {
+  getCurrentState,
+  getEventName,
+  getStates,
+  stopRunningExecutions,
+} from './stepFunctions';
 
 jest.mock('aws-sdk', () => {
   const stopExecutionValue = { promise: jest.fn() };
@@ -52,6 +57,40 @@ describe('stepfunctions utils', () => {
     });
   });
 
+  describe('getEventName', () => {
+    const event = {
+      id: 0,
+      timestamp: new Date(),
+      type: 'someEventType',
+    };
+    test('should return stateEnteredEvent name', () => {
+      const stateEnteredEvent = {
+        ...event,
+        stateEnteredEventDetails: { name: 'someEventName' },
+      };
+      expect(getEventName(stateEnteredEvent)).toBe(
+        stateEnteredEvent.stateEnteredEventDetails.name,
+      );
+    });
+
+    test('should return stateExitedEventDetails name', () => {
+      const stateExitedEvent = {
+        ...event,
+        stateExitedEventDetails: { name: 'someEventName' },
+      };
+      expect(getEventName(stateExitedEvent)).toBe(
+        stateExitedEvent.stateExitedEventDetails.name,
+      );
+    });
+
+    test('should return undefined', () => {
+      const unnamedEvent = {
+        ...event,
+      };
+      expect(getEventName(unnamedEvent)).toBeUndefined();
+    });
+  });
+
   describe('getCurrentState', () => {
     test('should return undefined on no executions', async () => {
       const listExecutions = stepFunctions().listExecutions;
@@ -102,7 +141,7 @@ describe('stepfunctions utils', () => {
       expect(result).toBeUndefined();
     });
 
-    test('should return stateEnteredEvent name', async () => {
+    test('should return current state', async () => {
       const listExecutions = stepFunctions().listExecutions;
       const getExecutionHistory = stepFunctions().getExecutionHistory;
 
@@ -126,8 +165,30 @@ describe('stepfunctions utils', () => {
 
       expect(result).toBe(events[0].stateEnteredEventDetails.name);
     });
+  });
 
-    test('should return stateExitedEventDetails name', async () => {
+  describe('getStates', () => {
+    test('should return empty array on no executions', async () => {
+      const listExecutions = stepFunctions().listExecutions;
+      const getExecutionHistory = stepFunctions().getExecutionHistory;
+      const promise = listExecutions().promise;
+      const executions: AWS.StepFunctions.ExecutionListItem[] = [];
+      promise.mockReturnValue(Promise.resolve({ executions }));
+
+      jest.clearAllMocks();
+
+      const result = await getStates(region, stateMachineArn);
+
+      expect(getExecutionHistory).toHaveBeenCalledTimes(0);
+      expect(listExecutions).toHaveBeenCalledTimes(1);
+      expect(listExecutions).toHaveBeenCalledWith({
+        maxResults: 1,
+        stateMachineArn,
+      });
+      expect(result).toEqual([]);
+    });
+
+    test('should return state names', async () => {
       const listExecutions = stepFunctions().listExecutions;
       const getExecutionHistory = stepFunctions().getExecutionHistory;
 
@@ -140,38 +201,28 @@ describe('stepfunctions utils', () => {
 
       const getExecutionHistoryPromise = getExecutionHistory().promise;
       const events = [
-        { stateExitedEventDetails: { name: 'someEventName' } },
-        { stateExitedEventDetails: { name: 'otherEventName' } },
+        { stateEnteredEventDetails: { name: 'someEventName' } },
+        { stateEnteredEventDetails: { name: 'otherEventName' } },
+        {},
       ];
       getExecutionHistoryPromise.mockReturnValue(Promise.resolve({ events }));
 
       jest.clearAllMocks();
 
-      const result = await getCurrentState(region, stateMachineArn);
+      const result = await getStates(region, stateMachineArn);
 
-      expect(result).toBe(events[0].stateExitedEventDetails.name);
-    });
-
-    test('should return undefined on missing event name', async () => {
-      const listExecutions = stepFunctions().listExecutions;
-      const getExecutionHistory = stepFunctions().getExecutionHistory;
-
-      const listExecutionsPromise = listExecutions().promise;
-      const executions = [
-        { executionArn: 'executionArn1' },
-        { executionArn: 'executionArn2' },
-      ];
-      listExecutionsPromise.mockReturnValue(Promise.resolve({ executions }));
-
-      const getExecutionHistoryPromise = getExecutionHistory().promise;
-      const events = [{}, {}];
-      getExecutionHistoryPromise.mockReturnValue(Promise.resolve({ events }));
-
-      jest.clearAllMocks();
-
-      const result = await getCurrentState(region, stateMachineArn);
-
-      expect(result).toBeUndefined();
+      expect(getExecutionHistory).toHaveBeenCalledTimes(1);
+      expect(getExecutionHistory).toHaveBeenCalledWith({
+        executionArn: executions[0].executionArn,
+        reverseOrder: true,
+      });
+      expect(result).toEqual(
+        events
+          .map(
+            e => e.stateEnteredEventDetails && e.stateEnteredEventDetails.name,
+          )
+          .filter(name => !!name),
+      );
     });
   });
 });

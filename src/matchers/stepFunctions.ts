@@ -1,6 +1,6 @@
 import diff = require('jest-diff');
 import { EOL } from 'os';
-import { getCurrentState } from '../utils/stepFunctions';
+import { getCurrentState, getStates } from '../utils/stepFunctions';
 import { ICommonProps, verifyProps } from './common';
 
 interface IStepFunctionsProps extends ICommonProps {
@@ -47,6 +47,45 @@ export const toBeAtState = async function(
     }
   } catch (e) {
     console.error(`Unknown error getting state machine state: ${e.message}`);
+    throw e;
+  }
+};
+
+export const toHaveState = async function(
+  this: jest.MatcherUtils,
+  props: IStepFunctionsProps,
+  expected: string,
+) {
+  verifyProps({ ...props, state: expected }, expectedProps);
+
+  const { region, stateMachineArn } = props;
+
+  try {
+    const printStateMachineArn = this.utils.printExpected(stateMachineArn);
+    const printRegion = this.utils.printExpected(region);
+    const printExpected = this.utils.printExpected(expected) + EOL;
+
+    const notHint = this.utils.matcherHint('.not.toHaveState') + EOL + EOL;
+    const hint = this.utils.matcherHint('.toHaveState') + EOL + EOL;
+
+    const states = await getStates(region, stateMachineArn);
+    const pass = states.includes(expected);
+    if (pass) {
+      return {
+        message: () =>
+          `${notHint}Expected ${printStateMachineArn} at region ${printRegion} not to have state ${printExpected}`,
+        pass: true,
+      };
+    } else {
+      return {
+        message: () =>
+          `${hint}Expected ${printStateMachineArn} at region ${printRegion} to have state ${printExpected}` +
+          `Found states: ${JSON.stringify(states)}`,
+        pass: false,
+      };
+    }
+  } catch (e) {
+    console.error(`Unknown error getting state machine states: ${e.message}`);
     throw e;
   }
 };
