@@ -68,6 +68,7 @@ import 'jest-e2e-serverless';
 - [toHaveObject()](#tohaveobject)
 - [toHaveLog()](#tohavelog)
 - [toBeAtState()](#tobeatstate)
+- [toHaveState()](#tohavestate)
 
 #### `toHaveItem()`
 
