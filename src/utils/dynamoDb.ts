@@ -30,13 +30,15 @@ export const clearAllItems = async (region: string, tableName: string) => {
     .promise();
   const items = scanResult.Items || [];
 
-  await Promise.all(
-    items.map(item =>
-      db
-        .delete({ TableName: tableName, Key: itemToKey(item, keySchema) })
-        .promise(),
-    ),
-  );
+  if (items.length > 0) {
+    const deleteRequests = items.map(item => ({
+      DeleteRequest: { Key: itemToKey(item, keySchema) },
+    }));
+
+    await db
+      .batchWrite({ RequestItems: { [tableName]: deleteRequests } })
+      .promise();
+  }
 };
 
 export const getItem = async (

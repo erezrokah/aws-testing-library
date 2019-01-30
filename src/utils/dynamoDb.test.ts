@@ -3,11 +3,11 @@ import { clearAllItems, getItem } from './dynamoDb';
 jest.mock('aws-sdk', () => {
   const scanValue = { promise: jest.fn() };
   const scan = jest.fn(() => scanValue);
-  const deleteValue = { promise: jest.fn() };
-  const dbDelete = jest.fn(() => deleteValue);
+  const batchWriteValue = { promise: jest.fn() };
+  const batchWrite = jest.fn(() => batchWriteValue);
   const getValue = { promise: jest.fn() };
   const get = jest.fn(() => getValue);
-  const DocumentClient = jest.fn(() => ({ scan, delete: dbDelete, get }));
+  const DocumentClient = jest.fn(() => ({ scan, batchWrite, get }));
   const describeTableValue = { promise: jest.fn() };
   const describeTable = jest.fn(() => describeTableValue);
   const DynamoDB = jest.fn(() => ({ describeTable })) as any;
@@ -23,13 +23,13 @@ describe('dynamoDb utils', () => {
   const [region, tableName] = ['region', 'tableName'];
 
   describe('clearAllItems', () => {
-    test('should not call delete on empty db', async () => {
+    test('should not call batchWrite on empty db', async () => {
       const describeTable = db().describeTable;
       const describeTablePromise = describeTable().promise;
       describeTablePromise.mockReturnValue(Promise.resolve({}));
 
       const scan = documentClient().scan;
-      const dbDelete = documentClient().delete;
+      const batchWrite = documentClient().batchWrite;
       const scanPromise = scan().promise;
       scanPromise.mockReturnValue(Promise.resolve({ Items: undefined }));
 
@@ -50,17 +50,17 @@ describe('dynamoDb utils', () => {
         AttributesToGet: [],
         TableName: tableName,
       });
-      expect(dbDelete).toHaveBeenCalledTimes(0);
+      expect(batchWrite).toHaveBeenCalledTimes(0);
     });
 
-    test('should call delete on non empty db', async () => {
+    test('should call batchWrite on non empty db', async () => {
       const describeTable = db().describeTable;
       const describeTablePromise = describeTable().promise;
       const table = { KeySchema: [{ AttributeName: 'id' }] };
       describeTablePromise.mockReturnValue(Promise.resolve({ Table: table }));
 
       const scan = documentClient().scan;
-      const dbDelete = documentClient().delete;
+      const batchWrite = documentClient().batchWrite;
       const scanPromise = scan().promise;
       const items = [{ id: 'id1' }, { id: 'id2' }];
       scanPromise.mockReturnValue(Promise.resolve({ Items: items }));
@@ -75,13 +75,13 @@ describe('dynamoDb utils', () => {
         TableName: tableName,
       });
 
-      expect(dbDelete).toHaveBeenCalledTimes(items.length);
-
-      items.forEach(item => {
-        expect(dbDelete).toHaveBeenCalledWith({
-          Key: { id: item.id },
-          TableName: tableName,
-        });
+      expect(batchWrite).toHaveBeenCalledTimes(1);
+      expect(batchWrite).toHaveBeenCalledWith({
+        RequestItems: {
+          [tableName]: items.map(item => ({
+            DeleteRequest: { Key: { id: item.id } },
+          })),
+        },
       });
     });
   });
