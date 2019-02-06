@@ -262,10 +262,6 @@ const {
 await stopRunningExecutions('us-east-1', 'state-machine-arn');
 ```
 
-#### `deploy()`
-
-Deploys the current service using [Serverless framework](https://serverless.com/)
-
 #### `getResponse()`
 
 Send a request to an api and get a response
@@ -281,6 +277,10 @@ const result = await invoke(
   headers: { Authorization: 'Bearer token_value' } /* optional headers */,
 );
 ```
+
+#### `deploy()`
+
+Deploys the current service using [Serverless framework](https://serverless.com/)
 
 ```typescript
 const { deploy } = require('jest-e2e-serverless/lib/utils/serverless');
