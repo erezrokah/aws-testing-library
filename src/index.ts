@@ -1,3 +1,4 @@
+import { IExpectedResponse, toReturnResponse } from './matchers/api';
 import { toHaveLog } from './matchers/cloudwatch';
 import { wrapWithRetries } from './matchers/common';
 import { toHaveItem } from './matchers/dynamoDb';
@@ -17,6 +18,7 @@ declare global {
       toHaveLog: (pattern: string) => R;
       toHaveObject: (key: string, expectedItem?: Buffer) => R;
       toHaveState: (state: string) => R;
+      toReturnResponse: (expected: IExpectedResponse) => R;
     }
   }
 }
@@ -27,6 +29,7 @@ expect.extend({
   toHaveLog: wrapWithRetries(toHaveLog) as typeof toHaveLog,
   toHaveObject: wrapWithRetries(toHaveObject) as typeof toHaveObject,
   toHaveState: wrapWithRetries(toHaveState) as typeof toHaveState,
+  toReturnResponse, // synchronous so no need to retry
 });
 
 jest.setTimeout(60000);
