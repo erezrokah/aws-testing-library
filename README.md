@@ -269,7 +269,7 @@ Send a request to an api and get a response
 ```typescript
 const { getResponse } = require('jest-e2e-serverless/lib/utils/api');
 
-const result = await invoke(
+const result = await getResponse(
   url: 'https://api-id.execute-api.us-east-1.amazonaws.com/dev/api/private',
   method: 'POST',
   params: { urlParam: 'value' } /* optional URL parameters */,
