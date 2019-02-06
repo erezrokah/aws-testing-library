@@ -69,6 +69,7 @@ import 'jest-e2e-serverless';
 - [toHaveLog()](#tohavelog)
 - [toBeAtState()](#tobeatstate)
 - [toHaveState()](#tohavestate)
+- [toReturnResponse()](#toreturnresponse)
 
 #### `toHaveItem()`
 
@@ -142,10 +143,10 @@ Asserts a state machine current state
 ```js
 expect.assertions(1); // makes sure the assertion was called
 await expect({
-  pollEvery: 5000,
+  pollEvery: 5000 /* optional (defaults to 500) */,
   region: 'us-east-1',
   stateMachineArn: 'stateMachineArn',
-  timeout: 30 * 1000,
+  timeout: 30 * 1000 /* optional (defaults to 2500) */,
 }).toBeAtState('ExpectedState');
 ```
 
@@ -158,14 +159,36 @@ Asserts that a state machine has been at a state
 ```js
 expect.assertions(1); // makes sure the assertion was called
 await expect({
-  pollEvery: 5000,
+  pollEvery: 5000 /* optional (defaults to 500) */,
   region: 'us-east-1',
   stateMachineArn: 'stateMachineArn',
-  timeout: 30 * 1000,
+  timeout: 30 * 1000 /* optional (defaults to 2500) */,
 }).toHaveState('ExpectedState');
 ```
 
 [See complete example](https://github.com/erezrokah/hello-retail/blob/master/e2eTests/src/stateMachine.test.ts#L97)
+
+#### `toReturnResponse()`
+
+Asserts that an api returns a specific response
+
+```js
+expect.assertions(1); // makes sure the assertion was called
+await expect({
+  url: 'https://api-id.execute-api.us-east-1.amazonaws.com/dev/api/private',
+  method: 'POST',
+  params: { urlParam: 'value' } /* optional URL parameters */,
+  data: { bodyParam: 'value' } /* optional body parameters */,
+  headers: { Authorization: 'Bearer token_value' } /* optional headers */,
+}).toReturnResponse({
+  data: {
+    message: 'Unauthorized',
+  },
+  statusCode: 401,
+});
+```
+
+[See complete example](https://github.com/erezrokah/serverless-monorepo-app/blob/master/services/api-service/e2e/privateEndpoint.test.ts#L8)
 
 ### Utils
 
@@ -174,6 +197,7 @@ await expect({
 - [clearAllObjects()](#clearallobjects)
 - [deleteAllLogs()](#deletealllogs)
 - [stopRunningExecutions()](#stoprunningexecutions)
+- [getResponse()](#getresponse)
 - [deploy()](#deploy)
 
 #### `invoke()`
@@ -236,6 +260,22 @@ const {
 } = require('jest-e2e-serverless/lib/utils/stepFunctions');
 
 await stopRunningExecutions('us-east-1', 'state-machine-arn');
+```
+
+#### `getResponse()`
+
+Send a request to an api and get a response
+
+```typescript
+const { getResponse } = require('jest-e2e-serverless/lib/utils/api');
+
+const result = await getResponse(
+  url: 'https://api-id.execute-api.us-east-1.amazonaws.com/dev/api/private',
+  method: 'POST',
+  params: { urlParam: 'value' } /* optional URL parameters */,
+  data: { bodyParam: 'value' } /* optional body parameters */,
+  headers: { Authorization: 'Bearer token_value' } /* optional headers */,
+);
 ```
 
 #### `deploy()`
