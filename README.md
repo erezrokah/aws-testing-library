@@ -70,6 +70,7 @@ import 'jest-e2e-serverless';
 - [toBeAtState()](#tobeatstate)
 - [toHaveState()](#tohavestate)
 - [toReturnResponse()](#toreturnresponse)
+- [toHaveRecord()](#tohaverecord)
 
 #### `toHaveItem()`
 
@@ -189,6 +190,24 @@ await expect({
 ```
 
 [See complete example](https://github.com/erezrokah/serverless-monorepo-app/blob/master/services/api-service/e2e/privateEndpoint.test.ts#L8)
+
+#### `toHaveRecord()`
+
+Asserts existence/equality of a Kinesis record
+
+```js
+expect.assertions(1); // makes sure the assertion was called
+await expect({
+  region: 'us-east-1',
+  stream: 'kinesis-stream',
+  timeout: 0 /* optional (defaults to 10000) */,
+  pollEvery: 0 /* optional (defaults to 500) */,
+}).toHaveRecord(
+  item => item.id === 'someId' /* predicate to match with the stream data */,
+);
+```
+
+[See complete example](https://github.com/erezrokah/serverless-monorepo-app/blob/master/services/kinesis-service/e2e/handler.test.ts)
 
 ### Utils
 
