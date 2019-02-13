@@ -1,6 +1,6 @@
 {
   "name": "jest-e2e-serverless",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Jest matchers for Serverless frameworks",
   "main": "lib/index.js",
   "scripts": {
