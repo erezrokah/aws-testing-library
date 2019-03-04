@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-export interface IPlainObject {
-  [key: string]: string;
-}
+export interface IPlainObject extends Record<string, string> {}
 
 export const getResponse = async (
   url: string,

@@ -4,8 +4,10 @@ import { wrapWithRetries } from './matchers/common';
 import { toHaveItem } from './matchers/dynamoDb';
 import { toHaveRecord } from './matchers/kinesis';
 import { toHaveObject } from './matchers/s3';
+import { toHaveMessage } from './matchers/sqs';
 import { toBeAtState, toHaveState } from './matchers/stepFunctions';
 import { IRecordMatcher } from './utils/kinesis';
+import { IMessageMatcher } from './utils/sqs';
 
 declare global {
   namespace jest {
@@ -20,6 +22,7 @@ declare global {
       toHaveLog: (pattern: string) => R;
       toHaveObject: (key: string, expectedItem?: Buffer) => R;
       toHaveRecord: (matcher: IRecordMatcher) => R;
+      toHaveMessage: (matcher: IMessageMatcher) => R;
       toHaveState: (state: string) => R;
       toReturnResponse: (expected: IExpectedResponse) => R;
     }
@@ -30,6 +33,7 @@ expect.extend({
   toBeAtState: wrapWithRetries(toBeAtState) as typeof toBeAtState,
   toHaveItem: wrapWithRetries(toHaveItem) as typeof toHaveItem,
   toHaveLog: wrapWithRetries(toHaveLog) as typeof toHaveLog,
+  toHaveMessage: wrapWithRetries(toHaveMessage) as typeof toHaveMessage,
   toHaveObject: wrapWithRetries(toHaveObject) as typeof toHaveObject,
   toHaveRecord, // has built in timeout mechanism due to how kinesis consumer works
   toHaveState: wrapWithRetries(toHaveState) as typeof toHaveState,
