@@ -74,9 +74,9 @@ export const existsInQueue = async (
   matcher: IMessageMatcher,
 ) => {
   const sqs = new AWS.SQS({ region });
-  const { Messages } = (await sqs
+  const { Messages = [] } = await sqs
     .receiveMessage({ QueueUrl: queueUrl, WaitTimeSeconds: 20 })
-    .promise()) as { Messages: AWS.SQS.Message[] };
+    .promise();
 
   const messages = Messages.map(item => JSON.parse(item.Body as string));
 

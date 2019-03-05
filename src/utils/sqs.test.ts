@@ -190,4 +190,28 @@ describe('kinesis utils', () => {
 
     expect(result).toBe(true);
   });
+
+  test('should return false on existsInQueue when no messages', async () => {
+    const queueUrl = 'queueUrl';
+    const matcher = jest.fn(() => true);
+
+    const receiveMessage = sqs().receiveMessage;
+    const receiveMessageValue = receiveMessage().promise;
+    receiveMessageValue.mockReturnValue({});
+
+    jest.clearAllMocks();
+
+    const result = await existsInQueue(region, queueUrl, matcher);
+
+    expect.assertions(4);
+
+    expect(receiveMessage).toHaveBeenCalledTimes(1);
+    expect(receiveMessage).toHaveBeenCalledWith({
+      QueueUrl: queueUrl,
+      WaitTimeSeconds: 20,
+    });
+
+    expect(matcher).toHaveBeenCalledTimes(0);
+    expect(result).toBe(false);
+  });
 });
