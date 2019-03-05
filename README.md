@@ -71,6 +71,7 @@ import 'jest-e2e-serverless';
 - [toHaveState()](#tohavestate)
 - [toReturnResponse()](#toreturnresponse)
 - [toHaveRecord()](#tohaverecord)
+- [toHaveMessage()](#tohavemessage)
 
 #### `toHaveItem()`
 
@@ -208,6 +209,35 @@ await expect({
 ```
 
 [See complete example](https://github.com/erezrokah/serverless-monorepo-app/blob/master/services/kinesis-service/e2e/handler.test.ts)
+
+#### `toHaveMessage()`
+
+Asserts existence/equality of a message in an SQS queue
+
+```js
+const {
+  subscribeToTopic,
+  unsubscribeFromTopic,
+} = require('jest-e2e-serverless/lib/utils/sqs');
+
+let [subscriptionArn, queueUrl] = ['', ''];
+try {
+  // create an SQS queue and subscribes to SNS topic
+  ({ subscriptionArn, queueUrl } = await subscribeToTopic(region, topicArn));
+
+  expect.assertions(1); // makes sure the assertion was called
+  await expect({ region, queueUrl }).toHaveMessage(
+    /* predicate to match with the messages in the queue */
+    message =>
+      message.Subject === 'Some Subject' && message.Message === 'Some Message',
+  );
+} finally {
+  // unsubscribe from SNS topic and delete SQS queue
+  await unsubscribeFromTopic(region, subscriptionArn, queueUrl);
+}
+```
+
+[See complete example](https://github.com/erezrokah/serverless-monitoring-app/blob/master/services/monitoring-service/e2e/checkEndpointStepFunction.test.ts)
 
 ### Utils
 

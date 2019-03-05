@@ -1,6 +1,6 @@
 {
   "name": "jest-e2e-serverless",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Jest matchers for Serverless frameworks",
   "main": "lib/index.js",
   "scripts": {
@@ -31,6 +31,7 @@
     "@types/jest-matcher-utils": "^21.0.1",
     "@types/mockdate": "^2.0.0",
     "@types/node": "^10.11.1",
+    "@types/uuid": "^3.4.4",
     "jest": "^23.6.0",
     "jest-junit": "^5.1.0",
     "mockdate": "^2.0.2",
@@ -47,7 +48,8 @@
   "dependencies": {
     "aws-sdk": "^2.323.0",
     "axios": "^0.18.0",
-    "jest-diff": "^23.6.0"
+    "jest-diff": "^23.6.0",
+    "uuid": "^3.3.2"
   },
   "engines": {
     "node": ">=8.0.0"
