@@ -229,7 +229,7 @@ try {
   await expect({ region, queueUrl }).toHaveMessage(
     /* predicate to match with the messages in the queue */
     message =>
-      message.Subject === 'Some Subject' && message.Message === 'Some Messages',
+      message.Subject === 'Some Subject' && message.Message === 'Some Message',
   );
 } finally {
   // unsubscribe from SNS topic and delete SQS queue
