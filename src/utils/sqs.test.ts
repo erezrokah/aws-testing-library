@@ -1,4 +1,4 @@
-import { subscribeToTopic, unsubscribeFromTopic, existsInQueue } from './sqs';
+import { existsInQueue, subscribeToTopic, unsubscribeFromTopic } from './sqs';
 
 jest.mock('aws-sdk', () => {
   const subscribeValue = { promise: jest.fn() };
