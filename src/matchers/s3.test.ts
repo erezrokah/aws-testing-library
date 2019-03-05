@@ -1,3 +1,4 @@
+import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toHaveObject } from './s3';
 
@@ -10,7 +11,12 @@ describe('s3 matchers', () => {
   describe('toHaveObject', () => {
     const matcherUtils = {
       equals: jest.fn(),
+      expand: true,
+      isNot: false,
       utils: {
+        ...originalUtils,
+        diff: jest.fn(),
+        getType: jest.fn(),
         matcherHint: jest.fn(i => i),
         printExpected: jest.fn(i => i),
         printReceived: jest.fn(i => i),

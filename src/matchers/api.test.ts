@@ -1,3 +1,4 @@
+import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toReturnResponse } from './api';
 
@@ -10,7 +11,12 @@ describe('api matchers', () => {
   describe('toReturnResponse', () => {
     const matcherUtils = {
       equals: jest.fn(),
+      expand: true,
+      isNot: false,
       utils: {
+        ...originalUtils,
+        diff: jest.fn(),
+        getType: jest.fn(),
         matcherHint: jest.fn(i => i),
         printExpected: jest.fn(i => i),
         printReceived: jest.fn(i => i),
@@ -35,10 +41,12 @@ describe('api matchers', () => {
       const error = new Error('Unknown error');
       getResponse.mockReturnValue(Promise.reject(error));
 
+      const expected = { statusCode: 200, data: { id: 'id' } };
+
       expect.assertions(7);
-      await expect(toReturnResponse.bind(matcherUtils)(props)).rejects.toBe(
-        error,
-      );
+      await expect(
+        toReturnResponse.bind(matcherUtils)(props, expected),
+      ).rejects.toBe(error);
 
       expect(getResponse).toHaveBeenCalledTimes(1);
       expect(getResponse).toHaveBeenCalledWith(
@@ -65,10 +73,10 @@ describe('api matchers', () => {
 
       const { getResponse } = require('../utils/api');
 
-      const received = 'someItem';
+      const received = { statusCode: 200, data: { id: 'someItem' } };
       getResponse.mockReturnValue(Promise.resolve(received));
 
-      const expected = 'otherItem';
+      const expected = { statusCode: 200, data: { id: 'otherItem' } };
       const { message, pass } = await toReturnResponse.bind(matcherUtils)(
         props,
         expected,
