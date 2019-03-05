@@ -225,6 +225,9 @@ try {
   // create an SQS queue and subscribe to SNS topic
   ({ subscriptionArn, queueUrl } = await subscribeToTopic(region, topicArn));
 
+  // run some code that will publish a message to the SNS topic
+  someCodeThatResultsInPublishingAMessage();
+
   expect.assertions(1); // makes sure the assertion was called
   await expect({ region, queueUrl }).toHaveMessage(
     /* predicate to match with the messages in the queue */
