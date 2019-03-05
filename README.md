@@ -229,7 +229,12 @@ try {
   someCodeThatResultsInPublishingAMessage();
 
   expect.assertions(1); // makes sure the assertion was called
-  await expect({ region, queueUrl }).toHaveMessage(
+  await expect({
+    region,
+    queueUrl,
+    timeout: 10000 /* optional (defaults to 2500) */,
+    pollEvery: 2500 /* optional (defaults to 500) */,
+  }).toHaveMessage(
     /* predicate to match with the messages in the queue */
     message =>
       message.Subject === 'Some Subject' && message.Message === 'Some Message',
