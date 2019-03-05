@@ -1,3 +1,4 @@
+import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toHaveItem } from './dynamoDb';
 
@@ -10,7 +11,12 @@ describe('dynamoDb matchers', () => {
   describe('toHaveItem', () => {
     const matcherUtils = {
       equals: jest.fn(),
+      expand: true,
+      isNot: false,
       utils: {
+        ...originalUtils,
+        diff: jest.fn(),
+        getType: jest.fn(),
         matcherHint: jest.fn(i => i),
         printExpected: jest.fn(i => i),
         printReceived: jest.fn(i => i),
@@ -19,7 +25,7 @@ describe('dynamoDb matchers', () => {
     const region = 'region';
     const table = 'table';
     const props = { region, table };
-    const key = 'key';
+    const key = { id: { S: 'id' } };
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -87,10 +93,10 @@ describe('dynamoDb matchers', () => {
 
       const { getItem } = require('../utils/dynamoDb');
 
-      const received = 'someItem';
+      const received = { id: { S: 'someItem' } };
       getItem.mockReturnValue(Promise.resolve(received));
 
-      const expected = 'otherItem';
+      const expected = { id: { S: 'otherItem' } };
       const { message, pass } = await toHaveItem.bind(matcherUtils)(
         props,
         key,
@@ -120,16 +126,16 @@ describe('dynamoDb matchers', () => {
       const { getItem } = require('../utils/dynamoDb');
 
       const received = {
-        id: 'someId',
-        text: 'someText',
-        timestamp: new Date('1948/1/1').getTime(),
+        id: { S: 'someId' },
+        text: { S: 'someText' },
+        timestamp: { N: new Date('1948/1/1').getTime().toString() },
       };
       getItem.mockReturnValue(Promise.resolve(received));
 
       const expected = {
-        id: 'someId',
-        text: 'someText',
-        timestamp: new Date('1949/1/1').getTime(),
+        id: { S: 'someId' },
+        text: { S: 'someText' },
+        timestamp: { N: new Date('1949/1/1').getTime().toString() },
       };
       const { message, pass } = await toHaveItem.bind(matcherUtils)(
         props,
@@ -150,17 +156,17 @@ describe('dynamoDb matchers', () => {
 
       const { getItem } = require('../utils/dynamoDb');
 
-      const timestamp = new Date().getTime();
+      const timestamp = { N: new Date().getTime().toString() };
       const received = {
-        id: 'someId',
-        text: 'someText',
+        id: { S: 'someId' },
+        text: { S: 'someText' },
         timestamp,
       };
       getItem.mockReturnValue(Promise.resolve(received));
 
       const expected = {
-        id: 'someId',
-        text: 'someText',
+        id: { S: 'someId' },
+        text: { S: 'someText' },
         timestamp,
       };
       const { message, pass } = await toHaveItem.bind(matcherUtils)(
@@ -184,12 +190,12 @@ describe('dynamoDb matchers', () => {
 
       const { getItem } = require('../utils/dynamoDb');
 
-      const id = 'someId';
-      const text = 'text';
+      const id = { S: 'someId' };
+      const text = { S: 'text' };
       const received = {
         id,
         text,
-        timestamp: new Date().getTime(),
+        timestamp: { N: new Date().getTime().toString() },
       };
       getItem.mockReturnValue(Promise.resolve(received));
 

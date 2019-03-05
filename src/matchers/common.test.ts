@@ -36,9 +36,9 @@ describe('common', () => {
 
         const matcherUtils = {
           isNot,
-        };
+        } as any;
 
-        const props = {};
+        const props = { region: 'region' };
         const key = 'key';
 
         const wrapped = common.wrapWithRetries(toWrap);
