@@ -222,7 +222,7 @@ const {
 
 let [subscriptionArn, queueUrl] = ['', ''];
 try {
-  // create an SQS queue and subscribes to SNS topic
+  // create an SQS queue and subscribe to SNS topic
   ({ subscriptionArn, queueUrl } = await subscribeToTopic(region, topicArn));
 
   expect.assertions(1); // makes sure the assertion was called
