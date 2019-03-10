@@ -251,6 +251,7 @@ try {
 
 - [invoke()](#invoke)
 - [clearAllItems()](#clearallitems)
+- [writeItems()](#writeitems)
 - [clearAllObjects()](#clearallobjects)
 - [deleteAllLogs()](#deletealllogs)
 - [stopRunningExecutions()](#stoprunningexecutions)
@@ -281,6 +282,18 @@ Clear all items in a DynamoDb table
 const { clearAllItems } = require('jest-e2e-serverless/lib/utils/dynamoDb');
 
 await clearAllItems('us-east-1', 'dynamo-db-table');
+```
+
+#### `writeItems()`
+
+Write items to a DynamoDb table
+
+```typescript
+const { writeItems } = require('jest-e2e-serverless/lib/utils/dynamoDb');
+
+const items = require('./seed.json');
+
+await writeItems('us-east-1', 'dynamo-db-table', items);
 ```
 
 #### `clearAllObjects()`

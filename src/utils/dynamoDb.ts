@@ -41,6 +41,21 @@ export const clearAllItems = async (region: string, tableName: string) => {
   }
 };
 
+export const writeItems = async (
+  region: string,
+  tableName: string,
+  items: AWS.DynamoDB.DocumentClient.PutItemInputAttributeMap[],
+) => {
+  const db = new AWS.DynamoDB.DocumentClient({ region });
+  const writeRequests = items.map(item => ({
+    PutRequest: { Item: item },
+  }));
+
+  await db
+    .batchWrite({ RequestItems: { [tableName]: writeRequests } })
+    .promise();
+};
+
 export const getItem = async (
   region: string,
   tableName: string,

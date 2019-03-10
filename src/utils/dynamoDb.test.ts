@@ -1,4 +1,4 @@
-import { clearAllItems, getItem } from './dynamoDb';
+import { clearAllItems, getItem, writeItems } from './dynamoDb';
 
 jest.mock('aws-sdk', () => {
   const scanValue = { promise: jest.fn() };
@@ -83,6 +83,28 @@ describe('dynamoDb utils', () => {
           })),
         },
       });
+    });
+  });
+
+  describe('writeItems', () => {
+    test('should call batchWrite on writeItems', async () => {
+      const items = [{ id: 'id1' }, { id: 'id2' }];
+      const batchWrite = documentClient().batchWrite;
+      const promise = batchWrite().promise;
+
+      jest.clearAllMocks();
+
+      await writeItems(region, tableName, items);
+
+      const writeRequests = items.map(item => ({
+        PutRequest: { Item: item },
+      }));
+
+      expect(batchWrite).toHaveBeenCalledTimes(1);
+      expect(batchWrite).toHaveBeenCalledWith({
+        RequestItems: { [tableName]: writeRequests },
+      });
+      expect(promise).toHaveBeenCalledTimes(1);
     });
   });
 
