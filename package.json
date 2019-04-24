@@ -1,6 +1,6 @@
 {
   "name": "jest-e2e-serverless",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Jest matchers for Serverless frameworks",
   "main": "lib/index.js",
   "scripts": {
@@ -17,6 +17,21 @@
   },
   "files": [
     "lib"
+  ],
+  "keywords": [
+    "serverless",
+    "testing",
+    "aws",
+    "jest",
+    "s3",
+    "dynamoDb",
+    "api",
+    "cloudwatch",
+    "kinesis",
+    "lambda",
+    "sqs",
+    "sns",
+    "step-function"
   ],
   "repository": {
     "type": "git",
