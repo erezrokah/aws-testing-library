@@ -1,16 +1,11 @@
 import { EOL } from 'os';
+import { verifyProps } from '../common';
+import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
 import { filterLogEvents } from '../utils/cloudwatch';
-import { ICommonProps, verifyProps } from './common';
-
-interface ILambdaProps extends ICommonProps {
-  function: string;
-}
-
-const expectedProps = ['region', 'function', 'pattern'];
 
 export const toHaveLog = async function(
   this: jest.MatcherUtils,
-  props: ILambdaProps,
+  props: ICloudwatchProps,
   pattern: string,
 ) {
   verifyProps({ ...props, pattern }, expectedProps);

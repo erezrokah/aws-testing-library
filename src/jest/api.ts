@@ -1,22 +1,8 @@
 import diff = require('jest-diff');
 import { EOL } from 'os';
-import { getResponse, IPlainObject } from '../utils/api';
-import { verifyProps } from './common';
-
-interface IApiProps {
-  method: string;
-  url: string;
-  params?: IPlainObject;
-  data?: IPlainObject;
-  headers?: IPlainObject;
-}
-
-export interface IExpectedResponse {
-  statusCode: number;
-  data: IPlainObject;
-}
-
-const expectedProps = ['url', 'method'];
+import { verifyProps } from '../common';
+import { expectedProps, IApiProps, IExpectedResponse } from '../common/api';
+import { getResponse } from '../utils/api';
 
 export const toReturnResponse = async function(
   this: jest.MatcherUtils,

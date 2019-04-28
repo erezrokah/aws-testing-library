@@ -1,12 +1,7 @@
 import { EOL } from 'os';
+import { verifyProps } from '../common';
+import { expectedProps, ISqsProps } from '../common/sqs';
 import { existsInQueue, IMessageMatcher } from '../utils/sqs';
-import { ICommonProps, verifyProps } from './common';
-
-interface ISqsProps extends ICommonProps {
-  queueUrl: string;
-}
-
-const expectedProps = ['region', 'queueUrl', 'matcher'];
 
 export const toHaveMessage = async function(
   this: jest.MatcherUtils,

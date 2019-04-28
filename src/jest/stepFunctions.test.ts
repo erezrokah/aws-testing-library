@@ -2,7 +2,7 @@ import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toBeAtState, toHaveState } from './stepFunctions';
 
-jest.mock('./common');
+jest.mock('../common');
 jest.mock('../utils/stepFunctions');
 jest.spyOn(console, 'error');
 jest.mock('jest-diff');
@@ -32,7 +32,7 @@ describe('stepFunctions matchers', () => {
     });
 
     test('should throw error on getCurrentState error', async () => {
-      const { verifyProps } = require('./common');
+      const { verifyProps } = require('../common');
       const { getCurrentState } = require('../utils/stepFunctions');
 
       const error = new Error('Unknown error');
@@ -151,7 +151,7 @@ describe('stepFunctions matchers', () => {
     });
 
     test('should throw error on getStates error', async () => {
-      const { verifyProps } = require('./common');
+      const { verifyProps } = require('../common');
       const { getStates } = require('../utils/stepFunctions');
 
       const error = new Error('Unknown error');

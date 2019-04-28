@@ -2,7 +2,7 @@ import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toReturnResponse } from './api';
 
-jest.mock('./common');
+jest.mock('../common');
 jest.mock('../utils/api');
 jest.spyOn(console, 'error');
 jest.mock('jest-diff');
@@ -35,7 +35,7 @@ describe('api matchers', () => {
     });
 
     test('should throw error on getResponse error', async () => {
-      const { verifyProps } = require('./common');
+      const { verifyProps } = require('../common');
       const { getResponse } = require('../utils/api');
 
       const error = new Error('Unknown error');

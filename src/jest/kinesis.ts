@@ -1,12 +1,7 @@
 import { EOL } from 'os';
+import { verifyProps } from '../common';
+import { expectedProps, IKinesisProps } from '../common/kinesis';
 import { existsInStream, IRecordMatcher } from '../utils/kinesis';
-import { ICommonProps, verifyProps } from './common';
-
-interface IKinesisProps extends ICommonProps {
-  stream: string;
-}
-
-const expectedProps = ['region', 'stream', 'matcher'];
 
 export const toHaveRecord = async function(
   this: jest.MatcherUtils,
