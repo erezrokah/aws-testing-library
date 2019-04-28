@@ -1,12 +1,12 @@
 import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
-import { toHaveMessage } from './sqs';
+import { toHaveRecord } from './kinesis';
 
-jest.mock('./common');
-jest.mock('../utils/sqs');
+jest.mock('../common');
+jest.mock('../utils/kinesis');
 jest.spyOn(console, 'error');
 
-describe('sqs matchers', () => {
+describe('kinesis matchers', () => {
   describe('toHaveRecord', () => {
     const matcherUtils = {
       equals: jest.fn(),
@@ -22,49 +22,51 @@ describe('sqs matchers', () => {
       },
     };
     const region = 'region';
-    const queueUrl = 'queueUrl';
-    const props = { region, queueUrl };
+    const stream = 'stream';
+    const props = { region, stream };
     const matcher = jest.fn();
 
     beforeEach(() => {
       jest.clearAllMocks();
     });
 
-    test('should throw error on existsInQueue error', async () => {
-      const { verifyProps } = require('./common');
-      const { existsInQueue } = require('../utils/sqs');
+    test('should throw error on existsInStream error', async () => {
+      const { verifyProps } = require('../common');
+      const { existsInStream } = require('../utils/kinesis');
 
       const error = new Error('Unknown error');
-      existsInQueue.mockReturnValue(Promise.reject(error));
+      existsInStream.mockReturnValue(Promise.reject(error));
 
       expect.assertions(7);
       await expect(
-        toHaveMessage.bind(matcherUtils)(props, matcher),
+        toHaveRecord.bind(matcherUtils)(props, matcher),
       ).rejects.toBe(error);
-      expect(existsInQueue).toHaveBeenCalledTimes(1);
-      expect(existsInQueue).toHaveBeenCalledWith(
+      expect(existsInStream).toHaveBeenCalledTimes(1);
+      expect(existsInStream).toHaveBeenCalledWith(
         props.region,
-        props.queueUrl,
+        props.stream,
         matcher,
+        10000,
+        500,
       );
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(
-        `Unknown error while looking for message: ${error.message}`,
+        `Unknown error while looking for record: ${error.message}`,
       );
       expect(verifyProps).toHaveBeenCalledTimes(1);
       expect(verifyProps).toHaveBeenCalledWith({ ...props, matcher }, [
         'region',
-        'queueUrl',
+        'stream',
         'matcher',
       ]);
     });
 
-    test('should not pass on existsInQueue returns false', async () => {
-      const { existsInQueue } = require('../utils/sqs');
+    test('should not pass on existsInStream returns false', async () => {
+      const { existsInStream } = require('../utils/kinesis');
 
-      existsInQueue.mockReturnValue(Promise.resolve(false));
+      existsInStream.mockReturnValue(Promise.resolve(false));
 
-      const { message, pass } = await toHaveMessage.bind(matcherUtils)(
+      const { message, pass } = await toHaveRecord.bind(matcherUtils)(
         props,
         matcher,
       );
@@ -74,16 +76,16 @@ describe('sqs matchers', () => {
       expect(pass).toBeFalsy();
       expect(message).toEqual(expect.any(Function));
       expect(message()).toEqual(
-        `.toHaveMessage${EOL}${EOL}Expected ${queueUrl} at region ${region} to have message`,
+        `.toHaveRecord${EOL}${EOL}Expected ${stream} at region ${region} to have record`,
       );
     });
 
-    test('should pass on existsInQueue returns true', async () => {
-      const { existsInQueue } = require('../utils/sqs');
+    test('should pass on existsInStream returns true', async () => {
+      const { existsInStream } = require('../utils/kinesis');
 
-      existsInQueue.mockReturnValue(Promise.resolve(true));
+      existsInStream.mockReturnValue(Promise.resolve(true));
 
-      const { message, pass } = await toHaveMessage.bind(matcherUtils)(
+      const { message, pass } = await toHaveRecord.bind(matcherUtils)(
         props,
         matcher,
       );
@@ -93,7 +95,7 @@ describe('sqs matchers', () => {
       expect(pass).toBeTruthy();
       expect(message).toEqual(expect.any(Function));
       expect(message()).toEqual(
-        `.not.toHaveMessage${EOL}${EOL}Expected ${queueUrl} at region ${region} not to have message`,
+        `.not.toHaveRecord${EOL}${EOL}Expected ${stream} at region ${region} not to have record`,
       );
     });
   });

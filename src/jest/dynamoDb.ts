@@ -1,18 +1,13 @@
 import { AttributeMap, Key } from 'aws-sdk/clients/dynamodb';
 import diff = require('jest-diff');
 import { EOL } from 'os';
+import { verifyProps } from '../common';
+import { expectedProps, IDynamoDbProps } from '../common/dynamoDb';
 import { getItem } from '../utils/dynamoDb';
-import { ICommonProps, verifyProps } from './common';
-
-interface IDbProps extends ICommonProps {
-  table: string;
-}
-
-const expectedProps = ['region', 'table', 'key'];
 
 export const toHaveItem = async function(
   this: jest.MatcherUtils,
-  props: IDbProps,
+  props: IDynamoDbProps,
   key: Key,
   expected?: AttributeMap,
   strict: boolean = true,

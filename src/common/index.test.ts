@@ -1,4 +1,4 @@
-import * as common from './common';
+import * as common from './';
 
 jest.useFakeTimers();
 
@@ -54,7 +54,7 @@ describe('common', () => {
     arr.forEach(({ pass, isNot }) => {
       test(`should exhaust timeout on pass === ${pass}, isNot === ${isNot}`, async () => {
         // tslint:disable-next-line:no-shadowed-variable
-        const common = require('./common');
+        const common = require('./');
 
         const mockedNow = jest.fn();
         Date.now = mockedNow;
@@ -91,7 +91,7 @@ describe('common', () => {
 
     test('should retry twice, { pass: false, isNot: false } => { pass: true, isNot: false }', async () => {
       // tslint:disable-next-line:no-shadowed-variable
-      const common = require('./common');
+      const common = require('../common');
 
       const mockedNow = jest.fn();
       Date.now = mockedNow;
