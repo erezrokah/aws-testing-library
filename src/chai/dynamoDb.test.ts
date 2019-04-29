@@ -89,5 +89,99 @@ describe('dynamoDb', () => {
         );
       }
     });
+
+    test('should pass on item equals', async () => {
+      const { getItem } = require('../utils/dynamoDb');
+
+      getItem.mockReturnValue(Promise.resolve({ id: { S: 'someId' } }));
+
+      expect.assertions(2);
+
+      const expected = { id: { S: 'someId' } };
+      // should not throw error on item equals
+      await chai.expect(props).to.have.item(key, expected);
+      try {
+        // should throw error on item not equals
+        getItem.mockReturnValue(Promise.resolve({ id: 'otherId' }));
+        await chai.expect(props).to.have.item(key, expected);
+      } catch (e) {
+        expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          "expected { id: { S: 'someId' } } to deeply equal { id: 'otherId' }",
+        );
+      }
+    });
+
+    test('should pass on item not equals', async () => {
+      const { getItem } = require('../utils/dynamoDb');
+
+      getItem.mockReturnValue(Promise.resolve({ id: { S: 'otherId' } }));
+
+      expect.assertions(2);
+
+      const expected = { id: { S: 'someId' } };
+      // should not throw error on item not equals
+      await chai.expect(props).to.not.have.item(key, expected);
+      try {
+        // should throw error on item equals
+        getItem.mockReturnValue(Promise.resolve({ id: { S: 'someId' } }));
+        await chai.expect(props).to.not.have.item(key, expected);
+      } catch (e) {
+        expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          "expected { id: { S: 'someId' } } to not deeply equal { id: { S: 'someId' } }",
+        );
+      }
+    });
+
+    test('should pass on item equals non strict mode', async () => {
+      const { getItem } = require('../utils/dynamoDb');
+
+      const actual = {
+        id: { S: 'someId' },
+        timestamp: { N: '10000000000' },
+      };
+      getItem.mockReturnValue(Promise.resolve(actual));
+
+      expect.assertions(2);
+
+      const expected = { id: { S: 'someId' } };
+      // should not throw error on item equals non strict
+      await chai.expect(props).to.have.item(key, expected, false);
+      try {
+        // should throw error on item not equals
+        await chai.expect(props).to.have.item(key, expected, true);
+      } catch (e) {
+        expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          "expected { id: { S: 'someId' } } to deeply equal { Object (id, timestamp) }",
+        );
+      }
+    });
+
+    test('should pass on item not equals non strict mode', async () => {
+      const { getItem } = require('../utils/dynamoDb');
+
+      const actual = {
+        id: { S: 'someId' },
+        timestamp: { N: '10000000000' },
+      };
+      getItem.mockReturnValue(Promise.resolve(actual));
+
+      expect.assertions(2);
+
+      const expected = { id: { S: 'someId' } };
+      // should not throw error on item not equals
+      await chai.expect(props).to.not.have.item(key, expected, true);
+      try {
+        // should throw error on item equals non strict
+        await chai.expect(props).to.not.have.item(key, expected, false);
+      } catch (e) {
+        expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          "expected { id: { S: 'someId' } } to not deeply equal { id: { S: 'someId' } }",
+        );
+      }
+    });
   });
 });

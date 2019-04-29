@@ -2,7 +2,11 @@ import { AttributeMap, Key } from 'aws-sdk/clients/dynamodb';
 import diff = require('jest-diff');
 import { EOL } from 'os';
 import { verifyProps } from '../common';
-import { expectedProps, IDynamoDbProps } from '../common/dynamoDb';
+import {
+  expectedProps,
+  IDynamoDbProps,
+  removeKeysFromItemForNonStrictComparison,
+} from '../common/dynamoDb';
 import { getItem } from '../utils/dynamoDb';
 
 export const toHaveItem = async function(
@@ -36,14 +40,10 @@ export const toHaveItem = async function(
         };
       } else {
         if (!strict) {
-          // remove keys that are in actual, but not in expected
-          Object.keys(received).forEach(actualKey => {
-            if (!expected.hasOwnProperty(actualKey)) {
-              /* istanbul ignore next */
-              const { [actualKey]: omit, ...rest } = received as AttributeMap;
-              received = rest;
-            }
-          });
+          received = removeKeysFromItemForNonStrictComparison(
+            received,
+            expected,
+          );
         }
         // we check equality as well
         const pass = this.equals(expected, received);
