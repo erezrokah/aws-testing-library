@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const api = (chai: any) => {
+const api = (chai: any, { eql, objDisplay }: any) => {
   chai.Assertion.addMethod('response', async function(
     this: any,
     expected: IExpectedResponse,
@@ -23,12 +23,15 @@ const api = (chai: any) => {
     const { url, method, params, data, headers } = props;
     const received = await getResponse(url, method, params, data, headers);
 
-    const { negate } = this.__flags;
-    if (negate) {
-      new chai.Assertion(expected).to.not.deep.equal(received);
-    } else {
-      new chai.Assertion(expected).to.deep.equal(received);
-    }
+    const deepEquals = eql(expected, received);
+
+    this.assert(
+      deepEquals,
+      `expected ${objDisplay(expected)} to be equal to ${objDisplay(received)}`,
+      `expected ${objDisplay(expected)} to not be equal to ${objDisplay(
+        received,
+      )}`,
+    );
   });
 };
 

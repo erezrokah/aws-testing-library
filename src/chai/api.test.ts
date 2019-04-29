@@ -61,7 +61,7 @@ describe('api', () => {
 
       const expected = { statusCode: 200, data: { id: 'id' } };
 
-      expect.assertions(1);
+      expect.assertions(2);
 
       // should not throw error on same response
       await chai.expect(props).to.have.response(expected);
@@ -72,6 +72,9 @@ describe('api', () => {
         await chai.expect(props).to.have.response(expected);
       } catch (e) {
         expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          "expected { statusCode: 200, data: { id: 'id' } } to be equal to { statusCode: 404 }",
+        );
       }
     });
 
@@ -83,7 +86,7 @@ describe('api', () => {
 
       const expected = { statusCode: 200, data: { id: 'id' } };
 
-      expect.assertions(1);
+      expect.assertions(2);
 
       // should not throw error on different response
       await chai.expect(props).not.to.have.response(expected);
@@ -92,6 +95,9 @@ describe('api', () => {
         await chai.expect(props).not.to.have.response(actual);
       } catch (e) {
         expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          'expected { statusCode: 404, data: {} } to not be equal to { statusCode: 404, data: {} }',
+        );
       }
     });
   });

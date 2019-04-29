@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const s3 = (chai: any) => {
+const s3 = (chai: any, { eql, objDisplay }: any) => {
   chai.Assertion.addMethod('object', async function(
     this: any,
     key: string,
@@ -25,12 +25,16 @@ const s3 = (chai: any) => {
 
     if (found && expected) {
       // check equality as well
-      const { negate } = this.__flags;
-      if (negate) {
-        new chai.Assertion(expected).to.not.deep.equal(received);
-      } else {
-        new chai.Assertion(expected).to.deep.equal(received);
-      }
+      const deepEquals = eql(expected, received);
+      this.assert(
+        deepEquals,
+        `expected ${objDisplay(expected)} to be equal to ${objDisplay(
+          received,
+        )}`,
+        `expected ${objDisplay(expected)} to not be equal to ${objDisplay(
+          received,
+        )}`,
+      );
     } else {
       // only check existence
       this.assert(

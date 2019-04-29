@@ -107,7 +107,7 @@ describe('dynamoDb', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
-          "expected { id: { S: 'someId' } } to deeply equal { id: 'otherId' }",
+          "expected { id: { S: 'someId' } } to be equal to { id: 'otherId' }",
         );
       }
     });
@@ -129,7 +129,7 @@ describe('dynamoDb', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
-          "expected { id: { S: 'someId' } } to not deeply equal { id: { S: 'someId' } }",
+          "expected { id: { S: 'someId' } } to not be equal to { id: { S: 'someId' } }",
         );
       }
     });
@@ -154,7 +154,7 @@ describe('dynamoDb', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
-          "expected { id: { S: 'someId' } } to deeply equal { Object (id, timestamp) }",
+          "expected { id: { S: 'someId' } } to be equal to { Object (id, timestamp) }",
         );
       }
     });
@@ -179,7 +179,7 @@ describe('dynamoDb', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
-          "expected { id: { S: 'someId' } } to not deeply equal { id: { S: 'someId' } }",
+          "expected { id: { S: 'someId' } } to not be equal to { id: { S: 'someId' } }",
         );
       }
     });

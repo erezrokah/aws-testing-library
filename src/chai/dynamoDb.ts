@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-const dynamoDb = (chai: any) => {
+const dynamoDb = (chai: any, { eql, objDisplay }: any) => {
   chai.Assertion.addMethod('item', async function(
     this: any,
     key: Key,
@@ -36,12 +36,16 @@ const dynamoDb = (chai: any) => {
       if (!strict) {
         received = removeKeysFromItemForNonStrictComparison(received, expected);
       }
-      const { negate } = this.__flags;
-      if (negate) {
-        new chai.Assertion(expected).to.not.deep.equal(received);
-      } else {
-        new chai.Assertion(expected).to.deep.equal(received);
-      }
+      const deepEquals = eql(expected, received);
+      this.assert(
+        deepEquals,
+        `expected ${objDisplay(expected)} to be equal to ${objDisplay(
+          received,
+        )}`,
+        `expected ${objDisplay(expected)} to not be equal to ${objDisplay(
+          received,
+        )}`,
+      );
     } else {
       // only check existence
       this.assert(

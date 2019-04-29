@@ -6,6 +6,8 @@ jest.mock('../utils/s3');
 
 chai.use(s3);
 
+const utils = (chai as any).util;
+
 describe('s3', () => {
   describe('object', () => {
     const region = 'region';
@@ -97,7 +99,7 @@ describe('s3', () => {
         Promise.resolve({ found: true, body: Buffer.from('some object') }),
       );
 
-      expect.assertions(1);
+      expect.assertions(2);
 
       const expected = Buffer.from('some object');
       // should not throw error on object equals
@@ -110,6 +112,11 @@ describe('s3', () => {
         await chai.expect(props).to.have.object(key, expected);
       } catch (e) {
         expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          `expected ${utils.objDisplay(
+            expected,
+          )} to be equal to ${utils.objDisplay(actual.body)}`,
+        );
       }
     });
 
@@ -120,7 +127,7 @@ describe('s3', () => {
         Promise.resolve({ found: true, body: Buffer.from('other object') }),
       );
 
-      expect.assertions(1);
+      expect.assertions(2);
 
       const expected = Buffer.from('some object');
       // should not throw error on object not equals
@@ -133,6 +140,11 @@ describe('s3', () => {
         await chai.expect(props).to.not.have.object(key, expected);
       } catch (e) {
         expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          `expected ${utils.objDisplay(
+            expected,
+          )} to not be equal to ${utils.objDisplay(actual.body)}`,
+        );
       }
     });
   });
