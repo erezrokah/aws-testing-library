@@ -11,11 +11,7 @@ declare global {
   namespace Chai {
     // tslint:disable-next-line:interface-name
     interface Assertion {
-      item: (
-        key: Key,
-        expected?: AttributeMap,
-        strict?: boolean,
-      ) => Assertion;
+      item: (key: Key, expected?: AttributeMap, strict?: boolean) => Assertion;
     }
   }
 }
