@@ -68,7 +68,7 @@ describe('s3', () => {
       }
     });
 
-    test('should pass on not have record', async () => {
+    test('should pass on not have object', async () => {
       const { getObject } = require('../utils/s3');
 
       getObject.mockReturnValue(Promise.resolve({ found: false }));
@@ -87,6 +87,52 @@ describe('s3', () => {
         expect(e.message).toBe(
           `expected ${bucket} not to have object with key ${key}`,
         );
+      }
+    });
+
+    test('should pass on have object buffer', async () => {
+      const { getObject } = require('../utils/s3');
+
+      getObject.mockReturnValue(
+        Promise.resolve({ found: true, body: Buffer.from('some object') }),
+      );
+
+      expect.assertions(1);
+
+      const expected = Buffer.from('some object');
+      // should not throw error on object equals
+      await chai.expect(props).to.have.object(key, expected);
+
+      const actual = { found: true, body: Buffer.from('other object') };
+      try {
+        // should throw error on object not equals
+        getObject.mockReturnValue(Promise.resolve(actual));
+        await chai.expect(props).to.have.object(key, expected);
+      } catch (e) {
+        expect(e).toBeInstanceOf(chai.AssertionError);
+      }
+    });
+
+    test('should pass on not have object buffer', async () => {
+      const { getObject } = require('../utils/s3');
+
+      getObject.mockReturnValue(
+        Promise.resolve({ found: true, body: Buffer.from('other object') }),
+      );
+
+      expect.assertions(1);
+
+      const expected = Buffer.from('some object');
+      // should not throw error on object not equals
+      await chai.expect(props).to.not.have.object(key, expected);
+
+      const actual = { found: true, body: Buffer.from('some object') };
+      try {
+        // should throw error on object equals
+        getObject.mockReturnValue(Promise.resolve(actual));
+        await chai.expect(props).to.not.have.object(key, expected);
+      } catch (e) {
+        expect(e).toBeInstanceOf(chai.AssertionError);
       }
     });
   });
