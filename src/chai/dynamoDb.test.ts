@@ -10,7 +10,7 @@ describe('dynamoDb', () => {
   describe('item', () => {
     const region = 'region';
     const table = 'table';
-    const props = { region, table };
+    const props = { region, table, timeout: 0 };
     const key = { id: { S: 'id' } };
 
     beforeEach(() => {
