@@ -3,6 +3,9 @@ import dynamoDb from './dynamoDb';
 
 jest.mock('../common');
 jest.mock('../utils/dynamoDb');
+jest.mock('./utils', () => {
+  return { wrapWithRetries: jest.fn(f => f) };
+});
 
 chai.use(dynamoDb);
 
@@ -10,7 +13,7 @@ describe('dynamoDb', () => {
   describe('item', () => {
     const region = 'region';
     const table = 'table';
-    const props = { region, table, timeout: 0 };
+    const props = { region, table };
     const key = { id: { S: 'id' } };
 
     beforeEach(() => {
@@ -20,11 +23,12 @@ describe('dynamoDb', () => {
     test('should throw error on filterLogEvents error', async () => {
       const { verifyProps } = require('../common');
       const { getItem } = require('../utils/dynamoDb');
+      const { wrapWithRetries } = require('./utils');
 
       const error = new Error('Unknown error');
       getItem.mockReturnValue(Promise.reject(error));
 
-      expect.assertions(5);
+      expect.assertions(6);
 
       let received = null;
       try {
@@ -44,6 +48,8 @@ describe('dynamoDb', () => {
 
       expect(getItem).toHaveBeenCalledTimes(1);
       expect(getItem).toHaveBeenCalledWith(region, table, key);
+
+      expect(wrapWithRetries).toHaveBeenCalledTimes(1);
     });
 
     test('should pass on have item', async () => {
