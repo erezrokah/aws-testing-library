@@ -1,4 +1,5 @@
 import chai = require('chai');
+import './';
 import dynamoDb from './dynamoDb';
 
 jest.mock('../common');

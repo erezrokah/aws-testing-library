@@ -1,29 +1,18 @@
-import { AttributeMap, Key } from 'aws-sdk/clients/dynamodb';
 import { verifyProps } from '../common';
-import { wrapWithRetries } from './utils';
-
 import {
   expectedProps,
   IDynamoDbProps,
   removeKeysFromItemForNonStrictComparison,
 } from '../common/dynamoDb';
 import { getItem } from '../utils/dynamoDb';
-
-declare global {
-  namespace Chai {
-    // tslint:disable-next-line:interface-name
-    interface Assertion {
-      item: (key: Key, expected?: AttributeMap, strict?: boolean) => Assertion;
-    }
-  }
-}
+import { wrapWithRetries } from './utils';
 
 const attemptDynamoDb = async function(
   this: any,
   eql: any,
   objDisplay: any,
-  key: Key,
-  expected: AttributeMap,
+  key: AWS.DynamoDB.DocumentClient.Key,
+  expected: AWS.DynamoDB.DocumentClient.AttributeMap,
   strict: boolean,
 ) {
   const props = this._obj as IDynamoDbProps;
@@ -62,8 +51,8 @@ const attemptDynamoDb = async function(
 const dynamoDb = (chai: any, { eql, objDisplay }: any) => {
   chai.Assertion.addMethod('item', async function(
     this: any,
-    key: Key,
-    expected?: AttributeMap,
+    key: AWS.DynamoDB.DocumentClient.Key,
+    expected?: AWS.DynamoDB.DocumentClient.AttributeMap,
     strict: boolean = true,
   ) {
     const wrapped = wrapWithRetries(attemptDynamoDb);

@@ -1,4 +1,5 @@
 import chai = require('chai');
+import './';
 import s3 from './sqs';
 
 jest.mock('../common');

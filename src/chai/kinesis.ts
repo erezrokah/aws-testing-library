@@ -2,15 +2,6 @@ import { verifyProps } from '../common';
 import { expectedProps, IKinesisProps } from '../common/kinesis';
 import { existsInStream, IRecordMatcher } from '../utils/kinesis';
 
-declare global {
-  namespace Chai {
-    // tslint:disable-next-line:interface-name
-    interface Assertion {
-      record: (matcher: IRecordMatcher) => Assertion;
-    }
-  }
-}
-
 const kinesis = (chai: any) => {
   chai.Assertion.addMethod('record', async function(
     this: any,

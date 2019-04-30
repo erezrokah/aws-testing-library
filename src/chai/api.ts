@@ -3,15 +3,6 @@ import { expectedProps, IApiProps, IExpectedResponse } from '../common/api';
 import { getResponse } from '../utils/api';
 import { wrapWithRetries } from './utils';
 
-declare global {
-  namespace Chai {
-    // tslint:disable-next-line:interface-name
-    interface Assertion {
-      response: (expected: IExpectedResponse) => Assertion;
-    }
-  }
-}
-
 const attemptApi = async function(
   this: any,
   eql: any,

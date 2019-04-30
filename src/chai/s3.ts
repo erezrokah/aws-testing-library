@@ -3,15 +3,6 @@ import { expectedProps, IS3Props } from '../common/s3';
 import { getObject } from '../utils/s3';
 import { wrapWithRetries } from './utils';
 
-declare global {
-  namespace Chai {
-    // tslint:disable-next-line:interface-name
-    interface Assertion {
-      object: (key: string, expected?: Buffer) => Assertion;
-    }
-  }
-}
-
 const attemptS3 = async function(
   this: any,
   eql: any,

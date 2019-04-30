@@ -1,4 +1,5 @@
 import chai = require('chai');
+import './';
 import cloudwatch from './cloudwatch';
 
 jest.mock('../common');

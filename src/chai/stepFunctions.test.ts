@@ -1,4 +1,5 @@
 import chai = require('chai');
+import './';
 import stepFunctions from './stepFunctions';
 
 jest.mock('../common');

@@ -1,4 +1,5 @@
 import chai = require('chai');
+import './';
 import kinesis from './kinesis';
 
 jest.mock('../common');

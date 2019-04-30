@@ -1,4 +1,5 @@
 import chai = require('chai');
+import './';
 import api from './api';
 
 jest.mock('../common');

@@ -3,15 +3,6 @@ import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
 import { filterLogEvents } from '../utils/cloudwatch';
 import { wrapWithRetries } from './utils';
 
-declare global {
-  namespace Chai {
-    // tslint:disable-next-line:interface-name
-    interface Assertion {
-      log: (pattern: string) => Assertion;
-    }
-  }
-}
-
 const attemptCloudwatch = async function(this: any, pattern: string) {
   const props = this._obj as ICloudwatchProps;
 
