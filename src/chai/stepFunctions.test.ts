@@ -3,6 +3,9 @@ import stepFunctions from './stepFunctions';
 
 jest.mock('../common');
 jest.mock('../utils/stepFunctions');
+jest.mock('./utils', () => {
+  return { wrapWithRetries: jest.fn(f => f) };
+});
 
 chai.use(stepFunctions);
 
@@ -20,11 +23,12 @@ describe('stepFunctions', () => {
     test('should throw error on getCurrentState error', async () => {
       const { verifyProps } = require('../common');
       const { getCurrentState } = require('../utils/stepFunctions');
+      const { wrapWithRetries } = require('./utils');
 
       const error = new Error('Unknown error');
       getCurrentState.mockReturnValue(Promise.reject(error));
 
-      expect.assertions(5);
+      expect.assertions(6);
 
       let received = null;
       try {
@@ -44,6 +48,8 @@ describe('stepFunctions', () => {
 
       expect(getCurrentState).toHaveBeenCalledTimes(1);
       expect(getCurrentState).toHaveBeenCalledWith(region, stateMachineArn);
+
+      expect(wrapWithRetries).toHaveBeenCalledTimes(1);
     });
 
     test('should pass on be at state', async () => {

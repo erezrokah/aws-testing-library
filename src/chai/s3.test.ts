@@ -3,6 +3,9 @@ import s3 from './s3';
 
 jest.mock('../common');
 jest.mock('../utils/s3');
+jest.mock('./utils', () => {
+  return { wrapWithRetries: jest.fn(f => f) };
+});
 
 chai.use(s3);
 
@@ -22,11 +25,12 @@ describe('s3', () => {
     test('should throw error on existsInStream error', async () => {
       const { verifyProps } = require('../common');
       const { getObject } = require('../utils/s3');
+      const { wrapWithRetries } = require('./utils');
 
       const error = new Error('Unknown error');
       getObject.mockReturnValue(Promise.reject(error));
 
-      expect.assertions(5);
+      expect.assertions(6);
 
       let received = null;
       try {
@@ -46,6 +50,8 @@ describe('s3', () => {
 
       expect(getObject).toHaveBeenCalledTimes(1);
       expect(getObject).toHaveBeenCalledWith(region, bucket, key);
+
+      expect(wrapWithRetries).toHaveBeenCalledTimes(1);
     });
 
     test('should pass on have object', async () => {

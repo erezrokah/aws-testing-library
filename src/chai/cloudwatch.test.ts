@@ -3,6 +3,9 @@ import cloudwatch from './cloudwatch';
 
 jest.mock('../common');
 jest.mock('../utils/cloudwatch');
+jest.mock('./utils', () => {
+  return { wrapWithRetries: jest.fn(f => f) };
+});
 
 chai.use(cloudwatch);
 
@@ -21,11 +24,12 @@ describe('cloudwatch', () => {
     test('should throw error on filterLogEvents error', async () => {
       const { verifyProps } = require('../common');
       const { filterLogEvents } = require('../utils/cloudwatch');
+      const { wrapWithRetries } = require('./utils');
 
       const error = new Error('Unknown error');
       filterLogEvents.mockReturnValue(Promise.reject(error));
 
-      expect.assertions(5);
+      expect.assertions(6);
 
       let received = null;
       try {
@@ -49,6 +53,7 @@ describe('cloudwatch', () => {
         functionName,
         pattern,
       );
+      expect(wrapWithRetries).toHaveBeenCalledTimes(1);
     });
 
     test('should pass on have log', async () => {

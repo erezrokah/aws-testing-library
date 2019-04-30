@@ -3,6 +3,9 @@ import api from './api';
 
 jest.mock('../common');
 jest.mock('../utils/api');
+jest.mock('./utils', () => {
+  return { wrapWithRetries: jest.fn(f => f) };
+});
 
 chai.use(api);
 
@@ -23,13 +26,14 @@ describe('api', () => {
     test('should throw error on getResponse error', async () => {
       const { verifyProps } = require('../common');
       const { getResponse } = require('../utils/api');
+      const { wrapWithRetries } = require('./utils');
 
       const error = new Error('Unknown error');
       getResponse.mockReturnValue(Promise.reject(error));
 
       const expected = { statusCode: 200, data: { id: 'id' } };
 
-      expect.assertions(5);
+      expect.assertions(6);
 
       let received = null;
       try {
@@ -51,6 +55,7 @@ describe('api', () => {
         data,
         headers,
       );
+      expect(wrapWithRetries).toHaveBeenCalledTimes(1);
     });
 
     test('should pass on have response', async () => {

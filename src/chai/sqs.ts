@@ -1,6 +1,7 @@
 import { verifyProps } from '../common';
 import { expectedProps, ISqsProps } from '../common/sqs';
 import { existsInQueue, IMessageMatcher } from '../utils/sqs';
+import { wrapWithRetries } from './utils';
 
 declare global {
   namespace Chai {
@@ -11,23 +12,31 @@ declare global {
   }
 }
 
+const attemptSqs = async function(this: any, matcher: IMessageMatcher) {
+  const props = this._obj as ISqsProps;
+  verifyProps({ ...props, matcher }, expectedProps);
+
+  const { region, queueUrl } = props;
+
+  const found = await existsInQueue(region, queueUrl, matcher);
+  return {
+    message: `expected ${queueUrl} to have message`,
+    negateMessage: `expected ${queueUrl} not to have message`,
+    pass: found,
+  };
+};
+
 const sqs = (chai: any) => {
   chai.Assertion.addMethod('message', async function(
     this: any,
     matcher: IMessageMatcher,
   ) {
-    const props = this._obj as ISqsProps;
-    verifyProps({ ...props, matcher }, expectedProps);
+    const wrapped = wrapWithRetries(attemptSqs);
+    const { pass, message, negateMessage } = await wrapped.apply(this, [
+      matcher,
+    ]);
 
-    const { region, queueUrl } = props;
-
-    const found = await existsInQueue(region, queueUrl, matcher);
-
-    this.assert(
-      found,
-      `expected ${queueUrl} to have message`,
-      `expected ${queueUrl} not to have message`,
-    );
+    this.assert(pass, message, negateMessage);
   });
 };
 

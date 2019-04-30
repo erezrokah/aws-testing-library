@@ -3,6 +3,9 @@ import s3 from './sqs';
 
 jest.mock('../common');
 jest.mock('../utils/sqs');
+jest.mock('./utils', () => {
+  return { wrapWithRetries: jest.fn(f => f) };
+});
 
 chai.use(s3);
 
@@ -20,11 +23,12 @@ describe('sqs', () => {
     test('should throw error on existsInQueue error', async () => {
       const { verifyProps } = require('../common');
       const { existsInQueue } = require('../utils/sqs');
+      const { wrapWithRetries } = require('./utils');
 
       const error = new Error('Unknown error');
       existsInQueue.mockReturnValue(Promise.reject(error));
 
-      expect.assertions(5);
+      expect.assertions(6);
 
       let received = null;
       try {
@@ -44,6 +48,8 @@ describe('sqs', () => {
 
       expect(existsInQueue).toHaveBeenCalledTimes(1);
       expect(existsInQueue).toHaveBeenCalledWith(region, queueUrl, matcher);
+
+      expect(wrapWithRetries).toHaveBeenCalledTimes(1);
     });
 
     test('should pass on have message', async () => {
