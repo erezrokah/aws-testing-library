@@ -1,7 +1,7 @@
 {
-  "name": "jest-e2e-serverless",
-  "version": "0.0.21",
-  "description": "Jest matchers for Serverless frameworks",
+  "name": "aws-testing-library",
+  "version": "1.0.0",
+  "description": "Chai and Jest matchers for aws services",
   "scripts": {
     "lint": "tslint 'src/**/*.ts'",
     "build": "tsc -p tsconfig.json",
@@ -35,9 +35,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/erezrokah/jest-e2e-serverless.git"
+    "url": "git+https://github.com/erezrokah/aws-testing-library.git"
   },
-  "homepage": "https://github.com/erezrokah/jest-e2e-serverless/#readme",
+  "homepage": "https://github.com/erezrokah/aws-testing-library/#readme",
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {
