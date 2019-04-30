@@ -30,7 +30,7 @@ declare global {
   }
 }
 
-const chaiServerless = function(this: any, chai: any, utils: any) {
+const awsTesting = function(this: any, chai: any, utils: any) {
   api(chai, utils);
   cloudwatch(chai);
   dynamoDb(chai, utils);
@@ -40,4 +40,4 @@ const chaiServerless = function(this: any, chai: any, utils: any) {
   stepFunctions(chai);
 };
 
-export default chaiServerless;
+export default awsTesting;

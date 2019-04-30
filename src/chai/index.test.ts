@@ -8,7 +8,7 @@ jest.mock('./stepFunctions');
 
 describe('index', () => {
   test('calls all modules functions', () => {
-    const chaiServerless = require('./').default;
+    const awsTesting = require('./').default;
     const [api, cloudwatch, dynamoDb, kinesis, s3, sqs, stepFunctions] = [
       require('./api').default,
       require('./cloudwatch').default,
@@ -22,7 +22,7 @@ describe('index', () => {
     const chai = jest.fn();
     const utils = jest.fn();
 
-    chaiServerless(chai, utils);
+    awsTesting(chai, utils);
 
     expect(api).toHaveBeenCalledTimes(1);
     expect(api).toHaveBeenCalledWith(chai, utils);
