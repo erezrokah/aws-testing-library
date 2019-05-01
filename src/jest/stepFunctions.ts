@@ -1,13 +1,8 @@
 import diff = require('jest-diff');
 import { EOL } from 'os';
+import { verifyProps } from '../common';
+import { expectedProps, IStepFunctionsProps } from '../common/stepFunctions';
 import { getCurrentState, getStates } from '../utils/stepFunctions';
-import { ICommonProps, verifyProps } from './common';
-
-interface IStepFunctionsProps extends ICommonProps {
-  stateMachineArn: string;
-}
-
-const expectedProps = ['region', 'stateMachineArn', 'state'];
 
 export const toBeAtState = async function(
   this: jest.MatcherUtils,

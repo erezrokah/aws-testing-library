@@ -2,7 +2,7 @@ import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toHaveItem } from './dynamoDb';
 
-jest.mock('./common');
+jest.mock('../common');
 jest.mock('../utils/dynamoDb');
 jest.spyOn(console, 'error');
 jest.mock('jest-diff');
@@ -32,7 +32,7 @@ describe('dynamoDb matchers', () => {
     });
 
     test('should throw error on getItem error', async () => {
-      const { verifyProps } = require('./common');
+      const { verifyProps } = require('../common');
       const { getItem } = require('../utils/dynamoDb');
 
       const error = new Error('Unknown error');

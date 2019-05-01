@@ -2,7 +2,7 @@ import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toHaveLog } from './cloudwatch';
 
-jest.mock('./common');
+jest.mock('../common');
 jest.mock('../utils/cloudwatch');
 jest.spyOn(console, 'error');
 
@@ -31,7 +31,7 @@ describe('cloudwatch matchers', () => {
     });
 
     test('should throw error on filterLogEvents error', async () => {
-      const { verifyProps } = require('./common');
+      const { verifyProps } = require('../common');
       const { filterLogEvents } = require('../utils/cloudwatch');
 
       const error = new Error('Unknown error');

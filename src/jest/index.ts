@@ -1,13 +1,14 @@
-import { IExpectedResponse, toReturnResponse } from './matchers/api';
-import { toHaveLog } from './matchers/cloudwatch';
-import { wrapWithRetries } from './matchers/common';
-import { toHaveItem } from './matchers/dynamoDb';
-import { toHaveRecord } from './matchers/kinesis';
-import { toHaveObject } from './matchers/s3';
-import { toHaveMessage } from './matchers/sqs';
-import { toBeAtState, toHaveState } from './matchers/stepFunctions';
-import { IRecordMatcher } from './utils/kinesis';
-import { IMessageMatcher } from './utils/sqs';
+import { IExpectedResponse } from '../common/api';
+import { IRecordMatcher } from '../utils/kinesis';
+import { IMessageMatcher } from '../utils/sqs';
+import { toReturnResponse } from './api';
+import { toHaveLog } from './cloudwatch';
+import { toHaveItem } from './dynamoDb';
+import { toHaveRecord } from './kinesis';
+import { toHaveObject } from './s3';
+import { toHaveMessage } from './sqs';
+import { toBeAtState, toHaveState } from './stepFunctions';
+import { wrapWithRetries } from './utils';
 
 declare global {
   namespace jest {

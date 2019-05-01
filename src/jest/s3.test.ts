@@ -2,7 +2,7 @@ import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toHaveObject } from './s3';
 
-jest.mock('./common');
+jest.mock('../common');
 jest.mock('../utils/s3');
 jest.spyOn(console, 'error');
 jest.mock('jest-diff');
@@ -32,7 +32,7 @@ describe('s3 matchers', () => {
     });
 
     test('should throw error on getObject error', async () => {
-      const { verifyProps } = require('./common');
+      const { verifyProps } = require('../common');
       const { getObject } = require('../utils/s3');
 
       const error = new Error('Unknown error');

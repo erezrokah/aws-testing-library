@@ -1,13 +1,8 @@
 import diff = require('jest-diff');
 import { EOL } from 'os';
+import { verifyProps } from '../common';
+import { expectedProps, IS3Props } from '../common/s3';
 import { getObject } from '../utils/s3';
-import { ICommonProps, verifyProps } from './common';
-
-interface IS3Props extends ICommonProps {
-  bucket: string;
-}
-
-const expectedProps = ['region', 'bucket', 'key'];
 
 export const toHaveObject = async function(
   this: jest.MatcherUtils,
