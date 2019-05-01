@@ -11,7 +11,7 @@ You should have your aws credentials under `~/.aws/credentials` (if you have [aw
 
 > Note: aws credentials are loaded automatically as described [here](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html)
 
-If you plan to use the [deploy](#deploy) utility function please install and configure [serverless](https://serverless.com/framework/docs/getting-started/).
+If you plan to use the [deploy](src/utils/README.md#deploy) utility function please install and configure [serverless](https://serverless.com/framework/docs/getting-started/).
 
 [node](https://nodejs.org/en/) >= 8 (for `async/await` support).
 
