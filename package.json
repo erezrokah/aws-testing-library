@@ -23,6 +23,7 @@
     "aws",
     "jest",
     "chai",
+    "mocha",
     "s3",
     "dynamoDb",
     "api",
