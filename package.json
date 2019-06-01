@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.323.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "jest-diff": "^23.6.0",
     "uuid": "^3.3.2"
   },
