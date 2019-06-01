@@ -1,6 +1,6 @@
 {
   "name": "aws-testing-library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chai and Jest matchers for aws services",
   "scripts": {
     "lint": "tslint 'src/**/*.ts'",
