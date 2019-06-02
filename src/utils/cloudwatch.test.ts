@@ -15,6 +15,8 @@ jest.mock('aws-sdk', () => {
   return { CloudWatchLogs };
 });
 
+jest.spyOn(Date, 'now').mockImplementation(() => 12 * 60 * 60 * 1000);
+
 describe('cloudwatch utils', () => {
   const AWS = require('aws-sdk');
   const cloudWatchLogs = AWS.CloudWatchLogs;
@@ -91,6 +93,7 @@ describe('cloudwatch utils', () => {
         interleaved: true,
         limit: 1,
         logGroupName,
+        startTime: 11 * 60 * 60 * 1000,
       });
       expect(actual).toEqual({ events });
     });
