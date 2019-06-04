@@ -196,4 +196,4 @@ try {
 }
 ```
 
-[See complete example](https://github.com/erezrokah/serverless-monitoring-app/blob/master/services/monitoring-service/e2e/checkEndpointStepFunction.chai.test.ts)
+[See complete example](https://github.com/erezrokah/serverless-monitoring-app/blob/master/services/monitoring-tester-service/e2e/checkEndpointStepFunction.chai.test.ts)
