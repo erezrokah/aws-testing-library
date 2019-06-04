@@ -2,6 +2,8 @@ import AWS = require('aws-sdk');
 
 const getLogGroupName = (functionName: string) => `/aws/lambda/${functionName}`;
 
+const hoursToMilliseconds = (hours: number) => hours * 60 * 60 * 1000;
+
 export const filterLogEvents = async (
   region: string,
   functionName: string,
@@ -10,6 +12,7 @@ export const filterLogEvents = async (
   const cloudWatchLogs = new AWS.CloudWatchLogs({ region });
   const logGroupName = getLogGroupName(functionName);
   const filterPattern = `"${pattern}"`; // enclose with "" to support special characters
+  const startTime = Date.now() - hoursToMilliseconds(1);
 
   const { events = [] } = await cloudWatchLogs
     .filterLogEvents({
@@ -17,6 +20,7 @@ export const filterLogEvents = async (
       interleaved: true,
       limit: 1,
       logGroupName,
+      startTime,
     })
     .promise();
 
