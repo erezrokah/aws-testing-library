@@ -1,3 +1,4 @@
+import { Method } from 'axios';
 import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toReturnResponse } from './api';
@@ -23,7 +24,7 @@ describe('api matchers', () => {
       },
     };
     const url = 'url';
-    const method = 'POST';
+    const method = 'POST' as Method;
     const params = { param1: 'param1' };
     const data = { data1: 'data1' };
     const headers = { header1: 'header1' };

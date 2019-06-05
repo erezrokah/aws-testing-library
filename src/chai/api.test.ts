@@ -1,3 +1,4 @@
+import { Method } from 'axios';
 import chai = require('chai');
 import './';
 import api from './api';
@@ -13,7 +14,7 @@ chai.use(api);
 describe('api', () => {
   describe('response', () => {
     const url = 'url';
-    const method = 'POST';
+    const method = 'POST' as Method;
     const params = { param1: 'param1' };
     const data = { data1: 'data1' };
     const headers = { header1: 'header1' };
