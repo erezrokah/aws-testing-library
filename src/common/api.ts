@@ -1,7 +1,8 @@
+import { Method } from 'axios';
 import { IPlainObject } from '../utils/api';
 
 export interface IApiProps {
-  method: string;
+  method: Method;
   url: string;
   params?: IPlainObject;
   data?: IPlainObject;
