@@ -12,7 +12,7 @@
     "prettier": "prettier --write src/**/*.ts",
     "prettier:ci": "prettier --list-different src/**/*.ts",
     "tag": "git tag \"v$npm_package_version\" && git push --tags",
-    "prepublishOnly": "yarn run tag && yarn lint && yarn run build"
+    "prepublishOnly": "yarn run build"
   },
   "files": [
     "lib"

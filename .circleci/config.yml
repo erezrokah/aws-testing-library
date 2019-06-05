@@ -46,8 +46,27 @@ aliases:
     store_test_results:
       path: reports/junit
 
+  - &persist_to_workspace
+    persist_to_workspace:
+      root: ~/repo
+      paths: .
+
+  - &attach_workspace
+    attach_workspace:
+      at: ~/repo
+
+  - &npm_authenticate
+    run:
+      name: Authenticate with registry
+      command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+
+  - &npm_publish
+    run:
+      name: Publish package
+      command: npm publish
+
 jobs:
-  build:
+  test:
     <<: *container_config
 
     steps:
@@ -59,3 +78,29 @@ jobs:
       - *run_prettier
       - *run_tests
       - *store_test_results
+      - *persist_to_workspace
+
+  deploy:
+    <<: *container_config
+
+    steps:
+      - *attach_workspace
+      - *npm_authenticate
+      - *npm_publish
+
+workflows:
+  version: 2
+  test-deploy:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v.*/
+      - deploy:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
