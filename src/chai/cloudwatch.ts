@@ -1,4 +1,4 @@
-import { verifyProps } from '../common';
+import { epochDateMinusHours, verifyProps } from '../common';
 import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
 import { filterLogEvents } from '../utils/cloudwatch';
 import { wrapWithRetries } from './utils';
@@ -8,8 +8,17 @@ const attemptCloudwatch = async function(this: any, pattern: string) {
 
   verifyProps({ ...props, pattern }, expectedProps);
 
-  const { region, function: functionName } = props;
-  const { events } = await filterLogEvents(region, functionName, pattern);
+  const {
+    region,
+    function: functionName,
+    startTime = epochDateMinusHours(1),
+  } = props;
+  const { events } = await filterLogEvents(
+    region,
+    functionName,
+    startTime,
+    pattern,
+  );
   const found = events.length > 0;
 
   return {

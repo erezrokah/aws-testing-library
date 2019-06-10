@@ -8,14 +8,17 @@ jest.mock('./utils', () => {
   return { wrapWithRetries: jest.fn(f => f) };
 });
 
+jest.spyOn(Date, 'parse').mockImplementation(() => 12 * 60 * 60 * 1000);
+
 chai.use(cloudwatch);
 
 describe('cloudwatch', () => {
   describe('log', () => {
     const region = 'region';
     const functionName = 'functionName';
+    const startTime = 12 * 60 * 60 * 1000;
 
-    const props = { region, function: functionName };
+    const props = { region, function: functionName, startTime };
     const pattern = 'pattern';
 
     beforeEach(() => {
@@ -23,12 +26,14 @@ describe('cloudwatch', () => {
     });
 
     test('should throw error on filterLogEvents error', async () => {
-      const { verifyProps } = require('../common');
+      const { epochDateMinusHours, verifyProps } = require('../common');
       const { filterLogEvents } = require('../utils/cloudwatch');
       const { wrapWithRetries } = require('./utils');
 
       const error = new Error('Unknown error');
       filterLogEvents.mockReturnValue(Promise.reject(error));
+
+      epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
 
       expect.assertions(6);
 
@@ -45,6 +50,7 @@ describe('cloudwatch', () => {
       expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
         'region',
         'function',
+        'startTime',
         'pattern',
       ]);
 
@@ -52,9 +58,36 @@ describe('cloudwatch', () => {
       expect(filterLogEvents).toHaveBeenCalledWith(
         region,
         functionName,
+        startTime,
         pattern,
       );
       expect(wrapWithRetries).toHaveBeenCalledTimes(1);
+    });
+
+    test('startTime should be defaulted when not passed in', async () => {
+      const { epochDateMinusHours, verifyProps } = require('../common');
+      const { filterLogEvents } = require('../utils/cloudwatch');
+
+      filterLogEvents.mockReturnValue(Promise.resolve({ events: ['event'] }));
+      epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
+
+      const props = { region, function: functionName };
+      await chai.expect(props).to.have.log(pattern);
+
+      expect(filterLogEvents).toHaveBeenCalledTimes(1);
+      expect(filterLogEvents).toHaveBeenCalledWith(
+        props.region,
+        props.function,
+        11 * 60 * 60 * 1000,
+        pattern,
+      );
+      expect(verifyProps).toHaveBeenCalledTimes(1);
+      expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
+        'region',
+        'function',
+        'startTime',
+        'pattern',
+      ]);
     });
 
     test('should pass on have log', async () => {

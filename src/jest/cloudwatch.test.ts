@@ -6,6 +6,8 @@ jest.mock('../common');
 jest.mock('../utils/cloudwatch');
 jest.spyOn(console, 'error');
 
+jest.spyOn(Date, 'parse').mockImplementation(() => 12 * 60 * 60 * 1000);
+
 describe('cloudwatch matchers', () => {
   describe('toHaveLog', () => {
     const matcherUtils = {
@@ -23,7 +25,8 @@ describe('cloudwatch matchers', () => {
     };
     const region = 'region';
     const functionName = 'functionName';
-    const props = { region, function: functionName };
+    const startTime = 12 * 60 * 60 * 1000;
+    const props = { region, function: functionName, startTime };
     const pattern = 'pattern';
 
     beforeEach(() => {
@@ -31,11 +34,13 @@ describe('cloudwatch matchers', () => {
     });
 
     test('should throw error on filterLogEvents error', async () => {
-      const { verifyProps } = require('../common');
+      const { epochDateMinusHours, verifyProps } = require('../common');
       const { filterLogEvents } = require('../utils/cloudwatch');
 
       const error = new Error('Unknown error');
       filterLogEvents.mockReturnValue(Promise.reject(error));
+
+      epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
 
       expect.assertions(7);
       await expect(toHaveLog.bind(matcherUtils)(props, pattern)).rejects.toBe(
@@ -45,6 +50,7 @@ describe('cloudwatch matchers', () => {
       expect(filterLogEvents).toHaveBeenCalledWith(
         props.region,
         props.function,
+        startTime,
         pattern,
       );
       expect(console.error).toHaveBeenCalledTimes(1);
@@ -55,6 +61,36 @@ describe('cloudwatch matchers', () => {
       expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
         'region',
         'function',
+        'startTime',
+        'pattern',
+      ]);
+    });
+
+    test('startTime should be defaulted when not passed in', async () => {
+      const { epochDateMinusHours, verifyProps } = require('../common');
+      const { filterLogEvents } = require('../utils/cloudwatch');
+
+      const events: string[] = [];
+      filterLogEvents.mockReturnValue(Promise.resolve({ events }));
+
+      epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
+
+      const props = { region, function: functionName };
+      console.log(JSON.stringify(props));
+      await toHaveLog.bind(matcherUtils)(props, pattern);
+
+      expect(filterLogEvents).toHaveBeenCalledTimes(1);
+      expect(filterLogEvents).toHaveBeenCalledWith(
+        props.region,
+        props.function,
+        11 * 60 * 60 * 1000,
+        pattern,
+      );
+      expect(verifyProps).toHaveBeenCalledTimes(1);
+      expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
+        'region',
+        'function',
+        'startTime',
         'pattern',
       ]);
     });

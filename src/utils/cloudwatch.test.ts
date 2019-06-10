@@ -15,8 +15,6 @@ jest.mock('aws-sdk', () => {
   return { CloudWatchLogs };
 });
 
-jest.spyOn(Date, 'now').mockImplementation(() => 12 * 60 * 60 * 1000);
-
 describe('cloudwatch utils', () => {
   const AWS = require('aws-sdk');
   const cloudWatchLogs = AWS.CloudWatchLogs;
@@ -82,8 +80,14 @@ describe('cloudwatch utils', () => {
 
       jest.clearAllMocks();
 
+      const startTime = 12 * 60 * 60 * 1000;
       const filterPattern = 'filterPattern';
-      const actual = await getEvents(region, functionName, filterPattern);
+      const actual = await getEvents(
+        region,
+        functionName,
+        startTime,
+        filterPattern,
+      );
 
       expect(cloudWatchLogs).toHaveBeenCalledTimes(1);
       expect(cloudWatchLogs).toHaveBeenCalledWith({ region });
@@ -93,7 +97,7 @@ describe('cloudwatch utils', () => {
         interleaved: true,
         limit: 1,
         logGroupName,
-        startTime: 11 * 60 * 60 * 1000,
+        startTime,
       });
       expect(actual).toEqual({ events });
     });
@@ -105,8 +109,14 @@ describe('cloudwatch utils', () => {
 
       jest.clearAllMocks();
 
+      const startTime = 12 * 60 * 60 * 1000;
       const filterPattern = 'filterPattern';
-      const actual = await getEvents(region, functionName, filterPattern);
+      const actual = await getEvents(
+        region,
+        functionName,
+        startTime,
+        filterPattern,
+      );
 
       expect(actual).toEqual({ events: [] });
     });

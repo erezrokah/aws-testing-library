@@ -1,5 +1,5 @@
 import { EOL } from 'os';
-import { verifyProps } from '../common';
+import { epochDateMinusHours, verifyProps } from '../common/index';
 import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
 import { filterLogEvents } from '../utils/cloudwatch';
 
@@ -9,8 +9,11 @@ export const toHaveLog = async function(
   pattern: string,
 ) {
   verifyProps({ ...props, pattern }, expectedProps);
-
-  const { region, function: functionName } = props;
+  const {
+    region,
+    function: functionName,
+    startTime = epochDateMinusHours(1),
+  } = props;
 
   try {
     const printFunctionName = this.utils.printExpected(functionName);
@@ -20,7 +23,12 @@ export const toHaveLog = async function(
     const notHint = this.utils.matcherHint('.not.toHaveLog') + EOL + EOL;
     const hint = this.utils.matcherHint('.toHaveLog') + EOL + EOL;
 
-    const { events } = await filterLogEvents(region, functionName, pattern);
+    const { events } = await filterLogEvents(
+      region,
+      functionName,
+      startTime,
+      pattern,
+    );
     const found = events.length > 0;
     if (found) {
       // matching log found
