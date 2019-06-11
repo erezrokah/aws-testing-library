@@ -1,4 +1,4 @@
-import { sleep, verifyProps, epochDateMinusHours } from './';
+import { epochDateMinusHours, sleep, verifyProps } from './';
 
 jest.useFakeTimers();
 

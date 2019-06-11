@@ -1,6 +1,6 @@
 import { EOL } from 'os';
-import { epochDateMinusHours, verifyProps } from '../common/index';
 import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
+import { epochDateMinusHours, verifyProps } from '../common/index';
 import { filterLogEvents } from '../utils/cloudwatch';
 
 export const toHaveLog = async function(

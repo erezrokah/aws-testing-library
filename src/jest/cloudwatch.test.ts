@@ -75,19 +75,18 @@ describe('cloudwatch matchers', () => {
 
       epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
 
-      const props = { region, function: functionName };
-      console.log(JSON.stringify(props));
-      await toHaveLog.bind(matcherUtils)(props, pattern);
+      const propsNoTime = { region, function: functionName };
+      await toHaveLog.bind(matcherUtils)(propsNoTime, pattern);
 
       expect(filterLogEvents).toHaveBeenCalledTimes(1);
       expect(filterLogEvents).toHaveBeenCalledWith(
-        props.region,
-        props.function,
+        propsNoTime.region,
+        propsNoTime.function,
         11 * 60 * 60 * 1000,
         pattern,
       );
       expect(verifyProps).toHaveBeenCalledTimes(1);
-      expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
+      expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
         'region',
         'function',
         'startTime',

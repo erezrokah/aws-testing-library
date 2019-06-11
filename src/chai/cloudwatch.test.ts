@@ -71,18 +71,18 @@ describe('cloudwatch', () => {
       filterLogEvents.mockReturnValue(Promise.resolve({ events: ['event'] }));
       epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
 
-      const props = { region, function: functionName };
-      await chai.expect(props).to.have.log(pattern);
+      const propsNoTime = { region, function: functionName };
+      await chai.expect(propsNoTime).to.have.log(pattern);
 
       expect(filterLogEvents).toHaveBeenCalledTimes(1);
       expect(filterLogEvents).toHaveBeenCalledWith(
-        props.region,
-        props.function,
+        propsNoTime.region,
+        propsNoTime.function,
         11 * 60 * 60 * 1000,
         pattern,
       );
       expect(verifyProps).toHaveBeenCalledTimes(1);
-      expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
+      expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
         'region',
         'function',
         'startTime',
