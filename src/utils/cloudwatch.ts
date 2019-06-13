@@ -2,17 +2,15 @@ import AWS = require('aws-sdk');
 
 const getLogGroupName = (functionName: string) => `/aws/lambda/${functionName}`;
 
-const hoursToMilliseconds = (hours: number) => hours * 60 * 60 * 1000;
-
 export const filterLogEvents = async (
   region: string,
   functionName: string,
+  startTime: number,
   pattern: string,
 ) => {
   const cloudWatchLogs = new AWS.CloudWatchLogs({ region });
   const logGroupName = getLogGroupName(functionName);
   const filterPattern = `"${pattern}"`; // enclose with "" to support special characters
-  const startTime = Date.now() - hoursToMilliseconds(1);
 
   const { events = [] } = await cloudWatchLogs
     .filterLogEvents({

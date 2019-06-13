@@ -1,12 +1,16 @@
 import chai = require('chai');
+import * as common from '../common';
 import './';
 import cloudwatch from './cloudwatch';
 
-jest.mock('../common');
 jest.mock('../utils/cloudwatch');
 jest.mock('./utils', () => {
   return { wrapWithRetries: jest.fn(f => f) };
 });
+
+jest.spyOn(Date, 'parse').mockImplementation(() => 12 * 60 * 60 * 1000);
+jest.spyOn(common, 'verifyProps');
+jest.spyOn(common, 'epochDateMinusHours');
 
 chai.use(cloudwatch);
 
@@ -14,8 +18,9 @@ describe('cloudwatch', () => {
   describe('log', () => {
     const region = 'region';
     const functionName = 'functionName';
+    const startTime = 12 * 60 * 60 * 1000;
 
-    const props = { region, function: functionName };
+    const props = { region, function: functionName, startTime };
     const pattern = 'pattern';
 
     beforeEach(() => {
@@ -52,9 +57,35 @@ describe('cloudwatch', () => {
       expect(filterLogEvents).toHaveBeenCalledWith(
         region,
         functionName,
+        startTime,
         pattern,
       );
       expect(wrapWithRetries).toHaveBeenCalledTimes(1);
+    });
+
+    test('startTime should be defaulted when not passed in', async () => {
+      const { epochDateMinusHours, verifyProps } = require('../common');
+      const { filterLogEvents } = require('../utils/cloudwatch');
+
+      filterLogEvents.mockReturnValue(Promise.resolve({ events: ['event'] }));
+      epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
+
+      const propsNoTime = { region, function: functionName };
+      await chai.expect(propsNoTime).to.have.log(pattern);
+
+      expect(filterLogEvents).toHaveBeenCalledTimes(1);
+      expect(filterLogEvents).toHaveBeenCalledWith(
+        propsNoTime.region,
+        propsNoTime.function,
+        11 * 60 * 60 * 1000,
+        pattern,
+      );
+      expect(verifyProps).toHaveBeenCalledTimes(1);
+      expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
+        'region',
+        'function',
+        'pattern',
+      ]);
     });
 
     test('should pass on have log', async () => {

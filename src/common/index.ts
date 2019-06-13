@@ -16,3 +16,9 @@ export const verifyProps = (props: any, expectedProps: string[]) => {
     }
   }
 };
+
+const hoursToMilliseconds = (hours: number) => hours * 60 * 60 * 1000;
+
+export const epochDateMinusHours = (hours: number) => {
+  return Date.now() - hoursToMilliseconds(hours);
+};

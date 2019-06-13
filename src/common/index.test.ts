@@ -1,4 +1,4 @@
-import { sleep, verifyProps } from './';
+import { epochDateMinusHours, sleep, verifyProps } from './';
 
 jest.useFakeTimers();
 
@@ -24,6 +24,16 @@ describe('common', () => {
 
     test('should not throw error on no missing prop', () => {
       expect(() => verifyProps({ id: 'value' }, ['id'])).not.toThrow();
+    });
+  });
+
+  describe('epochDateMinusHours', () => {
+    jest.spyOn(Date, 'now').mockImplementation(() => 12 * 60 * 60 * 1000);
+
+    test('test implementation', () => {
+      const actual = epochDateMinusHours(1);
+
+      expect(actual).toEqual(11 * 60 * 60 * 1000);
     });
   });
 });

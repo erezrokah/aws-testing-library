@@ -1,10 +1,14 @@
 import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
+import * as common from '../common';
 import { toHaveLog } from './cloudwatch';
 
-jest.mock('../common');
 jest.mock('../utils/cloudwatch');
 jest.spyOn(console, 'error');
+
+jest.spyOn(Date, 'parse').mockImplementation(() => 12 * 60 * 60 * 1000);
+jest.spyOn(common, 'verifyProps');
+jest.spyOn(common, 'epochDateMinusHours');
 
 describe('cloudwatch matchers', () => {
   describe('toHaveLog', () => {
@@ -23,7 +27,8 @@ describe('cloudwatch matchers', () => {
     };
     const region = 'region';
     const functionName = 'functionName';
-    const props = { region, function: functionName };
+    const startTime = 12 * 60 * 60 * 1000;
+    const props = { region, function: functionName, startTime };
     const pattern = 'pattern';
 
     beforeEach(() => {
@@ -45,6 +50,7 @@ describe('cloudwatch matchers', () => {
       expect(filterLogEvents).toHaveBeenCalledWith(
         props.region,
         props.function,
+        startTime,
         pattern,
       );
       expect(console.error).toHaveBeenCalledTimes(1);
@@ -53,6 +59,33 @@ describe('cloudwatch matchers', () => {
       );
       expect(verifyProps).toHaveBeenCalledTimes(1);
       expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
+        'region',
+        'function',
+        'pattern',
+      ]);
+    });
+
+    test('startTime should be defaulted when not passed in', async () => {
+      const { epochDateMinusHours, verifyProps } = require('../common');
+      const { filterLogEvents } = require('../utils/cloudwatch');
+
+      const events: string[] = [];
+      filterLogEvents.mockReturnValue(Promise.resolve({ events }));
+
+      epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
+
+      const propsNoTime = { region, function: functionName };
+      await toHaveLog.bind(matcherUtils)(propsNoTime, pattern);
+
+      expect(filterLogEvents).toHaveBeenCalledTimes(1);
+      expect(filterLogEvents).toHaveBeenCalledWith(
+        propsNoTime.region,
+        propsNoTime.function,
+        11 * 60 * 60 * 1000,
+        pattern,
+      );
+      expect(verifyProps).toHaveBeenCalledTimes(1);
+      expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
         'region',
         'function',
         'pattern',
