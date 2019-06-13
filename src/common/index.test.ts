@@ -28,7 +28,7 @@ describe('common', () => {
   });
 
   describe('epochDateMinusHours', () => {
-    jest.spyOn(Date, 'parse').mockImplementation(() => 12 * 60 * 60 * 1000);
+    jest.spyOn(Date, 'now').mockImplementation(() => 12 * 60 * 60 * 1000);
 
     test('test implementation', () => {
       const actual = epochDateMinusHours(1);

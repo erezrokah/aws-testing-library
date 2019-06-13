@@ -1,14 +1,16 @@
 import chai = require('chai');
+import * as common from '../common';
 import './';
 import cloudwatch from './cloudwatch';
 
-jest.mock('../common');
 jest.mock('../utils/cloudwatch');
 jest.mock('./utils', () => {
   return { wrapWithRetries: jest.fn(f => f) };
 });
 
 jest.spyOn(Date, 'parse').mockImplementation(() => 12 * 60 * 60 * 1000);
+jest.spyOn(common, 'verifyProps');
+jest.spyOn(common, 'epochDateMinusHours');
 
 chai.use(cloudwatch);
 
@@ -26,14 +28,12 @@ describe('cloudwatch', () => {
     });
 
     test('should throw error on filterLogEvents error', async () => {
-      const { epochDateMinusHours, verifyProps } = require('../common');
+      const { verifyProps } = require('../common');
       const { filterLogEvents } = require('../utils/cloudwatch');
       const { wrapWithRetries } = require('./utils');
 
       const error = new Error('Unknown error');
       filterLogEvents.mockReturnValue(Promise.reject(error));
-
-      epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
 
       expect.assertions(6);
 
@@ -50,7 +50,6 @@ describe('cloudwatch', () => {
       expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
         'region',
         'function',
-        'startTime',
         'pattern',
       ]);
 
@@ -85,7 +84,6 @@ describe('cloudwatch', () => {
       expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
         'region',
         'function',
-        'startTime',
         'pattern',
       ]);
     });

@@ -1,12 +1,14 @@
 import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
+import * as common from '../common';
 import { toHaveLog } from './cloudwatch';
 
-jest.mock('../common');
 jest.mock('../utils/cloudwatch');
 jest.spyOn(console, 'error');
 
 jest.spyOn(Date, 'parse').mockImplementation(() => 12 * 60 * 60 * 1000);
+jest.spyOn(common, 'verifyProps');
+jest.spyOn(common, 'epochDateMinusHours');
 
 describe('cloudwatch matchers', () => {
   describe('toHaveLog', () => {
@@ -34,13 +36,11 @@ describe('cloudwatch matchers', () => {
     });
 
     test('should throw error on filterLogEvents error', async () => {
-      const { epochDateMinusHours, verifyProps } = require('../common');
+      const { verifyProps } = require('../common');
       const { filterLogEvents } = require('../utils/cloudwatch');
 
       const error = new Error('Unknown error');
       filterLogEvents.mockReturnValue(Promise.reject(error));
-
-      epochDateMinusHours.mockReturnValue(11 * 60 * 60 * 1000);
 
       expect.assertions(7);
       await expect(toHaveLog.bind(matcherUtils)(props, pattern)).rejects.toBe(
@@ -61,7 +61,6 @@ describe('cloudwatch matchers', () => {
       expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
         'region',
         'function',
-        'startTime',
         'pattern',
       ]);
     });
@@ -89,7 +88,6 @@ describe('cloudwatch matchers', () => {
       expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
         'region',
         'function',
-        'startTime',
         'pattern',
       ]);
     });

@@ -5,4 +5,4 @@ export interface ICloudwatchProps extends ICommonProps {
   startTime?: number;
 }
 
-export const expectedProps = ['region', 'function', 'startTime', 'pattern'];
+export const expectedProps = ['region', 'function', 'pattern'];

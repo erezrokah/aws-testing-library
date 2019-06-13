@@ -91,6 +91,7 @@ Asserts log message of a lambda function
 await expect({
   region: 'us-east-1',
   function: 'functionName',
+  startTime: 0 /* optional (millis since epoch in UTC, defaults to now-1 hour) */,
   timeout: 0 /* optional (defaults to 2500) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).to.have.log(
