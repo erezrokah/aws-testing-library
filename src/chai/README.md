@@ -1,7 +1,7 @@
 # Chai Setup
 
 ```js
-const awsTesting = require('aws-testing-library/lib/chai');
+const awsTesting = require('aws-testing-library/lib/chai').default;
 const chai = require('chai');
 chai.use(awsTesting);
 
