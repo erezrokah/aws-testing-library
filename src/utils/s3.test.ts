@@ -157,7 +157,7 @@ describe('s3 utils', () => {
       expect(body).toEqual(null);
     });
 
-    test('should return found === false on non existing item', async () => {
+    test('should throw error on unknown error', async () => {
       const getObject = s3().getObject;
       const promise = getObject().promise;
 
