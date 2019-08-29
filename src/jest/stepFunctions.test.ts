@@ -14,7 +14,7 @@ describe('stepFunctions matchers', () => {
     isNot: false,
     utils: {
       ...originalUtils,
-      diff: jest.fn(),
+      diff: jest.fn() as any,
       getType: jest.fn(),
       matcherHint: jest.fn(i => i),
       printExpected: jest.fn(i => i),
