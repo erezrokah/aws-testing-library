@@ -10,3 +10,5 @@ out.txt
 reports
 
 junit.xml
+
+yarn-error.log
