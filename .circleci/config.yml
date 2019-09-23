@@ -46,6 +46,11 @@ aliases:
     store_test_results:
       path: reports/junit
 
+  - &report_test_coverage
+    run:
+      name: Report Tests Coverage
+      command: yarn coverage:ci
+
   - &persist_to_workspace
     persist_to_workspace:
       root: ~/repo
@@ -78,6 +83,7 @@ jobs:
       - *run_prettier
       - *run_tests
       - *store_test_results
+      - *report_test_coverage
       - *persist_to_workspace
 
   deploy:
