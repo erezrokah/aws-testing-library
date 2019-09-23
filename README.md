@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CircleCI](https://circleci.com/gh/erezrokah/aws-testing-library.svg?style=svg)](https://circleci.com/gh/erezrokah/aws-testing-library)
+[![Coverage Status](https://coveralls.io/repos/github/erezrokah/aws-testing-library/badge.svg?branch=master)](https://coveralls.io/github/erezrokah/aws-testing-library?branch=master)
 
 > Note: If you're missing any capability please open an issue/feature request :)
 
