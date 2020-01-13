@@ -9,7 +9,10 @@ describe('utils', () => {
       jest.clearAllMocks();
     });
 
-    let arr = [{ pass: true, negate: false }, { pass: false, negate: true }];
+    let arr = [
+      { pass: true, negate: false },
+      { pass: false, negate: true },
+    ];
     arr.forEach(({ pass, negate }) => {
       test(`should retry once on pass === ${pass}, negate === ${negate}`, async () => {
         const toWrap = jest.fn();
@@ -33,7 +36,10 @@ describe('utils', () => {
       });
     });
 
-    arr = [{ pass: false, negate: false }, { pass: true, negate: true }];
+    arr = [
+      { pass: false, negate: false },
+      { pass: true, negate: true },
+    ];
     arr.forEach(({ pass, negate }) => {
       test(`should exhaust timeout on pass === ${pass}, negate === ${negate}`, async () => {
         const { sleep } = require('../common');
