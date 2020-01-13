@@ -3,7 +3,7 @@ version: 2
 aliases:
   - &container_config
     docker:
-      - image: circleci/node:carbon
+      - image: circleci/node:lts
 
     working_directory: ~/repo
 
