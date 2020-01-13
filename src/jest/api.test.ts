@@ -10,7 +10,7 @@ jest.mock('jest-diff');
 
 describe('api matchers', () => {
   describe('toReturnResponse', () => {
-    const matcherUtils = {
+    const matcherUtils = ({
       equals: jest.fn(),
       expand: true,
       isNot: false,
@@ -22,7 +22,7 @@ describe('api matchers', () => {
         printExpected: jest.fn(i => i),
         printReceived: jest.fn(i => i),
       },
-    };
+    } as unknown) as jest.MatcherUtils & { equals: jest.Mock };
     const url = 'url';
     const method = 'POST' as Method;
     const params = { param1: 'param1' };

@@ -9,7 +9,7 @@ jest.mock('jest-diff');
 
 describe('s3 matchers', () => {
   describe('toHaveObject', () => {
-    const matcherUtils = {
+    const matcherUtils = ({
       equals: jest.fn(),
       expand: true,
       isNot: false,
@@ -21,7 +21,7 @@ describe('s3 matchers', () => {
         printExpected: jest.fn(i => i),
         printReceived: jest.fn(i => i),
       },
-    };
+    } as unknown) as jest.MatcherUtils & { equals: jest.Mock };
     const region = 'region';
     const bucket = 'bucket';
     const props = { region, bucket };

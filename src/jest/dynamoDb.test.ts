@@ -9,7 +9,7 @@ jest.mock('jest-diff');
 
 describe('dynamoDb matchers', () => {
   describe('toHaveItem', () => {
-    const matcherUtils = {
+    const matcherUtils = ({
       equals: jest.fn(),
       expand: true,
       isNot: false,
@@ -21,7 +21,7 @@ describe('dynamoDb matchers', () => {
         printExpected: jest.fn(i => i),
         printReceived: jest.fn(i => i),
       },
-    };
+    } as unknown) as jest.MatcherUtils & { equals: jest.Mock };
     const region = 'region';
     const table = 'table';
     const props = { region, table };

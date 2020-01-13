@@ -8,7 +8,7 @@ jest.spyOn(console, 'error');
 jest.mock('jest-diff');
 
 describe('stepFunctions matchers', () => {
-  const matcherUtils = {
+  const matcherUtils = ({
     equals: jest.fn(),
     expand: true,
     isNot: false,
@@ -20,7 +20,7 @@ describe('stepFunctions matchers', () => {
       printExpected: jest.fn(i => i),
       printReceived: jest.fn(i => i),
     },
-  };
+  } as unknown) as jest.MatcherUtils & { equals: jest.Mock };
   const region = 'region';
   const stateMachineArn = 'stateMachineArn';
   const props = { region, stateMachineArn };
