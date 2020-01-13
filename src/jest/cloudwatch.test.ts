@@ -12,7 +12,7 @@ jest.spyOn(common, 'epochDateMinusHours');
 
 describe('cloudwatch matchers', () => {
   describe('toHaveLog', () => {
-    const matcherUtils = {
+    const matcherUtils = ({
       equals: jest.fn(),
       expand: true,
       isNot: false,
@@ -24,7 +24,7 @@ describe('cloudwatch matchers', () => {
         printExpected: jest.fn(i => i),
         printReceived: jest.fn(i => i),
       },
-    };
+    } as unknown) as jest.MatcherUtils & { equals: jest.Mock };
     const region = 'region';
     const functionName = 'functionName';
     const startTime = 12 * 60 * 60 * 1000;
