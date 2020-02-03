@@ -51,7 +51,7 @@
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@types/chai": "^4.1.7",
-    "@types/jest": "^24.0.13",
+    "@types/jest": "^25.0.0",
     "@types/jest-diff": "^24.3.0",
     "@types/jest-matcher-utils": "^21.0.2",
     "@types/mockdate": "^2.0.0",
