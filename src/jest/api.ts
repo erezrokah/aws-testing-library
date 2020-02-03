@@ -1,4 +1,4 @@
-import diff = require('jest-diff');
+import diff from 'jest-diff';
 import { EOL } from 'os';
 import { verifyProps } from '../common';
 import { expectedProps, IApiProps, IExpectedResponse } from '../common/api';

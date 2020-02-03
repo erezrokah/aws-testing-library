@@ -5,7 +5,10 @@ import { toBeAtState, toHaveState } from './stepFunctions';
 jest.mock('../common');
 jest.mock('../utils/stepFunctions');
 jest.spyOn(console, 'error');
-jest.mock('jest-diff');
+jest.mock('jest-diff', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 describe('stepFunctions matchers', () => {
   const matcherUtils = ({
@@ -59,7 +62,7 @@ describe('stepFunctions matchers', () => {
     });
 
     test('should not pass when wrong state', async () => {
-      const diff = require('jest-diff');
+      const diff = require('jest-diff').default;
       const diffString = 'diffString';
       diff.mockReturnValue(diffString);
 
@@ -94,7 +97,7 @@ describe('stepFunctions matchers', () => {
     });
 
     test('should not pass when wrong state empty diffString', async () => {
-      const diff = require('jest-diff');
+      const diff = require('jest-diff').default;
       const diffString = '';
       diff.mockReturnValue(diffString);
 
@@ -116,7 +119,7 @@ describe('stepFunctions matchers', () => {
     });
 
     test('should pass when correct state', async () => {
-      const diff = require('jest-diff');
+      const diff = require('jest-diff').default;
 
       matcherUtils.equals.mockReturnValue(true);
 
