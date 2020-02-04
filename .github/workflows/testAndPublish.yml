@@ -33,6 +33,7 @@ jobs:
       - name: update yarn to latest version
         run: |
           sudo apt update && sudo apt install yarn
+
       - name: Install Dependencies
         run: yarn install
 
@@ -77,6 +78,9 @@ jobs:
       - name: update yarn to latest version
         run: |
           sudo apt update && sudo apt install yarn
+
+      - name: Install Dependencies
+        run: yarn install
 
       - name: Authenticate with NPM registry
         env:
