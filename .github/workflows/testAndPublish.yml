@@ -79,7 +79,9 @@ jobs:
           sudo apt update && sudo apt install yarn
 
       - name: Authenticate with NPM registry
-        run: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+        env:
+          npm_TOKEN: ${{secrets.npm_TOKEN}}
+        run: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
 
       - name: Publish package
         run: npm publish --dry-run
