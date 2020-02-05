@@ -1,0 +1,101 @@
+name: AWS Testing Library CI
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+  repository_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: update yarn to latest version
+        run: |
+          sudo apt update && sudo apt install yarn
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Run Linter
+        run: yarn lint
+
+      - name: Run Prettier
+        run: yarn prettier:ci
+
+      - name: Run Tests
+        run: yarn test:ci
+
+      - name: Report Tests Coverage
+        run: yarn coverage:ci
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    needs: test
+    if: github.event_name == 'repository_dispatch'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: update yarn to latest version
+        run: |
+          sudo apt update && sudo apt install yarn
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Authenticate with NPM registry
+        env:
+          npm_TOKEN: ${{secrets.npm_TOKEN}}
+        run: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
+
+      - name: 2FA Publish step
+        uses: erezrokah/2fa-with-slack-action@v1
+        env:
+          SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
+          CONVERSATION_ID: ${{secrets.CONVERSATION_ID}}
+          PUBLISH_COMMAND: 'npm\npublish'
+          CODE_PATTERN: 'Enter OTP'
+
+      - name: Tag Release
+        run: yarn run tag
