@@ -89,8 +89,13 @@ jobs:
           npm_TOKEN: ${{secrets.npm_TOKEN}}
         run: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
 
-      - name: Publish package
-        run: npm publish --dry-run
+      - name: 2FA Publish step
+        uses: erezrokah/2fa-with-slack-action@v1
+        env:
+          SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
+          CONVERSATION_ID: ${{secrets.CONVERSATION_ID}}
+          PUBLISH_COMMAND: 'npm\npublish'
+          CODE_PATTERN: 'Enter OTP'
 
       - name: Tag Release
         run: yarn run tag
