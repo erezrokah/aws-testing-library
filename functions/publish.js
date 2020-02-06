@@ -41,7 +41,6 @@ exports.handler = async function(event, context) {
     const params = new URLSearchParams(event.body);
     const command = params.get('command');
     const userName = params.get('user_name');
-    const responseUrl = params.get('response_url');
 
     const allowedUsers = (process.env.ALLOWED_USERS || '').split(',');
     if (!allowedUsers.includes(userName)) {
@@ -59,11 +58,6 @@ exports.handler = async function(event, context) {
         data: { event_type: 'on-demand-github-action' },
       });
       const message = 'Dispatched event to GitHub';
-      await axios({
-        method: 'post',
-        url: responseUrl,
-        data: { text: message, response_type: 'ephemeral' },
-      });
       return { status: 200, body: message };
     } else {
       throw new Error(
