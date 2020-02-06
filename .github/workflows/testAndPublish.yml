@@ -98,5 +98,10 @@ jobs:
           PUBLISH_COMMAND: "npm\npublish"
           CODE_PATTERN: 'Enter OTP'
 
+      - name: Setup Git User
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
       - name: Tag Release
         run: yarn run tag
