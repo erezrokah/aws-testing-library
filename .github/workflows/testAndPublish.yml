@@ -37,7 +37,7 @@ jobs:
           sudo apt update && sudo apt install yarn
 
       - name: Install Dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Run Linter
         run: yarn lint
@@ -82,7 +82,7 @@ jobs:
           sudo apt update && sudo apt install yarn
 
       - name: Install Dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Authenticate with NPM registry
         env:
@@ -90,11 +90,12 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
 
       - name: 2FA Publish step
-        uses: erezrokah/2fa-with-slack-action@v1
+        uses: erezrokah/2fa-with-slack-action@v1.0.0
         env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
           SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
           CONVERSATION_ID: ${{secrets.CONVERSATION_ID}}
-          PUBLISH_COMMAND: 'npm\npublish'
+          PUBLISH_COMMAND: "npm\npublish"
           CODE_PATTERN: 'Enter OTP'
 
       - name: Tag Release
