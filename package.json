@@ -12,7 +12,8 @@
     "coverage:ci": "mkdir -p coverage && TZ=GMT jest --coverage --coverageReporters=text-lcov > ./coverage/lcov.info",
     "prettier": "prettier --write src/**/*.ts",
     "prettier:ci": "prettier --list-different src/**/*.ts",
-    "tag": "git tag \"v$npm_package_version\" && git push --tags"
+    "tag": "git tag \"v$npm_package_version\" && git push --tags",
+    "tag:ci": "git tag \"v$npm_package_version\" && git push \"https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git\" --tags"
   },
   "files": [
     "lib"

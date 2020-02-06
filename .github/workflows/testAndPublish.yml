@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-    tags:
-      - '*'
 
   pull_request:
     types: [opened, synchronize, reopened]
@@ -102,4 +100,6 @@ jobs:
           git config --local user.name "GitHub Action"
 
       - name: Tag Release
-        run: yarn run tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn run tag:ci
