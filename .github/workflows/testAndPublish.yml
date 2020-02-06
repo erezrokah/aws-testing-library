@@ -84,10 +84,8 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Authenticate with NPM registry
-        env:
-          npm_TOKEN: ${{secrets.npm_TOKEN}}
-        run: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
+      - name: Build Package
+        run: yarn run build
 
       - name: 2FA Publish step
         uses: erezrokah/2fa-with-slack-action@v1.0.0

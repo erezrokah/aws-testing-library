@@ -12,8 +12,7 @@
     "coverage:ci": "mkdir -p coverage && TZ=GMT jest --coverage --coverageReporters=text-lcov > ./coverage/lcov.info",
     "prettier": "prettier --write src/**/*.ts",
     "prettier:ci": "prettier --list-different src/**/*.ts",
-    "tag": "git tag \"v$npm_package_version\" && git push --tags",
-    "prepublishOnly": "yarn run build"
+    "tag": "git tag \"v$npm_package_version\" && git push --tags"
   },
   "files": [
     "lib"
