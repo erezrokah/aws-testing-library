@@ -60,7 +60,7 @@
     "chai": "^4.2.0",
     "coveralls": "^3.0.6",
     "husky": "^4.0.7",
-    "jest": "^25.0.0",
+    "jest": "^26.0.0",
     "jest-junit": "^10.0.0",
     "mockdate": "^2.0.2",
     "prettier": "^1.17.1",
@@ -73,7 +73,7 @@
   "dependencies": {
     "aws-sdk": "^2.469.0",
     "axios": "^0.19.0",
-    "jest-diff": "^25.0.0",
+    "jest-diff": "^26.0.0",
     "uuid": "^7.0.0"
   },
   "engines": {
