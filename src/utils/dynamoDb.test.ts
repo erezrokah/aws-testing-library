@@ -71,14 +71,14 @@ describe('dynamoDb utils', () => {
 
       expect(scan).toHaveBeenCalledTimes(1);
       expect(scan).toHaveBeenCalledWith({
-        AttributesToGet: table.KeySchema.map(k => k.AttributeName),
+        AttributesToGet: table.KeySchema.map((k) => k.AttributeName),
         TableName: tableName,
       });
 
       expect(batchWrite).toHaveBeenCalledTimes(1);
       expect(batchWrite).toHaveBeenCalledWith({
         RequestItems: {
-          [tableName]: items.map(item => ({
+          [tableName]: items.map((item) => ({
             DeleteRequest: { Key: { id: item.id } },
           })),
         },
@@ -96,7 +96,7 @@ describe('dynamoDb utils', () => {
 
       await writeItems(region, tableName, items);
 
-      const writeRequests = items.map(item => ({
+      const writeRequests = items.map((item) => ({
         PutRequest: { Item: item },
       }));
 

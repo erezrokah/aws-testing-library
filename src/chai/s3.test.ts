@@ -5,7 +5,7 @@ import s3 from './s3';
 jest.mock('../common');
 jest.mock('../utils/s3');
 jest.mock('./utils', () => {
-  return { wrapWithRetries: jest.fn(f => f) };
+  return { wrapWithRetries: jest.fn((f) => f) };
 });
 
 chai.use(s3);

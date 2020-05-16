@@ -7,7 +7,7 @@ import {
 import { getItem } from '../utils/dynamoDb';
 import { wrapWithRetries } from './utils';
 
-const attemptDynamoDb = async function(
+const attemptDynamoDb = async function (
   this: any,
   eql: any,
   objDisplay: any,
@@ -49,7 +49,7 @@ const attemptDynamoDb = async function(
 };
 
 const dynamoDb = (chai: any, { eql, objDisplay }: any) => {
-  chai.Assertion.addMethod('item', async function(
+  chai.Assertion.addMethod('item', async function (
     this: any,
     key: AWS.DynamoDB.DocumentClient.Key,
     expected?: AWS.DynamoDB.DocumentClient.AttributeMap,

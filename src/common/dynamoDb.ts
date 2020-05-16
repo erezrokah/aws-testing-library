@@ -12,7 +12,7 @@ export const removeKeysFromItemForNonStrictComparison = (
   expected: AttributeMap,
 ) => {
   // remove keys that are in received, but not in expected
-  Object.keys(received).forEach(actualKey => {
+  Object.keys(received).forEach((actualKey) => {
     if (!expected.hasOwnProperty(actualKey)) {
       /* istanbul ignore next */
       const { [actualKey]: omit, ...rest } = received;

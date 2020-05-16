@@ -5,7 +5,7 @@ import cloudwatch from './cloudwatch';
 
 jest.mock('../utils/cloudwatch');
 jest.mock('./utils', () => {
-  return { wrapWithRetries: jest.fn(f => f) };
+  return { wrapWithRetries: jest.fn((f) => f) };
 });
 
 jest.spyOn(Date, 'parse').mockImplementation(() => 12 * 60 * 60 * 1000);

@@ -78,7 +78,7 @@ export const existsInQueue = async (
     .receiveMessage({ QueueUrl: queueUrl, WaitTimeSeconds: 20 })
     .promise();
 
-  const messages = Messages.map(item => JSON.parse(item.Body as string));
+  const messages = Messages.map((item) => JSON.parse(item.Body as string));
 
   const exists = messages.some(matcher);
   return exists;

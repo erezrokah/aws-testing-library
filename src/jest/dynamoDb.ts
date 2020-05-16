@@ -8,7 +8,7 @@ import {
 } from '../common/dynamoDb';
 import { getItem } from '../utils/dynamoDb';
 
-export const toHaveItem = async function(
+export const toHaveItem = async function (
   this: jest.MatcherUtils,
   props: IDynamoDbProps,
   key: AWS.DynamoDB.DocumentClient.Key,

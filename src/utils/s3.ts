@@ -31,7 +31,7 @@ export const clearAllObjects = async (
   const allKeys = await listAllKeys(region, bucket, prefix, undefined);
   if (allKeys.length > 0) {
     const s3 = new AWS.S3({ region });
-    const objects = allKeys.map(item => ({ Key: item.Key || '' }));
+    const objects = allKeys.map((item) => ({ Key: item.Key || '' }));
     await s3
       .deleteObjects({
         Bucket: bucket,

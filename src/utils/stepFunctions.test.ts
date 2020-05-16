@@ -219,9 +219,10 @@ describe('stepfunctions utils', () => {
       expect(result).toEqual(
         events
           .map(
-            e => e.stateEnteredEventDetails && e.stateEnteredEventDetails.name,
+            (e) =>
+              e.stateEnteredEventDetails && e.stateEnteredEventDetails.name,
           )
-          .filter(name => !!name),
+          .filter((name) => !!name),
       );
     });
   });

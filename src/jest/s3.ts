@@ -4,7 +4,7 @@ import { verifyProps } from '../common';
 import { expectedProps, IS3Props } from '../common/s3';
 import { getObject } from '../utils/s3';
 
-export const toHaveObject = async function(
+export const toHaveObject = async function (
   this: jest.MatcherUtils,
   props: IS3Props,
   key: string,

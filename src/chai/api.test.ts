@@ -6,7 +6,7 @@ import api from './api';
 jest.mock('../common');
 jest.mock('../utils/api');
 jest.mock('./utils', () => {
-  return { wrapWithRetries: jest.fn(f => f) };
+  return { wrapWithRetries: jest.fn((f) => f) };
 });
 
 chai.use(api);

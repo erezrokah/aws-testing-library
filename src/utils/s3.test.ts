@@ -42,7 +42,7 @@ describe('s3 utils', () => {
       const listObjectsV2 = s3().listObjectsV2;
       const deleteObjects = s3().deleteObjects;
       const promise = listObjectsV2().promise;
-      const firstItems = ['key1', 'key2'].map(Key => ({ Key }));
+      const firstItems = ['key1', 'key2'].map((Key) => ({ Key }));
       const nextContinuationToken = 'NextContinuationToken';
       promise.mockReturnValueOnce(
         Promise.resolve({
@@ -51,7 +51,7 @@ describe('s3 utils', () => {
           NextContinuationToken: nextContinuationToken,
         }),
       );
-      const secondItems = ['key3', ''].map(Key => ({ Key }));
+      const secondItems = ['key3', ''].map((Key) => ({ Key }));
       promise.mockReturnValueOnce(
         Promise.resolve({ Contents: secondItems, IsTruncated: false }),
       );
@@ -84,7 +84,7 @@ describe('s3 utils', () => {
     test('should call listObjectsV2 with prefix', async () => {
       const listObjectsV2 = s3().listObjectsV2;
       const promise = listObjectsV2().promise;
-      const items = ['key1', 'key2'].map(Key => ({ Key }));
+      const items = ['key1', 'key2'].map((Key) => ({ Key }));
       promise.mockReturnValueOnce(
         Promise.resolve({
           Contents: items,

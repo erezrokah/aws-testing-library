@@ -5,7 +5,7 @@ const itemToKey = (
   keySchema: AWS.DynamoDB.KeySchemaElement[],
 ) => {
   let itemKey: AWS.DynamoDB.DocumentClient.Key = {};
-  keySchema.map(key => {
+  keySchema.map((key) => {
     itemKey = { ...itemKey, [key.AttributeName]: item[key.AttributeName] };
   });
   return itemKey;
@@ -24,14 +24,14 @@ export const clearAllItems = async (region: string, tableName: string) => {
   const db = new AWS.DynamoDB.DocumentClient({ region });
   const scanResult = await db
     .scan({
-      AttributesToGet: keySchema.map(key => key.AttributeName),
+      AttributesToGet: keySchema.map((key) => key.AttributeName),
       TableName: tableName,
     })
     .promise();
   const items = scanResult.Items || [];
 
   if (items.length > 0) {
-    const deleteRequests = items.map(item => ({
+    const deleteRequests = items.map((item) => ({
       DeleteRequest: { Key: itemToKey(item, keySchema) },
     }));
 
@@ -47,7 +47,7 @@ export const writeItems = async (
   items: AWS.DynamoDB.DocumentClient.PutItemInputAttributeMap[],
 ) => {
   const db = new AWS.DynamoDB.DocumentClient({ region });
-  const writeRequests = items.map(item => ({
+  const writeRequests = items.map((item) => ({
     PutRequest: { Item: item },
   }));
 

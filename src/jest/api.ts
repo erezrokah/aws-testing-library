@@ -4,7 +4,7 @@ import { verifyProps } from '../common';
 import { expectedProps, IApiProps, IExpectedResponse } from '../common/api';
 import { getResponse } from '../utils/api';
 
-export const toReturnResponse = async function(
+export const toReturnResponse = async function (
   this: jest.MatcherUtils,
   props: IApiProps,
   expected: IExpectedResponse,

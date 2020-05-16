@@ -3,7 +3,7 @@ import { verifyProps } from '../common';
 import { expectedProps, ISqsProps } from '../common/sqs';
 import { existsInQueue, IMessageMatcher } from '../utils/sqs';
 
-export const toHaveMessage = async function(
+export const toHaveMessage = async function (
   this: jest.MatcherUtils,
   props: ISqsProps,
   matcher: IMessageMatcher,

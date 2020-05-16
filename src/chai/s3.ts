@@ -3,7 +3,7 @@ import { expectedProps, IS3Props } from '../common/s3';
 import { getObject } from '../utils/s3';
 import { wrapWithRetries } from './utils';
 
-const attemptS3 = async function(
+const attemptS3 = async function (
   this: any,
   eql: any,
   objDisplay: any,
@@ -39,7 +39,7 @@ const attemptS3 = async function(
 };
 
 const s3 = (chai: any, { eql, objDisplay }: any) => {
-  chai.Assertion.addMethod('object', async function(
+  chai.Assertion.addMethod('object', async function (
     this: any,
     key: string,
     expected?: Buffer,

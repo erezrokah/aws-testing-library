@@ -63,8 +63,8 @@ export const getStates = async (region: string, stateMachineArn: string) => {
       .getExecutionHistory({ executionArn, reverseOrder: true })
       .promise();
     const names = events
-      .map(event => getEventName(event))
-      .filter(name => !!name);
+      .map((event) => getEventName(event))
+      .filter((name) => !!name);
     return names;
   }
   return [];

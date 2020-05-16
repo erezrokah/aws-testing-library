@@ -19,9 +19,9 @@ describe('stepFunctions matchers', () => {
       ...originalUtils,
       diff: jest.fn() as any,
       getType: jest.fn(),
-      matcherHint: jest.fn(i => i),
-      printExpected: jest.fn(i => i),
-      printReceived: jest.fn(i => i),
+      matcherHint: jest.fn((i) => i),
+      printExpected: jest.fn((i) => i),
+      printReceived: jest.fn((i) => i),
     },
   } as unknown) as jest.MatcherUtils & { equals: jest.Mock };
   const region = 'region';

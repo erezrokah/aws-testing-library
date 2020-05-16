@@ -5,7 +5,7 @@ export interface ICommonProps {
 }
 
 export const sleep = async (ms: number) => {
-  return await new Promise(resolve => setTimeout(resolve, ms));
+  return await new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 export const verifyProps = (props: any, expectedProps: string[]) => {

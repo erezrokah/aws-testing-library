@@ -5,7 +5,7 @@ import dynamoDb from './dynamoDb';
 jest.mock('../common');
 jest.mock('../utils/dynamoDb');
 jest.mock('./utils', () => {
-  return { wrapWithRetries: jest.fn(f => f) };
+  return { wrapWithRetries: jest.fn((f) => f) };
 });
 
 chai.use(dynamoDb);

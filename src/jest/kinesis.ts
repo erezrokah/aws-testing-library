@@ -3,7 +3,7 @@ import { verifyProps } from '../common';
 import { expectedProps, IKinesisProps } from '../common/kinesis';
 import { existsInStream, IRecordMatcher } from '../utils/kinesis';
 
-export const toHaveRecord = async function(
+export const toHaveRecord = async function (
   this: jest.MatcherUtils,
   props: IKinesisProps,
   matcher: IRecordMatcher,
