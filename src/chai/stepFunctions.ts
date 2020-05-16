@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-const attemptAtState = async function(this: any, state: string) {
+const attemptAtState = async function (this: any, state: string) {
   const props = this._obj as IStepFunctionsProps;
   verifyProps({ ...props, state }, expectedProps);
 
@@ -29,7 +29,7 @@ const attemptAtState = async function(this: any, state: string) {
   };
 };
 
-const attemptHaveState = async function(this: any, state: string) {
+const attemptHaveState = async function (this: any, state: string) {
   const props = this._obj as IStepFunctionsProps;
   verifyProps({ ...props, state }, expectedProps);
 
@@ -46,14 +46,17 @@ const attemptHaveState = async function(this: any, state: string) {
 };
 
 const stepFunctions = (chai: any) => {
-  chai.Assertion.addMethod('atState', async function(this: any, state: string) {
+  chai.Assertion.addMethod('atState', async function (
+    this: any,
+    state: string,
+  ) {
     const wrapped = wrapWithRetries(attemptAtState);
     const { pass, message, negateMessage } = await wrapped.apply(this, [state]);
 
     this.assert(pass, message, negateMessage);
   });
 
-  chai.Assertion.addMethod('state', async function(this: any, state: string) {
+  chai.Assertion.addMethod('state', async function (this: any, state: string) {
     const wrapped = wrapWithRetries(attemptHaveState);
     const { pass, message, negateMessage } = await wrapped.apply(this, [state]);
 

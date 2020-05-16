@@ -3,7 +3,7 @@ import { expectedProps, IKinesisProps } from '../common/kinesis';
 import { existsInStream, IRecordMatcher } from '../utils/kinesis';
 
 const kinesis = (chai: any) => {
-  chai.Assertion.addMethod('record', async function(
+  chai.Assertion.addMethod('record', async function (
     this: any,
     matcher: IRecordMatcher,
   ) {

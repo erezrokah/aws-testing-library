@@ -3,7 +3,7 @@ import { expectedProps, IApiProps, IExpectedResponse } from '../common/api';
 import { getResponse } from '../utils/api';
 import { wrapWithRetries } from './utils';
 
-const attemptApi = async function(
+const attemptApi = async function (
   this: any,
   eql: any,
   objDisplay: any,
@@ -29,7 +29,7 @@ const attemptApi = async function(
 };
 
 const api = (chai: any, { eql, objDisplay }: any) => {
-  chai.Assertion.addMethod('response', async function(
+  chai.Assertion.addMethod('response', async function (
     this: any,
     expected: IExpectedResponse,
   ) {

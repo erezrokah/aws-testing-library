@@ -48,10 +48,10 @@ export const deleteAllLogs = async (region: string, functionName: string) => {
   const cloudWatchLogs = new AWS.CloudWatchLogs({ region });
   const logGroupName = getLogGroupName(functionName);
 
-  const logStreamNames = logStreams.map(s => s.logStreamName || '');
+  const logStreamNames = logStreams.map((s) => s.logStreamName || '');
 
   await Promise.all(
-    logStreamNames.map(logStreamName => {
+    logStreamNames.map((logStreamName) => {
       return cloudWatchLogs
         .deleteLogStream({ logGroupName, logStreamName })
         .promise();

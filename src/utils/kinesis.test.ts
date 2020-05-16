@@ -55,7 +55,9 @@ describe('kinesis utils', () => {
         ShardIterator: 'iterator0001',
       },
     ];
-    shardIterators.forEach(s => getShardIteratorPromise.mockReturnValueOnce(s));
+    shardIterators.forEach((s) =>
+      getShardIteratorPromise.mockReturnValueOnce(s),
+    );
 
     const describeStream = kinesis().describeStream;
     const describeStreamPromise = describeStream().promise;
@@ -120,7 +122,9 @@ describe('kinesis utils', () => {
         ShardIterator: 'iterator0001',
       },
     ];
-    shardIterators.forEach(s => getShardIteratorPromise.mockReturnValueOnce(s));
+    shardIterators.forEach((s) =>
+      getShardIteratorPromise.mockReturnValueOnce(s),
+    );
 
     const describeStream = kinesis().describeStream;
     const describeStreamPromise = describeStream().promise;
@@ -153,7 +157,9 @@ describe('kinesis utils', () => {
         ShardIterator: null,
       },
     ];
-    shardIterators.forEach(s => getShardIteratorPromise.mockReturnValueOnce(s));
+    shardIterators.forEach((s) =>
+      getShardIteratorPromise.mockReturnValueOnce(s),
+    );
 
     const describeStream = kinesis().describeStream;
     const describeStreamPromise = describeStream().promise;
@@ -193,7 +199,9 @@ describe('kinesis utils', () => {
         ShardIterator: 'iterator0001',
       },
     ];
-    shardIterators.forEach(s => getShardIteratorPromise.mockReturnValueOnce(s));
+    shardIterators.forEach((s) =>
+      getShardIteratorPromise.mockReturnValueOnce(s),
+    );
 
     const describeStream = kinesis().describeStream;
     const describeStreamPromise = describeStream().promise;

@@ -4,7 +4,7 @@ import { verifyProps } from '../common';
 import { expectedProps, IStepFunctionsProps } from '../common/stepFunctions';
 import { getCurrentState, getStates } from '../utils/stepFunctions';
 
-export const toBeAtState = async function(
+export const toBeAtState = async function (
   this: jest.MatcherUtils,
   props: IStepFunctionsProps,
   expected: string,
@@ -46,7 +46,7 @@ export const toBeAtState = async function(
   }
 };
 
-export const toHaveState = async function(
+export const toHaveState = async function (
   this: jest.MatcherUtils,
   props: IStepFunctionsProps,
   expected: string,

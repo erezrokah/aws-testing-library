@@ -5,7 +5,7 @@ import stepFunctions from './stepFunctions';
 jest.mock('../common');
 jest.mock('../utils/stepFunctions');
 jest.mock('./utils', () => {
-  return { wrapWithRetries: jest.fn(f => f) };
+  return { wrapWithRetries: jest.fn((f) => f) };
 });
 
 chai.use(stepFunctions);

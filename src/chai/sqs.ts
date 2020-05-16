@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-const attemptSqs = async function(this: any, matcher: IMessageMatcher) {
+const attemptSqs = async function (this: any, matcher: IMessageMatcher) {
   const props = this._obj as ISqsProps;
   verifyProps({ ...props, matcher }, expectedProps);
 
@@ -27,7 +27,7 @@ const attemptSqs = async function(this: any, matcher: IMessageMatcher) {
 };
 
 const sqs = (chai: any) => {
-  chai.Assertion.addMethod('message', async function(
+  chai.Assertion.addMethod('message', async function (
     this: any,
     matcher: IMessageMatcher,
   ) {

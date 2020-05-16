@@ -8,13 +8,13 @@ const getRecords = async (kinesis: Kinesis, shardIterator: string) => {
     Records: records,
   } = await kinesis.getRecords({ ShardIterator: shardIterator }).promise();
 
-  const data = records.map(r => JSON.parse(r.Data.toString()));
+  const data = records.map((r) => JSON.parse(r.Data.toString()));
 
   return { nextShardIterator, data };
 };
 
 const sleep = async (time: number) => {
-  return await new Promise(resolve => setTimeout(resolve, time));
+  return await new Promise((resolve) => setTimeout(resolve, time));
 };
 
 export const existsInShard = async (
@@ -74,7 +74,7 @@ export const existsInStream = async (
 
   const shardIterators = await Promise.all(
     // search in all shards
-    streamDescription.StreamDescription.Shards.map(s => {
+    streamDescription.StreamDescription.Shards.map((s) => {
       return kinesis
         .getShardIterator({
           ShardId: s.ShardId,
@@ -87,10 +87,10 @@ export const existsInStream = async (
   );
 
   const results = await Promise.all(
-    shardIterators.map(s =>
+    shardIterators.map((s) =>
       existsInShard(kinesis, s.ShardIterator, matcher, timeout, pollEvery),
     ),
   );
-  const exists = results.some(r => r);
+  const exists = results.some((r) => r);
   return exists;
 };
