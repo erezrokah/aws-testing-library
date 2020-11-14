@@ -3,6 +3,14 @@
 const crypto = require('crypto');
 const axios = require('axios');
 
+const {
+  SLACK_SIGNING_SECRET,
+  ALLOWED_USERS = '',
+  PUBLISH_COMMAND,
+  GITHUB_TOKEN,
+  GITHUB_REPO,
+} = process.env;
+
 const verifySignature = (event) => {
   const timestamp = Number(event.headers['x-slack-request-timestamp']);
   const time = Math.floor(Date.now() / 1000);
@@ -14,7 +22,7 @@ const verifySignature = (event) => {
   const body = event.body;
   const sigString = `v0:${timestamp}:${body}`;
   const actualSignature = event.headers['x-slack-signature'];
-  const secret = process.env.SLACK_SIGNING_SECRET;
+  const secret = SLACK_SIGNING_SECRET;
 
   const hash = crypto
     .createHmac('sha256', secret)
@@ -44,15 +52,15 @@ exports.handler = async function (event) {
     const command = params.get('command');
     const userName = params.get('user_name');
 
-    const allowedUsers = (process.env.ALLOWED_USERS || '').split(',');
+    const allowedUsers = ALLOWED_USERS.split(',');
     if (!allowedUsers.includes(userName)) {
       throw new Error(`User ${userName} is not allowed to run command`);
     }
 
-    const expectedCommand = process.env.PUBLISH_COMMAND;
+    const expectedCommand = PUBLISH_COMMAND;
     if (expectedCommand && expectedCommand == command) {
-      const githubToken = process.env.GITHUB_TOKEN;
-      const repo = process.env.GITHUB_REPO;
+      const githubToken = GITHUB_TOKEN;
+      const repo = GITHUB_REPO;
       await axios({
         headers: { Authorization: `token ${githubToken}` },
         method: 'post',
