@@ -13,7 +13,7 @@ export const toHaveItem = async function (
   props: IDynamoDbProps,
   key: AWS.DynamoDB.DocumentClient.Key,
   expected?: AWS.DynamoDB.DocumentClient.AttributeMap,
-  strict: boolean = true,
+  strict = true,
 ) {
   verifyProps({ ...props, key }, expectedProps);
 

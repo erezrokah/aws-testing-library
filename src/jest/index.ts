@@ -12,7 +12,6 @@ import { wrapWithRetries } from './utils';
 
 declare global {
   namespace jest {
-    // tslint:disable-next-line:interface-name
     interface Matchers<R> {
       toBeAtState: (state: string) => R;
       toHaveItem: (

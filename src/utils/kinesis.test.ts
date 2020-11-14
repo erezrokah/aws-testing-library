@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import MockDate = require('mockdate');
 import { existsInStream } from './kinesis';
 

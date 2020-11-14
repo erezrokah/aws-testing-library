@@ -1,17 +1,17 @@
 import { Method } from 'axios';
-import { IPlainObject } from '../utils/api';
+import { PlainObject } from '../utils/api';
 
 export interface IApiProps {
   method: Method;
   url: string;
-  params?: IPlainObject;
-  data?: IPlainObject;
-  headers?: IPlainObject;
+  params?: PlainObject;
+  data?: PlainObject;
+  headers?: PlainObject;
 }
 
 export interface IExpectedResponse {
   statusCode: number;
-  data: IPlainObject;
+  data: PlainObject;
 }
 
 export const expectedProps = ['url', 'method'];

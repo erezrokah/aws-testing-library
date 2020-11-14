@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toHaveRecord } from './kinesis';
@@ -14,7 +15,7 @@ describe('kinesis matchers', () => {
       isNot: false,
       utils: {
         ...originalUtils,
-        diff: jest.fn() as any,
+        diff: jest.fn() as unknown,
         getType: jest.fn(),
         matcherHint: jest.fn((i) => i),
         printExpected: jest.fn((i) => i),

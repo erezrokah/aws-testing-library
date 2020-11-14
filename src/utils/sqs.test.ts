@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { existsInQueue, subscribeToTopic, unsubscribeFromTopic } from './sqs';
 
 jest.mock('aws-sdk', () => {

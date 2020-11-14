@@ -7,7 +7,7 @@ Make sure your `package.json` includes the following:
 ```json
 // package.json
 "jest": {
-  "setupTestFrameworkScriptFile": "./node_modules/aws-testing-library/lib/jest/index.js",
+  "setupFilesAfterEnv": ["./node_modules/aws-testing-library/lib/jest/index.js"],
 },
 ```
 
@@ -23,7 +23,7 @@ import 'aws-testing-library/lib/jest';
 ```json
 // package.json
 "jest": {
- "setupTestFrameworkScriptFile": "./src/setupFrameworks.ts",
+ "setupFilesAfterEnv": ["./src/setupFrameworks.ts"],
 },
 ```
 
@@ -174,7 +174,7 @@ await expect({
   timeout: 0 /* optional (defaults to 10000) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).toHaveRecord(
-  item => item.id === 'someId' /* predicate to match with the stream data */,
+  (item) => item.id === 'someId' /* predicate to match with the stream data */,
 );
 ```
 
@@ -206,7 +206,7 @@ try {
     pollEvery: 2500 /* optional (defaults to 500) */,
   }).toHaveMessage(
     /* predicate to match with the messages in the queue */
-    message =>
+    (message) =>
       message.Subject === 'Some Subject' && message.Message === 'Some Message',
   );
 } finally {

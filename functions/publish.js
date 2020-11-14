@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-env node */
 const crypto = require('crypto');
 const axios = require('axios');
 
-const verifySignature = event => {
+const verifySignature = (event) => {
   const timestamp = Number(event.headers['x-slack-request-timestamp']);
   const time = Math.floor(Date.now() / 1000);
   if (time - timestamp > 60 * 5) {
@@ -33,7 +35,7 @@ const verifySignature = event => {
   }
 };
 
-exports.handler = async function(event, context) {
+exports.handler = async function (event) {
   try {
     console.log(JSON.stringify(event, null, 2));
     verifySignature(event);

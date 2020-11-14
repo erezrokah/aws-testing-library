@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { EOL } from 'os';
 import { deploy } from './serverless';
 
