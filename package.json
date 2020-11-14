@@ -3,13 +3,13 @@
   "version": "1.1.1",
   "description": "Chai and Jest matchers for aws services",
   "scripts": {
-    "lint": "eslint '{src,functions}/**/*.{ts,js}'",
+    "lint": "eslint 'src/**/*.ts' 'functions/**/*.js'",
     "build": "tsc -p tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
-    "format": "prettier --write '{src,functions}/**/*.{ts,js}'",
-    "format:ci": "prettier --list-different '{src,functions}/**/*.{ts,js}'",
+    "format": "prettier --write 'src/**/*.ts' 'functions/**/*.js'",
+    "format:ci": "prettier --list-different 'src/**/*.ts' 'functions/**/*.js'",
     "release": "HUSKY_SKIP_HOOKS=1 CI=true semantic-release && npm publish"
   },
   "files": [
