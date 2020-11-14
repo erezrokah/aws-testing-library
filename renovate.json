@@ -3,6 +3,7 @@
     "config:base",
     "schedule:weekly"
   ],
+  "masterIssue": true,
   "rangeStrategy": "update-lockfile",
   "automerge": true,
   "labels": ["renovate"],
