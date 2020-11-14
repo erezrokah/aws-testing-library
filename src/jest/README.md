@@ -1,6 +1,6 @@
 # Jest Setup
 
-The simplest setup is to use jest's `setupTestFrameworkScriptFile` config.
+The simplest setup is to use jest's `setupFilesAfterEnv` config.
 
 Make sure your `package.json` includes the following:
 
@@ -13,7 +13,7 @@ Make sure your `package.json` includes the following:
 
 ## Usage with TypeScript
 
-When using `aws-testing-library` with [TypeScript](http://typescriptlang.org/) and [ts-jest](https://github.com/kulshekhar/ts-jest), you'll need to add a `setupFrameworks.ts` file to your app that explicitly imports `aws-testing-library`, and point the `setupTestFrameworkScriptFile` field in your `package.json` file towards it:
+When using `aws-testing-library` with [TypeScript](http://typescriptlang.org/) and [ts-jest](https://github.com/kulshekhar/ts-jest), you'll need to add a `setupFrameworks.ts` file to your app that explicitly imports `aws-testing-library`, and point the `setupFilesAfterEnv` field in your `package.json` file towards it:
 
 ```typescript
 // src/setupFrameworks.ts
