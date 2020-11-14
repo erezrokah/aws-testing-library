@@ -1,13 +1,13 @@
 import axios, { AxiosRequestConfig, Method } from 'axios';
 
-export interface IPlainObject extends Record<string, string> {}
+export type PlainObject = Record<string, string>;
 
 export const getResponse = async (
   url: string,
   method: Method,
-  params?: IPlainObject,
-  data?: IPlainObject,
-  headers?: IPlainObject,
+  params?: PlainObject,
+  data?: PlainObject,
+  headers?: PlainObject,
 ) => {
   const config: AxiosRequestConfig = {
     data,

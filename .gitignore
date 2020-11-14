@@ -12,3 +12,9 @@ reports
 junit.xml
 
 yarn-error.log
+# Local Netlify folder
+.netlify
+
+.vscode
+
+.env

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { clearAllObjects, getObject as getS3Object } from './s3';
 
 jest.mock('aws-sdk', () => {
@@ -134,9 +135,9 @@ describe('s3 utils', () => {
     class ErrorWithCode extends Error {
       public code: string;
 
-      constructor(props: any) {
-        super(props);
-        this.code = props.code;
+      constructor({ code, message }: { code: string; message: string }) {
+        super(message);
+        this.code = code;
       }
     }
 
@@ -145,7 +146,7 @@ describe('s3 utils', () => {
       const promise = getObject().promise;
 
       promise.mockReturnValue(
-        Promise.reject(new ErrorWithCode({ code: 'NoSuchKey' })),
+        Promise.reject(new ErrorWithCode({ code: 'NoSuchKey', message: '' })),
       );
 
       jest.clearAllMocks();
@@ -161,7 +162,10 @@ describe('s3 utils', () => {
       const getObject = s3().getObject;
       const promise = getObject().promise;
 
-      const error = new ErrorWithCode({ code: 'SomeUnknownError' });
+      const error = new ErrorWithCode({
+        code: 'SomeUnknownError',
+        message: '',
+      });
       promise.mockReturnValue(Promise.reject(error));
 
       jest.clearAllMocks();

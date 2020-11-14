@@ -1,3 +1,4 @@
+import filterObject = require('filter-obj');
 import { AttributeMap } from 'aws-sdk/clients/dynamodb';
 import { ICommonProps } from './';
 
@@ -11,13 +12,7 @@ export const removeKeysFromItemForNonStrictComparison = (
   received: AttributeMap,
   expected: AttributeMap,
 ) => {
-  // remove keys that are in received, but not in expected
-  Object.keys(received).forEach((actualKey) => {
-    if (!expected.hasOwnProperty(actualKey)) {
-      /* istanbul ignore next */
-      const { [actualKey]: omit, ...rest } = received;
-      received = rest;
-    }
-  });
-  return received;
+  return filterObject(received, (key) =>
+    Object.prototype.hasOwnProperty.call(expected, key),
+  );
 };

@@ -1,8 +1,8 @@
 # AWS Testing Library
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CircleCI](https://circleci.com/gh/erezrokah/aws-testing-library.svg?style=svg)](https://circleci.com/gh/erezrokah/aws-testing-library)
-[![Coverage Status](https://coveralls.io/repos/github/erezrokah/aws-testing-library/badge.svg?branch=master)](https://coveralls.io/github/erezrokah/aws-testing-library?branch=master)
+[![Build](https://github.com/erezrokah/aws-testing-library/workflows/AWS%20Testing%20Library%20CI/badge.svg)](https://github.com/erezrokah/aws-testing-library/actions)
+[![Coverage Status](https://coveralls.io/repos/github/erezrokah/aws-testing-library/badge.svg?branch=main)](https://coveralls.io/github/erezrokah/aws-testing-library?branch=main)
 
 > Note: If you're missing any capability please open an issue/feature request :)
 
@@ -18,16 +18,16 @@ If you plan to use the [deploy](src/utils/README.md#deploy) utility function ple
 
 ## Installation
 
-Install with [yarn](https://github.com/yarnpkg/yarn)
-
-```bash
-yarn add aws-testing-library --dev
-```
-
-or [npm](https://www.npmjs.com/)
+Install with [npm](https://www.npmjs.com/)
 
 ```bash
 npm install aws-testing-library --save-dev
+```
+
+or [yarn](https://github.com/yarnpkg/yarn)
+
+```bash
+yarn add aws-testing-library --dev
 ```
 
 ## Usage

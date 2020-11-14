@@ -53,7 +53,7 @@ const dynamoDb = (chai: any, { eql, objDisplay }: any) => {
     this: any,
     key: AWS.DynamoDB.DocumentClient.Key,
     expected?: AWS.DynamoDB.DocumentClient.AttributeMap,
-    strict: boolean = true,
+    strict = true,
   ) {
     const wrapped = wrapWithRetries(attemptDynamoDb);
     const { pass, message, negateMessage } = await wrapped.apply(this, [

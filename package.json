@@ -3,17 +3,14 @@
   "version": "1.1.1",
   "description": "Chai and Jest matchers for aws services",
   "scripts": {
-    "lint": "tslint 'src/**/*.ts'",
+    "lint": "eslint src/**/*.ts functions/**/*.js",
     "build": "tsc -p tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ci": "JEST_JUNIT_OUTPUT_DIR=./reports/junit JEST_JUNIT_OUTPUT_NAME=${npm_package_name}-test-results.xml jest --runInBand --ci",
     "coverage": "jest --coverage",
-    "coverage:ci": "mkdir -p coverage && TZ=GMT jest --coverage --coverageReporters=text-lcov > ./coverage/lcov.info",
-    "prettier": "prettier --write src/**/*.ts",
-    "prettier:ci": "prettier --list-different src/**/*.ts",
-    "tag": "git tag \"v$npm_package_version\" && git push --tags",
-    "tag:ci": "git tag \"v$npm_package_version\" && git push \"https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git\" --tags"
+    "format": "prettier --write src/**/*.ts functions/**/*.js",
+    "format:ci": "prettier --list-different src/**/*.ts functions/**/*.js",
+    "release": "HUSKY_SKIP_HOOKS=1 CI=true semantic-release && npm publish"
   },
   "files": [
     "lib"
@@ -50,6 +47,8 @@
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
     "@types/chai": "^4.2.12",
     "@types/jest": "^26.0.13",
     "@types/jest-diff": "^24.3.0",
@@ -57,22 +56,25 @@
     "@types/mockdate": "^2.0.0",
     "@types/node": "^14.6.4",
     "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.6",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
     "husky": "^4.0.7",
     "jest": "^26.0.0",
-    "jest-junit": "^12.0.0",
     "mockdate": "^3.0.0",
     "prettier": "^2.0.0",
-    "ts-jest": "^26.0.0",
+    "semantic-release": "^17.2.2",
+    "ts-jest": "^26.4.4",
     "ts-node": "^9.0.0",
-    "tslint": "^6.0.0",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.0.5"
   },
   "dependencies": {
     "aws-sdk": "^2.678.0",
     "axios": "^0.21.0",
+    "filter-obj": "^2.0.1",
     "jest-diff": "^26.0.0",
     "uuid": "^8.0.0"
   },

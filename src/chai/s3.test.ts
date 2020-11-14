@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import chai = require('chai');
 import './';
 import s3 from './s3';

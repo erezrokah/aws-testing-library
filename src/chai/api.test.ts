@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Method } from 'axios';
 import chai = require('chai');
 import './';

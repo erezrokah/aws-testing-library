@@ -3,7 +3,7 @@ name: AWS Testing Library CI
 on:
   push:
     branches:
-      - master
+      - main
 
   pull_request:
     types: [opened, synchronize, reopened]
@@ -12,11 +12,12 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        node-version: [12.x]
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -24,35 +25,48 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
       - uses: actions/cache@v2
         with:
-          path: ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: update yarn to latest version
-        run: |
-          sudo apt update && sudo apt install yarn
+            ${{ runner.os }}-node-
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Run Linter
-        run: yarn lint
+        run: npm run lint
 
       - name: Run Prettier
-        run: yarn prettier:ci
+        run: npm run format:ci
 
       - name: Run Tests
-        run: yarn test:ci
+        run: npm run test
 
       - name: Report Tests Coverage
-        run: yarn coverage:ci
+        run: npm run coverage
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-${{ matrix.os }}-node-${{ matrix.node-version }}
+          parallel: true
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
 
   publish:
     needs: test
@@ -61,7 +75,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -69,21 +83,22 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
       - uses: actions/cache@v2
         with:
-          path: ~/.cache/yarn
-          key: ${{ runner.os }}-yarn-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: update yarn to latest version
-        run: |
-          sudo apt update && sudo apt install yarn
+            ${{ runner.os }}-node-
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Build Package
-        run: yarn run build
+        run: npm run build
 
       - name: 2FA Publish step
         uses: erezrokah/2fa-with-slack-action@v1
@@ -91,15 +106,5 @@ jobs:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
           SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
           CONVERSATION_ID: ${{secrets.CONVERSATION_ID}}
-          PUBLISH_COMMAND: "npm\npublish"
+          PUBLISH_COMMAND: "npm\nrun\nrelease"
           CODE_PATTERN: 'Enter OTP'
-
-      - name: Setup Git User
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-
-      - name: Tag Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn run tag:ci

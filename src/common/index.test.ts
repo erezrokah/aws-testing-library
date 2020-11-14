@@ -2,7 +2,7 @@ import { epochDateMinusHours, sleep, verifyProps } from './';
 
 jest.useFakeTimers();
 
-describe('common', () => {
+describe('common index', () => {
   describe('sleep', () => {
     test('should call setTimeout', async () => {
       const promise = sleep(1000);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import chai = require('chai');
 import './';
 import stepFunctions from './stepFunctions';
