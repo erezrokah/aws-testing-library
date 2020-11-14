@@ -49,17 +49,6 @@ npm run lint
 This library extends `chai` and `jest`. Wrappers for `chai` and `jest` can be found under `src/chai` and `src/jest` accordingly.
 The wrappers use utilities from `src/utils` that abstract some of the complexity of dealing with AWS services APIs.
 
-### Testing
-
-This repo uses [ava](https://github.com/avajs/ava) for testing. Any files in the `src` directory that have a `.test.js` file extension are automatically detected and run as tests.
-
-We also test for a few other things:
-
-- Dependencies (used an unused)
-- Linting
-- Test coverage
-- Must work with Windows + Unix environments.
-
 ## Pull Requests
 
 We actively welcome your pull requests.
@@ -82,5 +71,5 @@ We actively welcome your pull requests.
 
 ## License
 
-By contributing to Netlify Node Client, you agree that your contributions will be licensed
+By contributing to AWS Testing Library, you agree that your contributions will be licensed
 under its [MIT license](LICENSE).

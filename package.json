@@ -8,7 +8,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
-    "coverage:ci": "jest --coverage --coverageReporters=text-lcov > ./coverage/lcov.info",
     "format": "prettier --write '{src,functions}/**/*.{ts,js}'",
     "format:ci": "prettier --list-different '{src,functions}/**/*.{ts,js}'",
     "release": "HUSKY_SKIP_HOOKS=1 CI=true semantic-release && npm publish"
