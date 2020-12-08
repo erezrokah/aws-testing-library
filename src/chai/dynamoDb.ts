@@ -49,23 +49,26 @@ const attemptDynamoDb = async function (
 };
 
 const dynamoDb = (chai: any, { eql, objDisplay }: any) => {
-  chai.Assertion.addMethod('item', async function (
-    this: any,
-    key: AWS.DynamoDB.DocumentClient.Key,
-    expected?: AWS.DynamoDB.DocumentClient.AttributeMap,
-    strict = true,
-  ) {
-    const wrapped = wrapWithRetries(attemptDynamoDb);
-    const { pass, message, negateMessage } = await wrapped.apply(this, [
-      eql,
-      objDisplay,
-      key,
-      expected,
-      strict,
-    ]);
+  chai.Assertion.addMethod(
+    'item',
+    async function (
+      this: any,
+      key: AWS.DynamoDB.DocumentClient.Key,
+      expected?: AWS.DynamoDB.DocumentClient.AttributeMap,
+      strict = true,
+    ) {
+      const wrapped = wrapWithRetries(attemptDynamoDb);
+      const { pass, message, negateMessage } = await wrapped.apply(this, [
+        eql,
+        objDisplay,
+        key,
+        expected,
+        strict,
+      ]);
 
-    this.assert(pass, message, negateMessage);
-  });
+      this.assert(pass, message, negateMessage);
+    },
+  );
 };
 
 export default dynamoDb;

@@ -29,19 +29,19 @@ const attemptApi = async function (
 };
 
 const api = (chai: any, { eql, objDisplay }: any) => {
-  chai.Assertion.addMethod('response', async function (
-    this: any,
-    expected: IExpectedResponse,
-  ) {
-    const wrapped = wrapWithRetries(attemptApi);
-    const { pass, message, negateMessage } = await wrapped.apply(this, [
-      eql,
-      objDisplay,
-      expected,
-    ]);
+  chai.Assertion.addMethod(
+    'response',
+    async function (this: any, expected: IExpectedResponse) {
+      const wrapped = wrapWithRetries(attemptApi);
+      const { pass, message, negateMessage } = await wrapped.apply(this, [
+        eql,
+        objDisplay,
+        expected,
+      ]);
 
-    this.assert(pass, message, negateMessage);
-  });
+      this.assert(pass, message, negateMessage);
+    },
+  );
 };
 
 export default api;
