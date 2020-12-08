@@ -16,9 +16,10 @@ export const wrapWithRetries = (
     const { timeout = 2500, pollEvery = 500 } = props;
 
     const start = Date.now();
-    let result = await (matcher.apply(this, [props, ...args]) as Promise<
-      IMatchResult
-    >);
+    let result = await (matcher.apply(this, [
+      props,
+      ...args,
+    ]) as Promise<IMatchResult>);
     while (Date.now() - start < timeout) {
       // expecting pass === false
       if (this.isNot && !result.pass) {
@@ -32,9 +33,10 @@ export const wrapWithRetries = (
       // retry
       await sleep(pollEvery);
 
-      result = await (matcher.apply(this, [props, ...args]) as Promise<
-        IMatchResult
-      >);
+      result = await (matcher.apply(this, [
+        props,
+        ...args,
+      ]) as Promise<IMatchResult>);
     }
     return result;
   }

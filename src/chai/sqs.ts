@@ -27,17 +27,17 @@ const attemptSqs = async function (this: any, matcher: IMessageMatcher) {
 };
 
 const sqs = (chai: any) => {
-  chai.Assertion.addMethod('message', async function (
-    this: any,
-    matcher: IMessageMatcher,
-  ) {
-    const wrapped = wrapWithRetries(attemptSqs);
-    const { pass, message, negateMessage } = await wrapped.apply(this, [
-      matcher,
-    ]);
+  chai.Assertion.addMethod(
+    'message',
+    async function (this: any, matcher: IMessageMatcher) {
+      const wrapped = wrapWithRetries(attemptSqs);
+      const { pass, message, negateMessage } = await wrapped.apply(this, [
+        matcher,
+      ]);
 
-    this.assert(pass, message, negateMessage);
-  });
+      this.assert(pass, message, negateMessage);
+    },
+  );
 };
 
 export default sqs;

@@ -39,21 +39,20 @@ const attemptS3 = async function (
 };
 
 const s3 = (chai: any, { eql, objDisplay }: any) => {
-  chai.Assertion.addMethod('object', async function (
-    this: any,
-    key: string,
-    expected?: Buffer,
-  ) {
-    const wrapped = wrapWithRetries(attemptS3);
-    const { pass, message, negateMessage } = await wrapped.apply(this, [
-      eql,
-      objDisplay,
-      key,
-      expected,
-    ]);
+  chai.Assertion.addMethod(
+    'object',
+    async function (this: any, key: string, expected?: Buffer) {
+      const wrapped = wrapWithRetries(attemptS3);
+      const { pass, message, negateMessage } = await wrapped.apply(this, [
+        eql,
+        objDisplay,
+        key,
+        expected,
+      ]);
 
-    this.assert(pass, message, negateMessage);
-  });
+      this.assert(pass, message, negateMessage);
+    },
+  );
 };
 
 export default s3;
