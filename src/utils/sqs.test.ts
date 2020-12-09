@@ -161,7 +161,7 @@ describe('kinesis utils', () => {
 
   test('should return true on existsInQueue when message is found', async () => {
     const queueUrl = 'queueUrl';
-    const matcher = jest.fn(() => true);
+    const matcher = jest.fn().mockImplementation(() => true);
 
     const receiveMessage = sqs().receiveMessage;
     const receiveMessageValue = receiveMessage().promise;
