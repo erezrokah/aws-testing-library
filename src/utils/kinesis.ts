@@ -3,10 +3,8 @@ import { Kinesis } from 'aws-sdk';
 export type IRecordMatcher = (args: any) => boolean;
 
 const getRecords = async (kinesis: Kinesis, shardIterator: string) => {
-  const {
-    NextShardIterator: nextShardIterator,
-    Records: records,
-  } = await kinesis.getRecords({ ShardIterator: shardIterator }).promise();
+  const { NextShardIterator: nextShardIterator, Records: records } =
+    await kinesis.getRecords({ ShardIterator: shardIterator }).promise();
 
   const data = records.map((r) => JSON.parse(r.Data.toString()));
 

@@ -9,7 +9,7 @@ jest.spyOn(console, 'error');
 
 describe('sqs matchers', () => {
   describe('toHaveRecord', () => {
-    const matcherUtils = ({
+    const matcherUtils = {
       equals: jest.fn(),
       expand: true,
       isNot: false,
@@ -21,7 +21,7 @@ describe('sqs matchers', () => {
         printExpected: jest.fn((i) => i),
         printReceived: jest.fn((i) => i),
       },
-    } as unknown) as jest.MatcherUtils & { equals: jest.Mock };
+    } as unknown as jest.MatcherUtils & { equals: jest.Mock };
     const region = 'region';
     const queueUrl = 'queueUrl';
     const props = { region, queueUrl };
