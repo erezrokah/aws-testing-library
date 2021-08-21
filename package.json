@@ -3,14 +3,14 @@
   "version": "1.1.1",
   "description": "Chai and Jest matchers for aws services",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "lint": "eslint src/**/*.ts functions/**/*.js",
     "build": "tsc -p tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
     "format": "prettier --write src/**/*.ts functions/**/*.js",
-    "format:ci": "prettier --list-different src/**/*.ts functions/**/*.js",
-    "release": "HUSKY_SKIP_HOOKS=1 CI=true semantic-release && npm publish"
+    "format:ci": "prettier --list-different src/**/*.ts functions/**/*.js"
   },
   "files": [
     "lib"
@@ -47,8 +47,6 @@
   "devDependencies": {
     "@commitlint/cli": "^13.0.0",
     "@commitlint/config-conventional": "^13.0.0",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
     "@types/chai": "^4.2.12",
     "@types/jest": "^26.0.13",
     "@types/jest-diff": "^24.3.0",
@@ -66,7 +64,6 @@
     "jest": "^26.0.0",
     "mockdate": "^3.0.0",
     "prettier": "^2.0.0",
-    "semantic-release": "^17.2.2",
     "ts-jest": "^26.4.4",
     "ts-node": "^10.0.0",
     "typescript": "^4.0.5"
