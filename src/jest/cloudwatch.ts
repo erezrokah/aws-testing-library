@@ -1,7 +1,7 @@
 import { EOL } from 'os';
 import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
 import { epochDateMinusHours, verifyProps } from '../common/index';
-import { filterLogEvents } from '../utils/cloudwatch';
+import { filterLogEvents, getLogGroupName } from '../utils/cloudwatch';
 
 export const toHaveLog = async function (
   this: jest.MatcherUtils,
@@ -13,10 +13,13 @@ export const toHaveLog = async function (
     region,
     function: functionName,
     startTime = epochDateMinusHours(1),
+    logGroupName,
   } = props;
 
   try {
-    const printFunctionName = this.utils.printExpected(functionName);
+    const messageSubject = this.utils.printExpected(
+      logGroupName || functionName,
+    );
     const printRegion = this.utils.printExpected(region);
     const printPattern = this.utils.printExpected(pattern) + EOL;
 
@@ -25,7 +28,7 @@ export const toHaveLog = async function (
 
     const { events } = await filterLogEvents(
       region,
-      functionName,
+      logGroupName || getLogGroupName(functionName || ''),
       startTime,
       pattern,
     );
@@ -34,14 +37,14 @@ export const toHaveLog = async function (
       // matching log found
       return {
         message: () =>
-          `${notHint}Expected ${printFunctionName} at region ${printRegion} not to have log matching pattern ${printPattern}`,
+          `${notHint}Expected ${messageSubject} at region ${printRegion} not to have log matching pattern ${printPattern}`,
         pass: true,
       };
     } else {
       // matching log not found
       return {
         message: () =>
-          `${hint}Expected ${printFunctionName} at region ${printRegion} to have log matching pattern ${printPattern}`,
+          `${hint}Expected ${messageSubject} at region ${printRegion} to have log matching pattern ${printPattern}`,
         pass: false,
       };
     }

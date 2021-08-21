@@ -89,17 +89,20 @@ await expect({
 
 ### `toHaveLog()`
 
-Asserts log message of a lambda function
+Asserts existence of a cloudwatch log message
 
 ```js
 await expect({
   region: 'us-east-1',
+  // use either an explicit log group
+  logGroupName: 'logGroupName',
+  // or a function name to match a lambda function logs
   function: 'functionName',
   startTime: 0 /* optional (millis since epoch in UTC, defaults to now-1 hour) */,
   timeout: 0 /* optional (defaults to 2500) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).toHaveLog(
-  'some message written to log by the lambda' /* a pattern to match against log messages */,
+  'some message written to log' /* a pattern to match against log messages */,
 );
 ```
 

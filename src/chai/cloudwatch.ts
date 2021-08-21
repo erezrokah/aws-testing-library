@@ -1,6 +1,6 @@
 import { epochDateMinusHours, verifyProps } from '../common';
 import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
-import { filterLogEvents } from '../utils/cloudwatch';
+import { filterLogEvents, getLogGroupName } from '../utils/cloudwatch';
 import { wrapWithRetries } from './utils';
 
 const attemptCloudwatch = async function (this: any, pattern: string) {
@@ -12,18 +12,21 @@ const attemptCloudwatch = async function (this: any, pattern: string) {
     region,
     function: functionName,
     startTime = epochDateMinusHours(1),
+    logGroupName,
   } = props;
+
   const { events } = await filterLogEvents(
     region,
-    functionName,
+    logGroupName || getLogGroupName(functionName || ''),
     startTime,
     pattern,
   );
   const found = events.length > 0;
 
+  const messageSubject = logGroupName || functionName;
   return {
-    message: `expected ${functionName} to have log matching ${pattern}`,
-    negateMessage: `expected ${functionName} not to have log matching ${pattern}`,
+    message: `expected ${messageSubject} to have log matching ${pattern}`,
+    negateMessage: `expected ${messageSubject} not to have log matching ${pattern}`,
     pass: found,
   };
 };

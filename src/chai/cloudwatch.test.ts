@@ -26,6 +26,11 @@ describe('cloudwatch', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
+
+      const { getLogGroupName } = require('../utils/cloudwatch');
+      getLogGroupName.mockImplementation(
+        (functionName: string) => `/aws/lambda/${functionName}`,
+      );
     });
 
     test('should throw error on filterLogEvents error', async () => {
@@ -50,14 +55,13 @@ describe('cloudwatch', () => {
       expect(verifyProps).toHaveBeenCalledTimes(1);
       expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
         'region',
-        'function',
         'pattern',
       ]);
 
       expect(filterLogEvents).toHaveBeenCalledTimes(1);
       expect(filterLogEvents).toHaveBeenCalledWith(
         region,
-        functionName,
+        `/aws/lambda/${functionName}`,
         startTime,
         pattern,
       );
@@ -77,16 +81,33 @@ describe('cloudwatch', () => {
       expect(filterLogEvents).toHaveBeenCalledTimes(1);
       expect(filterLogEvents).toHaveBeenCalledWith(
         propsNoTime.region,
-        propsNoTime.function,
+        `/aws/lambda/${functionName}`,
         11 * 60 * 60 * 1000,
         pattern,
       );
       expect(verifyProps).toHaveBeenCalledTimes(1);
       expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
         'region',
-        'function',
         'pattern',
       ]);
+    });
+
+    test('should pass custom log group name to filterLogEvents', async () => {
+      const { filterLogEvents } = require('../utils/cloudwatch');
+
+      filterLogEvents.mockReturnValue(Promise.resolve({ events: ['event'] }));
+
+      await chai
+        .expect({ ...props, logGroupName: 'customLogGroup' })
+        .to.have.log(pattern);
+
+      expect(filterLogEvents).toHaveBeenCalledTimes(1);
+      expect(filterLogEvents).toHaveBeenCalledWith(
+        props.region,
+        'customLogGroup',
+        props.startTime,
+        pattern,
+      );
     });
 
     test('should pass on have log', async () => {

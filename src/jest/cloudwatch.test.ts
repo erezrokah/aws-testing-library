@@ -34,6 +34,11 @@ describe('cloudwatch matchers', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
+
+      const { getLogGroupName } = require('../utils/cloudwatch');
+      getLogGroupName.mockImplementation(
+        (functionName: string) => `/aws/lambda/${functionName}`,
+      );
     });
 
     test('should throw error on filterLogEvents error', async () => {
@@ -50,7 +55,7 @@ describe('cloudwatch matchers', () => {
       expect(filterLogEvents).toHaveBeenCalledTimes(1);
       expect(filterLogEvents).toHaveBeenCalledWith(
         props.region,
-        props.function,
+        `/aws/lambda/${props.function}`,
         startTime,
         pattern,
       );
@@ -61,7 +66,6 @@ describe('cloudwatch matchers', () => {
       expect(verifyProps).toHaveBeenCalledTimes(1);
       expect(verifyProps).toHaveBeenCalledWith({ ...props, pattern }, [
         'region',
-        'function',
         'pattern',
       ]);
     });
@@ -81,16 +85,34 @@ describe('cloudwatch matchers', () => {
       expect(filterLogEvents).toHaveBeenCalledTimes(1);
       expect(filterLogEvents).toHaveBeenCalledWith(
         propsNoTime.region,
-        propsNoTime.function,
+        `/aws/lambda/${props.function}`,
         11 * 60 * 60 * 1000,
         pattern,
       );
       expect(verifyProps).toHaveBeenCalledTimes(1);
       expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
         'region',
-        'function',
         'pattern',
       ]);
+    });
+
+    test('should pass custom log group name to filterLogEvents', async () => {
+      const { filterLogEvents } = require('../utils/cloudwatch');
+
+      filterLogEvents.mockReturnValue(Promise.resolve({ events: ['event'] }));
+
+      await toHaveLog.bind(matcherUtils)(
+        { ...props, logGroupName: 'customLogGroup' },
+        pattern,
+      );
+
+      expect(filterLogEvents).toHaveBeenCalledTimes(1);
+      expect(filterLogEvents).toHaveBeenCalledWith(
+        props.region,
+        'customLogGroup',
+        props.startTime,
+        pattern,
+      );
     });
 
     test('should not pass when no events found', async () => {
