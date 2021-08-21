@@ -1,6 +1,0 @@
-[build]
-  publish = "public"
-  functions = "functions"
-
-  [build.environment]
-    NODE_VERSION = "14"
