@@ -98,7 +98,7 @@ await expect({
   logGroupName: 'logGroupName',
   // or a function name to match a lambda function logs
   function: 'functionName',
-  startTime: 0 /* optional (millis since epoch in UTC, defaults to now-1 hour) */,
+  startTime: 0 /* optional (milliseconds since epoch in UTC, defaults to now-1 hour) */,
   timeout: 0 /* optional (defaults to 2500) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).toHaveLog(
