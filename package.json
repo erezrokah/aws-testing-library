@@ -4,13 +4,13 @@
   "description": "Chai and Jest matchers for aws services",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "lint": "eslint src/**/*.ts functions/**/*.js",
+    "lint": "eslint src/**/*.ts",
     "build": "tsc -p tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
-    "format": "prettier --write src/**/*.ts functions/**/*.js",
-    "format:ci": "prettier --list-different src/**/*.ts functions/**/*.js"
+    "format": "prettier --write src/**/*.ts",
+    "format:ci": "prettier --list-different src/**/*.ts"
   },
   "files": [
     "lib"
