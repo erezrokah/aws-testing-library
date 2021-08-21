@@ -47,7 +47,6 @@ import 'aws-testing-library/lib/jest';
 Asserts existence/equality of a DynamoDb item
 
 ```js
-expect.assertions(1); // makes sure the assertion was called
 await expect({
   region: 'us-east-1',
   table: 'dynamo-db-table',
@@ -73,7 +72,6 @@ await expect({
 Asserts existence/equality of a S3 object
 
 ```js
-expect.assertions(1); // makes sure the assertion was called
 await expect({
   region: 'us-east-1',
   bucket: 's3-bucket',
@@ -94,7 +92,6 @@ await expect({
 Asserts log message of a lambda function
 
 ```js
-expect.assertions(1); // makes sure the assertion was called
 await expect({
   region: 'us-east-1',
   function: 'functionName',
@@ -113,7 +110,6 @@ await expect({
 Asserts a state machine current state
 
 ```js
-expect.assertions(1); // makes sure the assertion was called
 await expect({
   pollEvery: 5000 /* optional (defaults to 500) */,
   region: 'us-east-1',
@@ -129,7 +125,6 @@ await expect({
 Asserts that a state machine has been at a state
 
 ```js
-expect.assertions(1); // makes sure the assertion was called
 await expect({
   pollEvery: 5000 /* optional (defaults to 500) */,
   region: 'us-east-1',
@@ -145,7 +140,6 @@ await expect({
 Asserts that an api returns a specific response
 
 ```js
-expect.assertions(1); // makes sure the assertion was called
 await expect({
   url: 'https://api-id.execute-api.us-east-1.amazonaws.com/dev/api/private',
   method: 'POST',
@@ -167,7 +161,6 @@ await expect({
 Asserts existence/equality of a Kinesis record
 
 ```js
-expect.assertions(1); // makes sure the assertion was called
 await expect({
   region: 'us-east-1',
   stream: 'kinesis-stream',
@@ -198,7 +191,6 @@ try {
   // run some code that will publish a message to the SNS topic
   someCodeThatResultsInPublishingAMessage();
 
-  expect.assertions(1); // makes sure the assertion was called
   await expect({
     region,
     queueUrl,
