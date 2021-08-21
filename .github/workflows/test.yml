@@ -8,8 +8,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-  repository_dispatch:
-
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -17,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: [14.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -45,6 +43,9 @@ jobs:
       - name: Run Prettier
         run: npm run format:ci
 
+      - name: Run Build
+        run: npm run build
+
       - name: Run Tests
         run: npm run test
 
@@ -67,44 +68,3 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
           parallel-finished: true
-
-  publish:
-    needs: test
-    if: github.event_name == 'repository_dispatch'
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Get npm cache directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Build Package
-        run: npm run build
-
-      - name: 2FA Publish step
-        uses: erezrokah/2fa-with-slack-action@v1
-        env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-          SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
-          CONVERSATION_ID: ${{secrets.CONVERSATION_ID}}
-          PUBLISH_COMMAND: "npm\nrun\nrelease"
-          CODE_PATTERN: 'Enter OTP'
