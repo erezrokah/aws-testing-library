@@ -7,10 +7,7 @@ import { toReturnResponse } from './api';
 jest.mock('../common');
 jest.mock('../utils/api');
 jest.spyOn(console, 'error');
-jest.mock('jest-diff', () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+jest.mock('jest-diff');
 
 describe('api matchers', () => {
   describe('toReturnResponse', () => {
@@ -70,7 +67,7 @@ describe('api matchers', () => {
     });
 
     test('should not pass on response not matching', async () => {
-      const diff = require('jest-diff').default;
+      const { diff } = require('jest-diff');
       const diffString = 'diffString';
       diff.mockReturnValue(diffString);
 
@@ -101,7 +98,7 @@ describe('api matchers', () => {
     });
 
     test('should not pass on getItem item not matching empty diffString', async () => {
-      const diff = require('jest-diff').default;
+      const { diff } = require('jest-diff');
       const diffString = '';
       diff.mockReturnValue(diffString);
 
@@ -131,7 +128,7 @@ describe('api matchers', () => {
     });
 
     test('should pass on getItem item matching', async () => {
-      const diff = require('jest-diff').default;
+      const { diff } = require('jest-diff');
 
       matcherUtils.equals.mockReturnValue(true);
 

@@ -1,10 +1,14 @@
 import { epochDateMinusHours, sleep, verifyProps } from './';
 
-jest.useFakeTimers();
-
 describe('common index', () => {
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   describe('sleep', () => {
     test('should call setTimeout', async () => {
+      // TODO: Use modern timers once https://github.com/facebook/jest/issues/11713 is resolved
+      jest.useFakeTimers('legacy');
       const promise = sleep(1000);
       jest.runAllTimers();
 
