@@ -103,7 +103,8 @@ describe('cloudwatch', () => {
         // should throw error on no events
         filterLogEvents.mockReturnValue(Promise.resolve({ events: [] }));
         await chai.expect(props).to.have.log(pattern);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${functionName} to have log matching ${pattern}`,
@@ -125,7 +126,8 @@ describe('cloudwatch', () => {
         // should throw error on some events
         filterLogEvents.mockReturnValue(Promise.resolve({ events: ['event'] }));
         await chai.expect(props).to.not.have.log(pattern);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${functionName} not to have log matching ${pattern}`,

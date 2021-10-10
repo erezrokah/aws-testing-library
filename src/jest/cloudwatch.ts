@@ -45,7 +45,8 @@ export const toHaveLog = async function (
         pass: false,
       };
     }
-  } catch (e) {
+  } catch (error) {
+    const e = error as Error;
     // unknown error
     console.error(`Unknown error while matching log: ${e.message}`);
     throw e;

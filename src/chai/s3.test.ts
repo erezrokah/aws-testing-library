@@ -70,7 +70,8 @@ describe('s3', () => {
         // should throw error on no object
         getObject.mockReturnValue(Promise.resolve({ found: false }));
         await chai.expect(props).to.have.object(key);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${bucket} to have object with key ${key}`,
@@ -92,7 +93,8 @@ describe('s3', () => {
         // should throw error on object exists
         getObject.mockReturnValue(Promise.resolve({ found: true }));
         await chai.expect(props).to.not.have.object(key);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${bucket} not to have object with key ${key}`,
@@ -118,7 +120,8 @@ describe('s3', () => {
         // should throw error on object not equals
         getObject.mockReturnValue(Promise.resolve(actual));
         await chai.expect(props).to.have.object(key, expected);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${utils.objDisplay(
@@ -146,7 +149,8 @@ describe('s3', () => {
         // should throw error on object equals
         getObject.mockReturnValue(Promise.resolve(actual));
         await chai.expect(props).to.not.have.object(key, expected);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${utils.objDisplay(

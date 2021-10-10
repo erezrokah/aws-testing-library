@@ -35,7 +35,8 @@ export const toHaveMessage = async function (
         pass: false,
       };
     }
-  } catch (e) {
+  } catch (error) {
+    const e = error as Error;
     // unknown error
     console.error(`Unknown error while looking for message: ${e.message}`);
     throw e;

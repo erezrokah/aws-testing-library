@@ -40,7 +40,8 @@ export const toBeAtState = async function (
         pass: false,
       };
     }
-  } catch (e) {
+  } catch (error) {
+    const e = error as Error;
     console.error(`Unknown error getting state machine state: ${e.message}`);
     throw e;
   }
@@ -79,7 +80,8 @@ export const toHaveState = async function (
         pass: false,
       };
     }
-  } catch (e) {
+  } catch (error) {
+    const e = error as Error;
     console.error(`Unknown error getting state machine states: ${e.message}`);
     throw e;
   }

@@ -68,7 +68,8 @@ describe('stepFunctions', () => {
         // should throw error on state not found
         getCurrentState.mockReturnValue(Promise.resolve('other state'));
         await chai.expect(props).to.be.atState(state);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${stateMachineArn} to be at state ${state}`,
@@ -90,7 +91,8 @@ describe('stepFunctions', () => {
         // should throw error on state exists
         getCurrentState.mockReturnValue(Promise.resolve(state));
         await chai.expect(props).to.not.be.atState(state);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${stateMachineArn} not to be at state ${state}`,
@@ -147,7 +149,8 @@ describe('stepFunctions', () => {
         // should throw error on state not found
         getStates.mockReturnValue(Promise.resolve([]));
         await chai.expect(props).to.have.state(state);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${stateMachineArn} to have state ${state}`,
@@ -169,7 +172,8 @@ describe('stepFunctions', () => {
         // should throw error on state exists
         getStates.mockReturnValue(Promise.resolve([state]));
         await chai.expect(props).to.not.have.state(state);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${stateMachineArn} not to have state ${state}`,

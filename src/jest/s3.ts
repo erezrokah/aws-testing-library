@@ -65,7 +65,8 @@ export const toHaveObject = async function (
         pass: false,
       };
     }
-  } catch (e) {
+  } catch (error) {
+    const e = error as Error;
     // unknown error
     console.error(`Unknown error while looking for object: ${e.message}`);
     throw e;
