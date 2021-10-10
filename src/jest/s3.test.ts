@@ -6,10 +6,7 @@ import { toHaveObject } from './s3';
 jest.mock('../common');
 jest.mock('../utils/s3');
 jest.spyOn(console, 'error');
-jest.mock('jest-diff', () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+jest.mock('jest-diff');
 
 describe('s3 matchers', () => {
   describe('toHaveObject', () => {
@@ -97,7 +94,7 @@ describe('s3 matchers', () => {
     });
 
     test('should not pass on getObject buffer not matching', async () => {
-      const diff = require('jest-diff').default;
+      const { diff } = require('jest-diff');
       const diffString = 'diffString';
       diff.mockReturnValue(diffString);
 
@@ -131,7 +128,7 @@ describe('s3 matchers', () => {
     });
 
     test('should not pass on getObject buffer not matching empty diffString', async () => {
-      const diff = require('jest-diff').default;
+      const { diff } = require('jest-diff');
       const diffString = '';
       diff.mockReturnValue(diffString);
 
@@ -158,7 +155,7 @@ describe('s3 matchers', () => {
     });
 
     test('should  pass on getObject buffer matching', async () => {
-      const diff = require('jest-diff').default;
+      const { diff } = require('jest-diff');
 
       matcherUtils.equals.mockReturnValue(true);
 
