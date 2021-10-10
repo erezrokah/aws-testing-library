@@ -68,7 +68,8 @@ describe('kinesis', () => {
         // should throw error on no record
         existsInStream.mockReturnValue(Promise.resolve(false));
         await chai.expect(props).to.have.record(matcher);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(`expected ${stream} to have record`);
       }
@@ -88,7 +89,8 @@ describe('kinesis', () => {
         // should throw error on record exists
         existsInStream.mockReturnValue(Promise.resolve(true));
         await chai.expect(props).to.not.have.record(matcher);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(`expected ${stream} not to have record`);
       }

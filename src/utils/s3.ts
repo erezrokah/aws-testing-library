@@ -55,7 +55,8 @@ export const getObject = async (
     const body = (await s3.getObject({ Bucket: bucket, Key: key }).promise())
       .Body as Buffer;
     return { body, found: true };
-  } catch (e) {
+  } catch (error) {
+    const e = error as AWS.AWSError;
     if (e.code === 'NoSuchKey') {
       return { body: null, found: false };
     } else {

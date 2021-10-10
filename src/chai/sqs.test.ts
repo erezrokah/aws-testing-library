@@ -68,7 +68,8 @@ describe('sqs', () => {
         // should throw error on no message
         existsInQueue.mockReturnValue(Promise.resolve(false));
         await chai.expect(props).to.have.message(matcher);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(`expected ${queueUrl} to have message`);
       }
@@ -88,7 +89,8 @@ describe('sqs', () => {
         // should throw error on message exists
         existsInQueue.mockReturnValue(Promise.resolve(true));
         await chai.expect(props).to.not.have.message(matcher);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(`expected ${queueUrl} not to have message`);
       }

@@ -78,7 +78,8 @@ describe('api', () => {
         // should throw error on different response
         getResponse.mockReturnValue(Promise.resolve({ statusCode: 404 }));
         await chai.expect(props).to.have.response(expected);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           "expected { statusCode: 200, data: { id: 'id' } } to be equal to { statusCode: 404 }",
@@ -101,7 +102,8 @@ describe('api', () => {
       try {
         // should throw error on same response
         await chai.expect(props).not.to.have.response(actual);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           'expected { statusCode: 404, data: {} } to not be equal to { statusCode: 404, data: {} }',

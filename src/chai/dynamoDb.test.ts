@@ -68,7 +68,8 @@ describe('dynamoDb', () => {
         // should throw error on no item
         getItem.mockReturnValue(Promise.resolve(undefined));
         await chai.expect(props).to.have.item(key);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${table} to have item with key ${JSON.stringify(key)}`,
@@ -90,7 +91,8 @@ describe('dynamoDb', () => {
         // should throw error on item exists
         getItem.mockReturnValue(Promise.resolve({ id: 'id1' }));
         await chai.expect(props).to.not.have.item(key);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           `expected ${table} not to have item with key ${JSON.stringify(key)}`,
@@ -112,7 +114,8 @@ describe('dynamoDb', () => {
         // should throw error on item not equals
         getItem.mockReturnValue(Promise.resolve({ id: 'otherId' }));
         await chai.expect(props).to.have.item(key, expected);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           "expected { id: { S: 'someId' } } to be equal to { id: 'otherId' }",
@@ -134,7 +137,8 @@ describe('dynamoDb', () => {
         // should throw error on item equals
         getItem.mockReturnValue(Promise.resolve({ id: { S: 'someId' } }));
         await chai.expect(props).to.not.have.item(key, expected);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           "expected { id: { S: 'someId' } } to not be equal to { id: { S: 'someId' } }",
@@ -159,7 +163,8 @@ describe('dynamoDb', () => {
       try {
         // should throw error on item not equals
         await chai.expect(props).to.have.item(key, expected, true);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           "expected { id: { S: 'someId' } } to be equal to { Object (id, timestamp) }",
@@ -184,7 +189,8 @@ describe('dynamoDb', () => {
       try {
         // should throw error on item equals non strict
         await chai.expect(props).to.not.have.item(key, expected, false);
-      } catch (e) {
+      } catch (error) {
+        const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
           "expected { id: { S: 'someId' } } to not be equal to { id: { S: 'someId' } }",
