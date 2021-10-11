@@ -10,7 +10,8 @@
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
     "format": "prettier --write src/**/*.ts",
-    "format:ci": "prettier --list-different src/**/*.ts"
+    "format:ci": "prettier --list-different src/**/*.ts",
+    "prepare": "husky install"
   },
   "files": [
     "lib"
@@ -36,11 +37,6 @@
     "type": "git",
     "url": "git+https://github.com/erezrokah/aws-testing-library.git"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "homepage": "https://github.com/erezrokah/aws-testing-library/#readme",
   "author": "Erez Rokah",
   "license": "MIT",
@@ -60,7 +56,7 @@
     "coveralls": "^3.0.6",
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
-    "husky": "^4.0.7",
+    "husky": "^7.0.0",
     "jest": "^27.0.0",
     "mockdate": "^3.0.0",
     "prettier": "^2.0.0",
