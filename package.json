@@ -41,8 +41,8 @@
   "author": "Erez Rokah",
   "license": "MIT",
   "devDependencies": {
-    "@commitlint/cli": "^13.0.0",
-    "@commitlint/config-conventional": "^13.0.0",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@types/chai": "^4.2.12",
     "@types/jest": "^27.0.0",
     "@types/jest-diff": "^24.3.0",
