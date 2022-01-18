@@ -55,8 +55,7 @@ We actively welcome your pull requests.
 
 ## Releasing
 
-1. Install dependencies. `npm ci`.
-2. `npm run release`.
+Merge the release PR
 
 ## License
 
