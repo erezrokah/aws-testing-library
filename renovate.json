@@ -1,3 +1,3 @@
 {
-  "extends": ['github>erezrokah/shared-configurations:renovate-default']
+  "extends": ["github>erezrokah/shared-configurations:renovate-default"]
 }
