@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/erezrokah/aws-testing-library/compare/v2.0.0...v2.1.0) (2022-01-23)
+
+
+### Features
+
+* support explicit LogGroupName ([#449](https://github.com/erezrokah/aws-testing-library/issues/449)) ([8dceeaa](https://github.com/erezrokah/aws-testing-library/commit/8dceeaae9a9e15002a785f998fe241f54a148dbf))
+
 ## [2.0.0](https://github.com/erezrokah/aws-testing-library/compare/v1.1.6...v2.0.0) (2022-01-23)
 
 
