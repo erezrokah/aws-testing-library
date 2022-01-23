@@ -1,6 +1,6 @@
 {
   "name": "aws-testing-library",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Chai and Jest matchers for aws services",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -72,6 +72,6 @@
     "uuid": "^8.0.0"
   },
   "engines": {
-    "node": ">=v8.17.0"
+    "node": "^12.20.0 || ^14.14.0 || >=16.0.0"
   }
 }

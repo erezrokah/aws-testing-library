@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.6](https://github.com/erezrokah/aws-testing-library/compare/v1.1.5...v1.1.6) (2022-01-23)
+
+
+### Bug Fixes
+
+* revert "fix(deps): update dependency filter-obj to v3 ([#518](https://github.com/erezrokah/aws-testing-library/issues/518))" ([#526](https://github.com/erezrokah/aws-testing-library/issues/526)) ([d8a4e6b](https://github.com/erezrokah/aws-testing-library/commit/d8a4e6b08655e0566619b4187cff05e849463832))
+
 ### [1.1.5](https://github.com/erezrokah/aws-testing-library/compare/v1.1.4...v1.1.5) (2022-01-23)
 
 
