@@ -1,9 +1,9 @@
 /* eslint-env node */
+const esModules = ['filter-obj'].join('|');
+
 module.exports = {
   roots: ['<rootDir>/src'],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-  },
+  preset: 'ts-jest/presets/js-with-ts',
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  transformIgnorePatterns: [`node_modules/(?!${esModules})`],
 };
