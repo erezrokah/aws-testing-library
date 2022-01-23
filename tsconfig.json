@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    "lib": ["esnext"],
+    "lib": ["ES2019"],
     "module": "commonjs",
-    "target": "es2017",
+    "target": "ES2019",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "strict": true,
     "noUnusedLocals": true,
     "declaration": true,
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "allowJs": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.test.ts"]
