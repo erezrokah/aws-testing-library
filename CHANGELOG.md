@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/erezrokah/aws-testing-library/compare/v1.1.6...v2.0.0) (2022-01-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop Node.js 10, update dependency filter-obj to v3 (#528)
+
+### Miscellaneous Chores
+
+* drop Node.js 10, update dependency filter-obj to v3 ([#528](https://github.com/erezrokah/aws-testing-library/issues/528)) ([539360b](https://github.com/erezrokah/aws-testing-library/commit/539360b63f1c6267aa41cfd83bff551e6e090cfe))
+
 ### [1.1.6](https://github.com/erezrokah/aws-testing-library/compare/v1.1.5...v1.1.6) (2022-01-23)
 
 
