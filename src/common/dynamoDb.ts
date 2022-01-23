@@ -1,4 +1,4 @@
-import filterObject from 'filter-obj';
+import filterObject = require('filter-obj');
 import { AttributeMap } from 'aws-sdk/clients/dynamodb';
 import { ICommonProps } from './';
 

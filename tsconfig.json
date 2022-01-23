@@ -9,8 +9,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "declaration": true,
-    "outDir": "./lib",
-    "allowJs": true
+    "outDir": "./lib"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.test.ts"]
