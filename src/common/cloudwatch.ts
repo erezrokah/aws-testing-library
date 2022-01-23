@@ -1,8 +1,9 @@
 import { ICommonProps } from './';
 
 export interface ICloudwatchProps extends ICommonProps {
-  function: string;
+  function?: string;
   startTime?: number;
+  logGroupName?: string;
 }
 
-export const expectedProps = ['region', 'function', 'pattern'];
+export const expectedProps = ['region', 'pattern'];

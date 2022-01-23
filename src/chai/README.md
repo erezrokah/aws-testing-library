@@ -85,17 +85,20 @@ await expect({
 
 ### `to.have.log()`
 
-Asserts log message of a lambda function
+Asserts existence of a cloudwatch log message
 
 ```js
 await expect({
   region: 'us-east-1',
+  // use either an explicit log group
+  logGroupName: 'logGroupName',
+  // or a function name to match a lambda function logs
   function: 'functionName',
-  startTime: 0 /* optional (millis since epoch in UTC, defaults to now-1 hour) */,
+  startTime: 0 /* optional (milliseconds since epoch in UTC, defaults to now-1 hour) */,
   timeout: 0 /* optional (defaults to 2500) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).to.have.log(
-  'some message written to log by the lambda' /* a pattern to match against log messages */,
+  'some message written to log' /* a pattern to match against log messages */,
 );
 ```
 
@@ -157,7 +160,7 @@ await expect({
   timeout: 0 /* optional (defaults to 10000) */,
   pollEvery: 0 /* optional (defaults to 500) */,
 }).to.have.record(
-  item => item.id === 'someId' /* predicate to match with the stream data */,
+  (item) => item.id === 'someId' /* predicate to match with the stream data */,
 );
 ```
 
@@ -188,7 +191,7 @@ try {
     pollEvery: 2500 /* optional (defaults to 500) */,
   }).to.have.message(
     /* predicate to match with the messages in the queue */
-    message =>
+    (message) =>
       message.Subject === 'Some Subject' && message.Message === 'Some Message',
   );
 } finally {

@@ -20,9 +20,7 @@ describe('cloudwatch utils', () => {
   const AWS = require('aws-sdk');
   const cloudWatchLogs = AWS.CloudWatchLogs;
 
-  const [region, functionName] = ['region', 'functionName'];
-
-  const logGroupName = `/aws/lambda/${functionName}`;
+  const [region, logGroupName] = ['region', `/aws/lambda/functionName`];
 
   describe('deleteAllLogs', () => {
     test('should not call deleteLogStream on no log streams', async () => {
@@ -33,7 +31,7 @@ describe('cloudwatch utils', () => {
 
       jest.clearAllMocks();
 
-      await deleteAllLogs(region, functionName);
+      await deleteAllLogs(region, 'functionName');
 
       expect(cloudWatchLogs).toHaveBeenCalledTimes(1);
       expect(cloudWatchLogs).toHaveBeenCalledWith({ region });
@@ -59,7 +57,7 @@ describe('cloudwatch utils', () => {
 
       jest.clearAllMocks();
 
-      await deleteAllLogs(region, functionName);
+      await deleteAllLogs(region, 'functionName');
 
       expect(deleteLogStream).toHaveBeenCalledTimes(logStreams.length);
 
@@ -85,7 +83,7 @@ describe('cloudwatch utils', () => {
       const filterPattern = 'filterPattern';
       const actual = await getEvents(
         region,
-        functionName,
+        logGroupName,
         startTime,
         filterPattern,
       );
@@ -114,7 +112,7 @@ describe('cloudwatch utils', () => {
       const filterPattern = 'filterPattern';
       const actual = await getEvents(
         region,
-        functionName,
+        logGroupName,
         startTime,
         filterPattern,
       );
