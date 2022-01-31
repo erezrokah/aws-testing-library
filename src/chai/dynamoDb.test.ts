@@ -167,7 +167,7 @@ describe('dynamoDb', () => {
         const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);
         expect(e.message).toBe(
-          "expected { id: { S: 'someId' } } to be equal to { Object (id, timestamp) }",
+          "expected { id: { S: 'someId' } } to be equal to { id: { S: 'someId' }, …(1) }",
         );
       }
     });
