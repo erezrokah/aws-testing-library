@@ -1,5 +1,17 @@
 # Changelog
 
+### [2.1.2](https://github.com/erezrokah/aws-testing-library/compare/v2.1.1...v2.1.2) (2022-03-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency aws-sdk to v2.1069.0 ([#539](https://github.com/erezrokah/aws-testing-library/issues/539)) ([3f45dea](https://github.com/erezrokah/aws-testing-library/commit/3f45dea6b1a50e30bac9a3e12ec36ecca16db6b2))
+* **deps:** update dependency aws-sdk to v2.1073.0 ([#546](https://github.com/erezrokah/aws-testing-library/issues/546)) ([bbb57e2](https://github.com/erezrokah/aws-testing-library/commit/bbb57e28a8054a218aebd684ea6c4a1e1d57890c))
+* **deps:** update dependency aws-sdk to v2.1077.0 ([#550](https://github.com/erezrokah/aws-testing-library/issues/550)) ([0e08558](https://github.com/erezrokah/aws-testing-library/commit/0e08558204d42d9ad57afae4839a46a6a0a29383))
+* **deps:** update dependency aws-sdk to v2.1082.0 ([#554](https://github.com/erezrokah/aws-testing-library/issues/554)) ([46bf443](https://github.com/erezrokah/aws-testing-library/commit/46bf443c5c6453ea1dc58751c336a33164382181))
+* **deps:** update dependency aws-sdk to v2.1087.0 ([#559](https://github.com/erezrokah/aws-testing-library/issues/559)) ([c9e3084](https://github.com/erezrokah/aws-testing-library/commit/c9e3084be5c523037d70c25f5582ef8a7d7256a9))
+* **deps:** update dependency axios to ^0.26.0 ([#547](https://github.com/erezrokah/aws-testing-library/issues/547)) ([5347d61](https://github.com/erezrokah/aws-testing-library/commit/5347d618fc7365e77504c3d93104d1f457b4bd9e))
+
 ### [2.1.1](https://github.com/erezrokah/aws-testing-library/compare/v2.1.0...v2.1.1) (2022-01-31)
 
 
