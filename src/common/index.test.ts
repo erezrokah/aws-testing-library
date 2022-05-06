@@ -7,8 +7,8 @@ describe('common index', () => {
 
   describe('sleep', () => {
     test('should call setTimeout', async () => {
-      // TODO: Use modern timers once https://github.com/facebook/jest/issues/11713 is resolved
-      jest.useFakeTimers('legacy');
+      jest.useFakeTimers();
+      jest.spyOn(global, 'setTimeout');
       const promise = sleep(1000);
       jest.runAllTimers();
 
