@@ -85,6 +85,52 @@ describe('dynamoDb utils', () => {
         },
       });
     });
+    test('should call batchWrite multiple times for db containing more than 25 items', async () => {
+      const describeTable = db().describeTable;
+      const describeTablePromise = describeTable().promise;
+      const table = { KeySchema: [{ AttributeName: 'id' }] };
+      describeTablePromise.mockReturnValue(Promise.resolve({ Table: table }));
+
+      const scan = documentClient().scan;
+      const batchWrite = documentClient().batchWrite;
+      const scanPromise = scan().promise;
+      const items = Array(30)
+        .fill({ id: 'id' })
+        .map((el, i) => ({
+          id: el.id + i,
+        }));
+      scanPromise.mockReturnValue(Promise.resolve({ Items: items }));
+
+      jest.clearAllMocks();
+
+      await clearAllItems(region, tableName);
+
+      expect(scan).toHaveBeenCalledTimes(1);
+      expect(scan).toHaveBeenCalledWith({
+        AttributesToGet: table.KeySchema.map((k) => k.AttributeName),
+        TableName: tableName,
+      });
+
+      expect(batchWrite).toHaveBeenCalledTimes(2);
+      const batch1 = items.splice(0, 25);
+      const batch2 = items;
+      expect(batch1.length).toBe(25);
+      expect(batch2.length).toBe(5);
+      expect(batchWrite).toHaveBeenCalledWith({
+        RequestItems: {
+          [tableName]: batch1.map((item) => ({
+            DeleteRequest: { Key: { id: item.id } },
+          })),
+        },
+      });
+      expect(batchWrite).toHaveBeenCalledWith({
+        RequestItems: {
+          [tableName]: batch2.map((item) => ({
+            DeleteRequest: { Key: { id: item.id } },
+          })),
+        },
+      });
+    });
   });
 
   describe('writeItems', () => {

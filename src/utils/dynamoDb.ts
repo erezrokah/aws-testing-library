@@ -1,5 +1,11 @@
 import AWS = require('aws-sdk');
 
+function* chunks<T>(arr: T[], n: number): Generator<T[], void> {
+  for (let i = 0; i < arr.length; i += n) {
+    yield arr.slice(i, i + n);
+  }
+}
+
 const itemToKey = (
   item: AWS.DynamoDB.DocumentClient.AttributeMap,
   keySchema: AWS.DynamoDB.KeySchemaElement[],
@@ -31,13 +37,15 @@ export const clearAllItems = async (region: string, tableName: string) => {
   const items = scanResult.Items || [];
 
   if (items.length > 0) {
-    const deleteRequests = items.map((item) => ({
-      DeleteRequest: { Key: itemToKey(item, keySchema) },
-    }));
+    for (const chunk of chunks(items, 25)) {
+      const deleteRequests = chunk.map((item) => ({
+        DeleteRequest: { Key: itemToKey(item, keySchema) },
+      }));
 
-    await db
-      .batchWrite({ RequestItems: { [tableName]: deleteRequests } })
-      .promise();
+      await db
+        .batchWrite({ RequestItems: { [tableName]: deleteRequests } })
+        .promise();
+    }
   }
 };
 
