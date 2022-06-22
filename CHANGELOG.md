@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.4](https://github.com/erezrokah/aws-testing-library/compare/v2.1.3...v2.1.4) (2022-06-22)
+
+
+### Bug Fixes
+
+* add batching to clearAllItems ([#629](https://github.com/erezrokah/aws-testing-library/issues/629)) ([54b37b7](https://github.com/erezrokah/aws-testing-library/commit/54b37b7fbf76d0bd5aa7e1790f86c2401a85bd34))
+* **deps:** update dependency aws-sdk to v2.1130.0 ([#594](https://github.com/erezrokah/aws-testing-library/issues/594)) ([cb94bf0](https://github.com/erezrokah/aws-testing-library/commit/cb94bf01729e7d7d7aade3a973594938027d7ba8))
+* **deps:** update dependency aws-sdk to v2.1145.0 ([#604](https://github.com/erezrokah/aws-testing-library/issues/604)) ([b383f58](https://github.com/erezrokah/aws-testing-library/commit/b383f580e03e4b381b3de320e70c5634526d28ad))
+* **deps:** update dependency aws-sdk to v2.1148.0 ([#615](https://github.com/erezrokah/aws-testing-library/issues/615)) ([dabeb76](https://github.com/erezrokah/aws-testing-library/commit/dabeb76689ae45574bba534770d348a2dd16be12))
+* **deps:** update dependency aws-sdk to v2.1149.0 ([#619](https://github.com/erezrokah/aws-testing-library/issues/619)) ([39d8782](https://github.com/erezrokah/aws-testing-library/commit/39d8782104770bbf7bd10af198470f26f0d14739))
+* **deps:** update dependency aws-sdk to v2.1152.0 ([#621](https://github.com/erezrokah/aws-testing-library/issues/621)) ([0f736de](https://github.com/erezrokah/aws-testing-library/commit/0f736deb661f43899dce410e2c1a3ac12e5c5d4f))
+* **deps:** update dependency aws-sdk to v2.1157.0 ([#627](https://github.com/erezrokah/aws-testing-library/issues/627)) ([dc2c8b8](https://github.com/erezrokah/aws-testing-library/commit/dc2c8b8f0ac3b5a519a2847751703d87d7b9852f))
+
 ### [2.1.3](https://github.com/erezrokah/aws-testing-library/compare/v2.1.2...v2.1.3) (2022-05-06)
 
 
