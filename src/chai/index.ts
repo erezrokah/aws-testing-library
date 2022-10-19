@@ -9,13 +9,14 @@ import kinesis from './kinesis';
 import s3 from './s3';
 import sqs from './sqs';
 import stepFunctions from './stepFunctions';
+import { ToHaveLogOptions } from '../common/cloudwatch';
 
 declare global {
   namespace Chai {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Assertion {
       response: (expected: IExpectedResponse) => Assertion;
-      log: (pattern: string) => Assertion;
+      log: (pattern: string, options?: ToHaveLogOptions) => Assertion;
       item: (
         key: AWS.DynamoDB.DocumentClient.Key,
         expectedItem?: AWS.DynamoDB.DocumentClient.AttributeMap,

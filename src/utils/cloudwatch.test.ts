@@ -86,6 +86,7 @@ describe('cloudwatch utils', () => {
         logGroupName,
         startTime,
         filterPattern,
+        false,
       );
 
       expect(cloudWatchLogs).toHaveBeenCalledTimes(1);
@@ -93,6 +94,40 @@ describe('cloudwatch utils', () => {
       expect(filterLogEvents).toHaveBeenCalledTimes(1);
       expect(filterLogEvents).toHaveBeenCalledWith({
         filterPattern: `"${filterPattern}"`,
+        interleaved: true,
+        limit: 1,
+        logGroupName,
+        startTime,
+      });
+      expect(actual).toEqual({ events });
+    });
+
+    test('should return log events for the json path pattern', async () => {
+      const filterLogEvents = cloudWatchLogs().filterLogEvents;
+      const promise = filterLogEvents().promise;
+      const events = [
+        JSON.stringify({ message: 'event1' }),
+        JSON.stringify({ message: 'event2' }),
+      ];
+      promise.mockReturnValue(Promise.resolve({ events }));
+
+      jest.clearAllMocks();
+
+      const startTime = 12 * 60 * 60 * 1000;
+      const filterPattern = '{$.message = "event1"}';
+      const actual = await getEvents(
+        region,
+        logGroupName,
+        startTime,
+        filterPattern,
+        true,
+      );
+
+      expect(cloudWatchLogs).toHaveBeenCalledTimes(1);
+      expect(cloudWatchLogs).toHaveBeenCalledWith({ region });
+      expect(filterLogEvents).toHaveBeenCalledTimes(1);
+      expect(filterLogEvents).toHaveBeenCalledWith({
+        filterPattern: `${filterPattern}`,
         interleaved: true,
         limit: 1,
         logGroupName,
@@ -115,6 +150,7 @@ describe('cloudwatch utils', () => {
         logGroupName,
         startTime,
         filterPattern,
+        false,
       );
 
       expect(actual).toEqual({ events: [] });

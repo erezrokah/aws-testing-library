@@ -1,5 +1,9 @@
 import { EOL } from 'os';
-import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
+import {
+  expectedProps,
+  ICloudwatchProps,
+  ToHaveLogOptions,
+} from '../common/cloudwatch';
 import { epochDateMinusHours, verifyProps } from '../common/index';
 import { filterLogEvents, getLogGroupName } from '../utils/cloudwatch';
 
@@ -7,6 +11,7 @@ export const toHaveLog = async function (
   this: jest.MatcherUtils,
   props: ICloudwatchProps,
   pattern: string,
+  { isPatternMetricFilterForJSON = false }: ToHaveLogOptions = {},
 ) {
   verifyProps({ ...props, pattern }, expectedProps);
   const {
@@ -31,6 +36,7 @@ export const toHaveLog = async function (
       logGroupName || getLogGroupName(functionName || ''),
       startTime,
       pattern,
+      isPatternMetricFilterForJSON ?? false,
     );
     const found = events.length > 0;
     if (found) {

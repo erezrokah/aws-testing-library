@@ -58,6 +58,7 @@ describe('cloudwatch matchers', () => {
         `/aws/lambda/${props.function}`,
         startTime,
         pattern,
+        false,
       );
       expect(console.error).toHaveBeenCalledTimes(1);
       expect(console.error).toHaveBeenCalledWith(
@@ -88,6 +89,7 @@ describe('cloudwatch matchers', () => {
         `/aws/lambda/${props.function}`,
         11 * 60 * 60 * 1000,
         pattern,
+        false,
       );
       expect(verifyProps).toHaveBeenCalledTimes(1);
       expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
@@ -112,6 +114,7 @@ describe('cloudwatch matchers', () => {
         'customLogGroup',
         props.startTime,
         pattern,
+        false,
       );
     });
 
@@ -149,6 +152,26 @@ describe('cloudwatch matchers', () => {
       expect(message).toEqual(expect.any(Function));
       expect(message()).toEqual(
         `.not.toHaveLog${EOL}${EOL}Expected ${functionName} at region ${region} not to have log matching pattern ${pattern}${EOL}`,
+      );
+    });
+
+    test('should pass when an event is found for a json log', async () => {
+      const { filterLogEvents } = require('../utils/cloudwatch');
+
+      const events = [JSON.stringify({ message: 'this is a json log event' })];
+      filterLogEvents.mockReturnValue(Promise.resolve({ events }));
+
+      const jsonPattern = '{$.message = "this is a json log event"}';
+      const { message, pass } = await toHaveLog.bind(matcherUtils)(
+        props,
+        jsonPattern,
+        { isPatternMetricFilterForJSON: true },
+      );
+
+      expect(pass).toBeTruthy();
+      expect(message).toEqual(expect.any(Function));
+      expect(message()).toEqual(
+        `.not.toHaveLog${EOL}${EOL}Expected ${functionName} at region ${region} not to have log matching pattern ${jsonPattern}${EOL}`,
       );
     });
   });

@@ -103,6 +103,7 @@ await expect({
   pollEvery: 0 /* optional (defaults to 500) */,
 }).toHaveLog(
   'some message written to log' /* a pattern to match against log messages */,
+  {isPatternMetricFilterForJSON: false} /* set to true (default = false) if you are using metric filters to match terms from JSON log events */
 );
 ```
 

@@ -6,4 +6,8 @@ export interface ICloudwatchProps extends ICommonProps {
   logGroupName?: string;
 }
 
+export interface ToHaveLogOptions {
+  isPatternMetricFilterForJSON?: boolean;
+}
+
 export const expectedProps = ['region', 'pattern'];

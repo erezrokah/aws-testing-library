@@ -64,6 +64,7 @@ describe('cloudwatch', () => {
         `/aws/lambda/${functionName}`,
         startTime,
         pattern,
+        false,
       );
       expect(wrapWithRetries).toHaveBeenCalledTimes(1);
     });
@@ -84,6 +85,7 @@ describe('cloudwatch', () => {
         `/aws/lambda/${functionName}`,
         11 * 60 * 60 * 1000,
         pattern,
+        false,
       );
       expect(verifyProps).toHaveBeenCalledTimes(1);
       expect(verifyProps).toHaveBeenCalledWith({ ...propsNoTime, pattern }, [
@@ -107,6 +109,7 @@ describe('cloudwatch', () => {
         'customLogGroup',
         props.startTime,
         pattern,
+        false,
       );
     });
 
@@ -124,6 +127,32 @@ describe('cloudwatch', () => {
         // should throw error on no events
         filterLogEvents.mockReturnValue(Promise.resolve({ events: [] }));
         await chai.expect(props).to.have.log(pattern);
+      } catch (error) {
+        const e = error as Error;
+        expect(e).toBeInstanceOf(chai.AssertionError);
+        expect(e.message).toBe(
+          `expected ${functionName} to have log matching ${pattern}`,
+        );
+      }
+    });
+
+    test('should pass when an event is found for a json log', async () => {
+      const { filterLogEvents } = require('../utils/cloudwatch');
+
+      const events = [JSON.stringify({ message: 'this is a json log event' })];
+      filterLogEvents.mockReturnValue(Promise.resolve({ events }));
+
+      const jsonPattern = '{$.message = "this is a json log event"}';
+      await chai
+        .expect(props)
+        .to.have.log(jsonPattern, { isPatternMetricFilterForJSON: true });
+
+      try {
+        // should throw error on no events
+        filterLogEvents.mockReturnValue(Promise.resolve({ events: [] }));
+        await chai
+          .expect(props)
+          .to.have.log(pattern, { isPatternMetricFilterForJSON: true });
       } catch (error) {
         const e = error as Error;
         expect(e).toBeInstanceOf(chai.AssertionError);

@@ -8,9 +8,10 @@ export const filterLogEvents = async (
   logGroupName: string,
   startTime: number,
   pattern: string,
+  isPatternMetricFilterForJSON: boolean,
 ) => {
   const cloudWatchLogs = new AWS.CloudWatchLogs({ region });
-  const filterPattern = `"${pattern}"`; // enclose with "" to support special characters
+  const filterPattern = isPatternMetricFilterForJSON ? pattern : `"${pattern}"`; // enclose with "" to support special characters
 
   const { events = [] } = await cloudWatchLogs
     .filterLogEvents({

@@ -1,9 +1,17 @@
 import { epochDateMinusHours, verifyProps } from '../common';
-import { expectedProps, ICloudwatchProps } from '../common/cloudwatch';
+import {
+  expectedProps,
+  ICloudwatchProps,
+  ToHaveLogOptions,
+} from '../common/cloudwatch';
 import { filterLogEvents, getLogGroupName } from '../utils/cloudwatch';
 import { wrapWithRetries } from './utils';
 
-const attemptCloudwatch = async function (this: any, pattern: string) {
+const attemptCloudwatch = async function (
+  this: any,
+  pattern: string,
+  { isPatternMetricFilterForJSON = false }: ToHaveLogOptions = {},
+) {
   const props = this._obj as ICloudwatchProps;
 
   verifyProps({ ...props, pattern }, expectedProps);
@@ -20,6 +28,7 @@ const attemptCloudwatch = async function (this: any, pattern: string) {
     logGroupName || getLogGroupName(functionName || ''),
     startTime,
     pattern,
+    isPatternMetricFilterForJSON ?? false,
   );
   const found = events.length > 0;
 
