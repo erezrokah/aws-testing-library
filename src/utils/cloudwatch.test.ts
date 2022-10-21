@@ -92,7 +92,7 @@ describe('cloudwatch utils', () => {
       expect(cloudWatchLogs).toHaveBeenCalledWith({ region });
       expect(filterLogEvents).toHaveBeenCalledTimes(1);
       expect(filterLogEvents).toHaveBeenCalledWith({
-        filterPattern: `"${filterPattern}"`,
+        filterPattern,
         interleaved: true,
         limit: 1,
         logGroupName,
