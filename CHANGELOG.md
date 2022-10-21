@@ -10,7 +10,6 @@
 ### Bug Fixes
 
 * don't quote CloudWatch filter pattern ([#702](https://github.com/erezrokah/aws-testing-library/issues/702)) ([aef13c0](https://github.com/erezrokah/aws-testing-library/commit/aef13c0ab37d4328fd553d7425862bcd9f185383))
-* don't quote CloudWatch filter pattern ([#702](https://github.com/erezrokah/aws-testing-library/issues/702)) ([aef13c0](https://github.com/erezrokah/aws-testing-library/commit/aef13c0ab37d4328fd553d7425862bcd9f185383))
 
 ## [2.1.7](https://github.com/erezrokah/aws-testing-library/compare/v2.1.6...v2.1.7) (2022-10-21)
 
