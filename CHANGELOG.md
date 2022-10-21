@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.7](https://github.com/erezrokah/aws-testing-library/compare/v2.1.6...v2.1.7) (2022-10-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency aws-sdk to v2.1237.0 ([#699](https://github.com/erezrokah/aws-testing-library/issues/699)) ([0c90096](https://github.com/erezrokah/aws-testing-library/commit/0c9009616d54266c41fef3cb89079ce4c9b89072))
+* **deps:** update dependency uuid to v9 ([#681](https://github.com/erezrokah/aws-testing-library/issues/681)) ([882e08c](https://github.com/erezrokah/aws-testing-library/commit/882e08ca2a1e1dca2631bc28ca45df819225a78b))
+
 ## [2.1.6](https://github.com/erezrokah/aws-testing-library/compare/v2.1.5...v2.1.6) (2022-10-17)
 
 
