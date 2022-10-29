@@ -13,7 +13,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* The filter pattern to match CloudWatch Logs is now passed without modifications to the AWS API. If you're using the Jest `toHaveLog` or Chai `to.have.log` matchers you might need to quote your pattern, e.g. `toHaveLog(pattern) -> toHaveLog("${pattern}")` or `to.have.log(pattern) -> to.have.log("${pattern}")` to support special characters
+* The filter pattern to match CloudWatch Logs is now passed without modifications to the AWS API. If you're using the Jest `toHaveLog` or Chai ``to.have.log` matchers you might need to quote your pattern, e.g. `toHaveLog(pattern) -> toHaveLog(`"${pattern}"`)` or ``to.have.log(pattern) -> to.have.log(`"${pattern}"`)`` to support special characters
 
 ### Bug Fixes
 
