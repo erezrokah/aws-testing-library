@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { getResponse } from './api';
 
-jest.mock('axios', () => {
-  return {
-    default: jest.fn(),
-  };
-});
+jest.mock('axios');
 
 describe('api utils', () => {
   test('should call axios with relevant parameters', async () => {
-    const { default: axios } = require('axios');
+    const axios = require('axios');
 
     const expected = { status: 500, data: { message: 'Hello World!' } };
     axios.mockReturnValue(Promise.resolve(expected));
