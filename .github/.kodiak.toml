@@ -5,4 +5,4 @@ versions = ["minor", "patch"]
 usernames = ["renovate"]
 
 [approve]
-auto_approve_usernames = ["renovate"]
+auto_approve_usernames = ["renovate", "erezrokah"]
