@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/erezrokah/aws-testing-library/compare/v3.0.1...v3.0.2) (2022-10-29)
+
+
+### Bug Fixes
+
+* revert "fix(deps): update dependency axios to v1 ([#692](https://github.com/erezrokah/aws-testing-library/issues/692))" ([#709](https://github.com/erezrokah/aws-testing-library/issues/709)) ([53773a9](https://github.com/erezrokah/aws-testing-library/commit/53773a9eb38897e9ca465252428d08c5636cb89a))
+
 ## [3.0.1](https://github.com/erezrokah/aws-testing-library/compare/v3.0.0...v3.0.1) (2022-10-29)
 
 
