@@ -14,7 +14,7 @@ You should have your aws credentials under `~/.aws/credentials` (if you have [aw
 
 If you plan to use the [deploy](src/utils/README.md#deploy) utility function please install and configure [serverless](https://serverless.com/framework/docs/getting-started/).
 
-[node](https://nodejs.org/en/) >= 8 (for `async/await` support).
+[node](https://nodejs.org/en/) >= 16.10.0.
 
 ## Installation
 
