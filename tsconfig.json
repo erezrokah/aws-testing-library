@@ -1,10 +1,7 @@
 {
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "sourceMap": true,
-    "lib": ["ES2019"],
-    "module": "commonjs",
-    "target": "ES2019",
-    "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "strict": true,
     "noUnusedLocals": true,
