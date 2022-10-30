@@ -22,7 +22,7 @@ describe('utils', () => {
 
         const matcherUtils = {
           isNot,
-        } as jest.MatcherUtils;
+        } as unknown as jest.MatcherUtils;
 
         const props = { region: 'region' } as ICommonProps;
         const key = 'key';
@@ -59,7 +59,7 @@ describe('utils', () => {
 
         const matcherUtils = {
           isNot,
-        } as jest.MatcherUtils;
+        } as unknown as jest.MatcherUtils;
 
         const props = { timeout: 1001, pollEvery: 250 } as ICommonProps;
         const key = 'key';
@@ -96,7 +96,7 @@ describe('utils', () => {
 
       const matcherUtils = {
         isNot: false,
-      } as jest.MatcherUtils;
+      } as unknown as jest.MatcherUtils;
 
       const props = {} as ICommonProps;
       const key = 'key';
