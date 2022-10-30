@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/erezrokah/aws-testing-library/compare/v3.0.2...v4.0.0) (2022-10-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* require Node.js 16 as 12,14 are EOF/Nearing EOF. This is a first step in moving to a pure ESM package. If you're already running on Node.js >= 16 this shouldn't be breaking for you, as the library is still compiled to commonJS
+
+### Miscellaneous Chores
+
+* require Node.js 16 ([#711](https://github.com/erezrokah/aws-testing-library/issues/711)) ([69458cc](https://github.com/erezrokah/aws-testing-library/commit/69458ccac76e55c3f461004de00fd799c6146697))
+
 ## [3.0.2](https://github.com/erezrokah/aws-testing-library/compare/v3.0.1...v3.0.2) (2022-10-29)
 
 
