@@ -5,7 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* require Node.js 16 as 12,14 are EOF/Nearing EOF. This is a first step in moving to a pure ESM package. If you're already running on Node.js >= 16 this shouldn't be breaking for you, as the library is still compiled to commonJS
+* require Node.js 16.10.0 as 12,14 are EOF/Nearing EOF. This is a first step in moving to a pure ESM package. If you're already running on Node.js >= 16.10.0 this shouldn't be breaking for you, as the library is still compiled to commonJS
 
 ### Miscellaneous Chores
 
