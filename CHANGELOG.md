@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.0.6](https://github.com/erezrokah/aws-testing-library/compare/v4.0.5...v4.0.6) (2023-02-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency aws-sdk to v2.1286.0 ([#757](https://github.com/erezrokah/aws-testing-library/issues/757)) ([33aac6d](https://github.com/erezrokah/aws-testing-library/commit/33aac6d9c16f9baf6e764ad4cad0be5d9e03066d))
+* **deps:** update dependency aws-sdk to v2.1295.0 ([#764](https://github.com/erezrokah/aws-testing-library/issues/764)) ([5dcc919](https://github.com/erezrokah/aws-testing-library/commit/5dcc91964399ea9d6923bfad6ddcfaa2a4a15e8a))
+* **deps:** update dependency aws-sdk to v2.1304.0 ([#767](https://github.com/erezrokah/aws-testing-library/issues/767)) ([3a97baa](https://github.com/erezrokah/aws-testing-library/commit/3a97baa799dd9324906cde734d29f3568927cc43))
+* **deps:** update dependency aws-sdk to v2.1309.0 ([#771](https://github.com/erezrokah/aws-testing-library/issues/771)) ([405f7df](https://github.com/erezrokah/aws-testing-library/commit/405f7df7c91d233dc7fe6218bd5ffdd36e4d1147))
+
 ## [4.0.5](https://github.com/erezrokah/aws-testing-library/compare/v4.0.4...v4.0.5) (2022-12-26)
 
 
