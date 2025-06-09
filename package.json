@@ -1,6 +1,6 @@
 {
   "name": "aws-testing-library",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "description": "Chai and Jest matchers for aws services",
   "scripts": {
     "prepublishOnly": "npm run build",
