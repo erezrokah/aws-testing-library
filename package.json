@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.678.0",
-    "axios": "^0.30.0",
+    "axios": "^1.0.0",
     "filter-obj": "^3.0.0",
     "jest-diff": "^29.0.0",
     "uuid": "^9.0.0"
