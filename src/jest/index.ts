@@ -8,7 +8,7 @@ import { toHaveRecord } from './kinesis';
 import { toHaveObject } from './s3';
 import { toHaveMessage } from './sqs';
 import { toBeAtState, toHaveState } from './stepFunctions';
-import { wrapWithRetries } from './utils';
+import { wrapWithRetries, wrapWithRetryUntilPass } from './utils';
 
 declare global {
   namespace jest {
@@ -32,7 +32,7 @@ declare global {
 expect.extend({
   toBeAtState: wrapWithRetries(toBeAtState) as typeof toBeAtState,
   toHaveItem: wrapWithRetries(toHaveItem) as typeof toHaveItem,
-  toHaveLog: wrapWithRetries(toHaveLog) as typeof toHaveLog,
+  toHaveLog: wrapWithRetryUntilPass(toHaveLog) as typeof toHaveLog,
   toHaveMessage: wrapWithRetries(toHaveMessage) as typeof toHaveMessage,
   toHaveObject: wrapWithRetries(toHaveObject) as typeof toHaveObject,
   toHaveRecord, // has built in timeout mechanism due to how kinesis consumer works
