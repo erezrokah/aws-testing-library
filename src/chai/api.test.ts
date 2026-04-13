@@ -1,4 +1,3 @@
- 
 import { Method } from 'axios';
 import chai = require('chai');
 import './';

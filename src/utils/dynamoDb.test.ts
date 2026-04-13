@@ -1,4 +1,3 @@
- 
 import { clearAllItems, getItem, writeItems } from './dynamoDb';
 
 jest.mock('aws-sdk', () => {

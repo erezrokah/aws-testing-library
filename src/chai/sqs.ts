@@ -5,7 +5,6 @@ import { wrapWithRetries } from './utils';
 
 declare global {
   namespace Chai {
-     
     interface Assertion {
       message: (matcher: IMessageMatcher) => Assertion;
     }

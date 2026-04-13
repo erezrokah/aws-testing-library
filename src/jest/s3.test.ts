@@ -1,4 +1,3 @@
- 
 import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toHaveObject } from './s3';

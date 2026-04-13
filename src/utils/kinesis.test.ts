@@ -1,4 +1,3 @@
- 
 import MockDate = require('mockdate');
 import { existsInStream } from './kinesis';
 

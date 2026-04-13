@@ -1,4 +1,3 @@
- 
 import { deleteAllLogs, filterLogEvents as getEvents } from './cloudwatch';
 
 jest.mock('aws-sdk', () => {

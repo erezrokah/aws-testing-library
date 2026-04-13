@@ -12,7 +12,6 @@ import stepFunctions from './stepFunctions';
 
 declare global {
   namespace Chai {
-     
     interface Assertion {
       response: (expected: IExpectedResponse) => Assertion;
       log: (pattern: string) => Assertion;

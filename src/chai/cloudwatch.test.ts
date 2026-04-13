@@ -1,4 +1,3 @@
- 
 import chai = require('chai');
 import * as common from '../common';
 import './';

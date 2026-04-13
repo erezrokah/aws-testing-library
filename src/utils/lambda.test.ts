@@ -1,4 +1,3 @@
- 
 import { invoke } from './lambda';
 
 jest.mock('aws-sdk', () => {

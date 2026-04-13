@@ -1,4 +1,3 @@
- 
 import { getResponse } from './api';
 
 jest.mock('axios');

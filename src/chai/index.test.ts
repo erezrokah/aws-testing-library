@@ -1,4 +1,3 @@
- 
 jest.mock('./api');
 jest.mock('./cloudwatch');
 jest.mock('./dynamoDb');

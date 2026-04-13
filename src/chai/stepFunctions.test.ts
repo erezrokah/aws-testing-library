@@ -1,4 +1,3 @@
- 
 import chai = require('chai');
 import './';
 import stepFunctions from './stepFunctions';

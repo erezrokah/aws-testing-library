@@ -1,4 +1,3 @@
- 
 import { EOL } from 'os';
 import { deploy } from './serverless';
 
