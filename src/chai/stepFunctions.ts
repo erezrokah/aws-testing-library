@@ -5,7 +5,7 @@ import { wrapWithRetries } from './utils';
 
 declare global {
   namespace Chai {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     interface Assertion {
       atState: (state: string) => Assertion;
       state: (state: string) => Assertion;
