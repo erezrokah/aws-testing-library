@@ -43,7 +43,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
-    "@tsconfig/node20": "^20.0.0",
+    "@tsconfig/node24": "^24.0.0",
     "@types/chai": "^5.0.0",
     "@types/jest": "^29.0.0",
     "@types/mockdate": "^3.0.0",
