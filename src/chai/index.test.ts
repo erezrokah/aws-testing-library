@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 jest.mock('./api');
 jest.mock('./cloudwatch');
 jest.mock('./dynamoDb');

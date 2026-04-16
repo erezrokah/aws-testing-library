@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { ICommonProps } from '../common';
 import { wrapWithRetries } from './utils';
 

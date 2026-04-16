@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { deleteAllLogs, filterLogEvents as getEvents } from './cloudwatch';
 
 jest.mock('aws-sdk', () => {

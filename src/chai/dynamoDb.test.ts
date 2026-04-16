@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import chai = require('chai');
 import './';
 import dynamoDb from './dynamoDb';

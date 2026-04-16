@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { invoke } from './lambda';
 
 jest.mock('aws-sdk', () => {

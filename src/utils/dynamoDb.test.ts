@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { clearAllItems, getItem, writeItems } from './dynamoDb';
 
 jest.mock('aws-sdk', () => {

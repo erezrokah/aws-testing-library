@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { Method } from 'axios';
 import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';

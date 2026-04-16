@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { clearAllObjects, getObject as getS3Object } from './s3';
 
 jest.mock('aws-sdk', () => {

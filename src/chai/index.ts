@@ -12,7 +12,6 @@ import stepFunctions from './stepFunctions';
 
 declare global {
   namespace Chai {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface Assertion {
       response: (expected: IExpectedResponse) => Assertion;
       log: (pattern: string) => Assertion;

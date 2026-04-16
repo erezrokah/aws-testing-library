@@ -11,11 +11,17 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    name: test (${{ matrix.os }}, ${{ matrix.node-label }})
 
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        node-version: ['16.10.0', 'lts/*']
+        node-version: ['24', 'lts/*']
+        include:
+          - node-version: '24'
+            node-label: pinned
+          - node-version: 'lts/*'
+            node-label: lts
 
     steps:
       - uses: actions/checkout@v6
@@ -47,7 +53,7 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-${{ matrix.os }}-node-${{ matrix.node-version }}
+          flag-name: run-${{ matrix.os }}-node-${{ matrix.node-label }}
           parallel: true
 
   finish:

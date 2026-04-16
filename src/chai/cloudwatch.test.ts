@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import chai = require('chai');
 import * as common from '../common';
 import './';

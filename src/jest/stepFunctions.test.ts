@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import * as originalUtils from 'jest-matcher-utils';
 import { EOL } from 'os';
 import { toBeAtState, toHaveState } from './stepFunctions';
