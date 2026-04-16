@@ -6,16 +6,24 @@ name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
-      - uses: GoogleCloudPlatform/release-please-action@v3
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          client-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - uses: GoogleCloudPlatform/release-please-action@v4
         id: release
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           release-type: node
-          package-name: aws-testing-library
       - uses: actions/checkout@v6
         if: ${{ steps.release.outputs.release_created }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 'lts/*'
           cache: 'npm'
@@ -24,7 +32,5 @@ jobs:
       - name: Install core dependencies
         run: npm ci --no-audit
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm publish
+      - run: npm publish --provenance --access public
         if: ${{ steps.release.outputs.release_created }}
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
