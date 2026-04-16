@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/erezrokah/aws-testing-library/compare/v4.0.7...v5.0.0) (2026-04-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update eslint packages and require Node.js 24 ([#938](https://github.com/erezrokah/aws-testing-library/issues/938))
+
+### Features
+
+* Update eslint packages and require Node.js 24 ([#938](https://github.com/erezrokah/aws-testing-library/issues/938)) ([d0820f8](https://github.com/erezrokah/aws-testing-library/commit/d0820f866251aa88af673308bd67eb52a445fe87))
+
 ## [4.0.7](https://github.com/erezrokah/aws-testing-library/compare/v4.0.6...v4.0.7) (2026-04-16)
 
 
