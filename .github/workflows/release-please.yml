@@ -7,8 +7,6 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
       id-token: write
     steps:
       - uses: actions/create-github-app-token@v3
