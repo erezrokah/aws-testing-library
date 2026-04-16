@@ -16,6 +16,9 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permissions: >-
+            contents:write,
+            pull-requests:write
       - uses: GoogleCloudPlatform/release-please-action@v4
         id: release
         with:
