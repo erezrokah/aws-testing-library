@@ -43,11 +43,11 @@
   "devDependencies": {
     "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
-    "@tsconfig/node16": "^1.0.3",
+    "@tsconfig/node20": "^20.0.0",
     "@types/chai": "^5.0.0",
     "@types/jest": "^29.0.0",
     "@types/mockdate": "^3.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/uuid": "^9.0.0",
     "chai": "^4.2.0",
     "eslint": "^10.0.0",
@@ -70,6 +70,6 @@
     "uuid": "^9.0.0"
   },
   "engines": {
-    "node": ">=16.10.0"
+    "node": ">=20.12.0"
   }
 }
