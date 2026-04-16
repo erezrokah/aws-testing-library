@@ -2,7 +2,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build](https://github.com/erezrokah/aws-testing-library/workflows/AWS%20Testing%20Library%20CI/badge.svg)](https://github.com/erezrokah/aws-testing-library/actions)
-[![Coverage Status](https://coveralls.io/repos/github/erezrokah/aws-testing-library/badge.svg?branch=main)](https://coveralls.io/github/erezrokah/aws-testing-library?branch=main)
 
 > Note: If you're missing any capability please open an issue/feature request :)
 
