@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.0.0](https://github.com/erezrokah/aws-testing-library/compare/v4.0.7...v5.0.0) (2026-05-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update eslint packages and require Node.js 24 ([#938](https://github.com/erezrokah/aws-testing-library/issues/938))
+
+### Features
+
+* Update eslint packages and require Node.js 24 ([#938](https://github.com/erezrokah/aws-testing-library/issues/938)) ([d0820f8](https://github.com/erezrokah/aws-testing-library/commit/d0820f866251aa88af673308bd67eb52a445fe87))
+
+
+### Bug Fixes
+
+* Replace uuid dependency with node:crypto randomUUID ([#963](https://github.com/erezrokah/aws-testing-library/issues/963)) ([02760bf](https://github.com/erezrokah/aws-testing-library/commit/02760bf90f83f5293a63b7ab2d566883725d0f89))
+
 ## [4.0.7](https://github.com/erezrokah/aws-testing-library/compare/v4.0.6...v4.0.7) (2026-04-16)
 
 
