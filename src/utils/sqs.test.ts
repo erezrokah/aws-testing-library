@@ -34,10 +34,10 @@ jest.mock('aws-sdk', () => {
   return { SQS, SNS };
 });
 
-jest.mock('uuid', () => {
-  const v1 = jest.fn(() => '00000000');
-  return { v1 };
-});
+jest.mock('node:crypto', () => ({
+  ...jest.requireActual('node:crypto'),
+  randomUUID: jest.fn(() => '00000000'),
+}));
 
 describe('kinesis utils', () => {
   const AWS = require('aws-sdk');
