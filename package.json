@@ -48,7 +48,6 @@
     "@types/jest": "^29.0.0",
     "@types/mockdate": "^3.0.0",
     "@types/node": "^20.0.0",
-    "@types/uuid": "^9.0.0",
     "chai": "^4.2.0",
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.0.0",
@@ -66,8 +65,7 @@
     "aws-sdk": "^2.678.0",
     "axios": "^1.0.0",
     "filter-obj": "^3.0.0",
-    "jest-diff": "^29.0.0",
-    "uuid": "^9.0.0"
+    "jest-diff": "^29.0.0"
   },
   "engines": {
     "node": ">=24.0.0"

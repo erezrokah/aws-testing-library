@@ -1,11 +1,11 @@
 import AWS = require('aws-sdk');
-import { v1 as uuid } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 export type IMessageMatcher = (args: any) => boolean;
 
 export const subscribeToTopic = async (region: string, topicArn: string) => {
   const sqs = new AWS.SQS({ region });
-  const queueName = `TestNotificationTopicQueue-${uuid()}`;
+  const queueName = `TestNotificationTopicQueue-${randomUUID()}`;
   const { QueueUrl } = (await sqs
     .createQueue({
       Attributes: { VisibilityTimeout: '0' },
